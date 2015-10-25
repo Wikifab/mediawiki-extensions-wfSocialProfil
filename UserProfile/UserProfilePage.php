@@ -81,10 +81,6 @@ class UserProfilePage extends Article {
 			return '';
 		}
 
-		$wgOut->addHTML( '<div id="profile-top">' );
-		$wgOut->addHTML( $this->getProfileTop( $this->user_id, $this->user_name ) );
-		$wgOut->addHTML( '<div class="visualClear"></div></div>' );
-
 		// User does not want social profile for User:user_name, so we just
 		// show header + page content
 		if (
@@ -97,52 +93,107 @@ class UserProfilePage extends Article {
 			return '';
 		}
 
+		$wgOut->addHTML( '<div id="profileWf">' );
+		$wgOut->addHTML( '<div id="mw-content-text" lang="fr" dir="ltr" class="mw-content-ltr">' );
+		$wgOut->addHTML( '<div class="row">' );
+
+		$wgOut->addHTML( '<div class="col-md-3 col-sm-6 col-xs-12">' );
+		$wgOut->addHTML( $this->getProfileLeftColHead( $this->user_id, $this->user_name ));
+		$wgOut->addHTML( '</div>' );
+
+		$wgOut->addHTML( '<div class="col-md-9 col-sm-6 col-xs-12">' );
+		$wgOut->addHTML( $this->getCenterCol());
+		$wgOut->addHTML( '</div>' );
+
+		$wgOut->addHTML( '</div></div></div>' );
+
+	}
+
+	public function getCenterCol() {
+
+		$out ='';
+
+		$out .= $this->getCenterTabs();
+		$out .= $this->getTutorials( $this->user_name);
+
+		return $out;
+
 		// Left side
-		$wgOut->addHTML( '<div id="user-page-left" class="clearfix">' );
+		$out .=  '<div id="user-page-left" class="clearfix">';
 
 		if ( !Hooks::run( 'UserProfileBeginLeft', array( &$this ) ) ) {
 			wfDebug( __METHOD__ . ": UserProfileBeginLeft messed up profile!\n" );
 		}
 
-		$wgOut->addHTML( $this->getRelationships( $this->user_name, 1 ) );
-		$wgOut->addHTML( $this->getRelationships( $this->user_name, 2 ) );
-		$wgOut->addHTML( $this->getGifts( $this->user_name ) );
-		$wgOut->addHTML( $this->getAwards( $this->user_name ) );
-		$wgOut->addHTML( $this->getCustomInfo( $this->user_name ) );
-		$wgOut->addHTML( $this->getInterests( $this->user_name ) );
-		$wgOut->addHTML( $this->getFanBoxes( $this->user_name ) );
-		$wgOut->addHTML( $this->getUserStats( $this->user_id, $this->user_name ) );
+		$out .= $this->getRelationships( $this->user_name, 1 );
+		$out .= $this->getRelationships( $this->user_name, 2 );
+		$out .= $this->getGifts( $this->user_name );
+		$out .= $this->getAwards( $this->user_name );
+		$out .= $this->getCustomInfo( $this->user_name );
+		$out .= $this->getInterests( $this->user_name );
+		$out .= $this->getFanBoxes( $this->user_name );
+		$out .= $this->getUserStats( $this->user_id, $this->user_name );
 
 		if ( !Hooks::run( 'UserProfileEndLeft', array( &$this ) ) ) {
 			wfDebug( __METHOD__ . ": UserProfileEndLeft messed up profile!\n" );
 		}
 
-		$wgOut->addHTML( '</div>' );
+		$out .= '</div>';
+
 
 		wfDebug( "profile start right\n" );
 
 		// Right side
-		$wgOut->addHTML( '<div id="user-page-right" class="clearfix">' );
+		$out .= '<div id="user-page-right" class="clearfix">' ;
 
 		if ( !Hooks::run( 'UserProfileBeginRight', array( &$this ) ) ) {
 			wfDebug( __METHOD__ . ": UserProfileBeginRight messed up profile!\n" );
 		}
 
-		$wgOut->addHTML( $this->getPersonalInfo( $this->user_id, $this->user_name ) );
-		$wgOut->addHTML( $this->getActivity( $this->user_name ) );
+		$out .= $this->getPersonalInfo( $this->user_id, $this->user_name );
+		$out .= $this->getActivity( $this->user_name );
 		// Hook for BlogPage
 		if ( !Hooks::run( 'UserProfileRightSideAfterActivity', array( $this ) ) ) {
 			wfDebug( __METHOD__ . ": UserProfileRightSideAfterActivity hook messed up profile!\n" );
 		}
-		$wgOut->addHTML( $this->getCasualGames( $this->user_id, $this->user_name ) );
-		$wgOut->addHTML( $this->getUserBoard( $this->user_id, $this->user_name ) );
+		$out .= $this->getUserBoard( $this->user_id, $this->user_name );
 
 		if ( !Hooks::run( 'UserProfileEndRight', array( &$this ) ) ) {
 			wfDebug( __METHOD__ . ": UserProfileEndRight messed up profile!\n" );
 		}
 
-		$wgOut->addHTML( '</div><div class="visualClear"></div>' );
+		$out .= '</div><div class="visualClear"></div>';
+		return $out;
 	}
+
+	public function getCenterTabs() {
+		$out = '<div class="wf-profile-tabs">
+			  <div class="tabs-actions">
+				<a href="#" class="active" rel="nofollow">Tutoriels</a>
+				<a href="#" rel="nofollow">Contributions</a>
+			  </div>
+			  <div class="tabs-follow-btn">
+				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> Envoyer un message</button>
+			  </div>
+			</div><div class="cleared"></div>';
+
+		return $out;
+	}
+
+	public function getTutorials($user_name ) {
+
+		$WfExploreCore = new WfExploreCore();
+
+		$WfExploreCore->executeSearch( null);
+
+		$out = "";
+
+		//$out .= $WfExploreCore->getHtmlForm();
+
+		$out .= $WfExploreCore->getSearchResultsHtml();
+		return $out;
+	}
+
 
 	function getUserStatsRow( $label, $value ) {
 		$output = ''; // Prevent E_NOTICE
@@ -273,245 +324,6 @@ class UserProfilePage extends Article {
 		return $polls;
 	}
 
-	/**
-	 * Get three of the quiz games the user has created and cache the data in
-	 * memcached.
-	 *
-	 * @return Array
-	 */
-	function getUserQuiz() {
-		global $wgMemc;
-
-		$quiz = array();
-
-		// Try cache
-		$key = wfMemcKey( 'user', 'profile', 'quiz', $this->user_id );
-		$data = $wgMemc->get( $key );
-
-		if( $data ) {
-			wfDebug( "Got profile quizzes for user {$this->user_id} from cache\n" );
-			$quiz = $data;
-		} else {
-			wfDebug( "Got profile quizzes for user {$this->user_id} from DB\n" );
-			$dbr = wfGetDB( DB_SLAVE );
-			$res = $dbr->select(
-				'quizgame_questions',
-				array(
-					'q_id', 'q_text', 'UNIX_TIMESTAMP(q_date) AS quiz_date'
-				),
-				array(
-					'q_user_id' => $this->user_id,
-					'q_flag' => 0 // the same as QUIZGAME_FLAG_NONE
-				),
-				__METHOD__,
-				array(
-					'ORDER BY' => 'q_id DESC',
-					'LIMIT' => 3
-				)
-			);
-			foreach( $res as $row ) {
-				$quiz[] = array(
-					'id' => $row->q_id,
-					'text' => $row->q_text,
-					'timestamp' => $row->quiz_date
-				);
-			}
-			$wgMemc->set( $key, $quiz );
-		}
-
-		return $quiz;
-	}
-
-	/**
-	 * Get three of the picture games the user has created and cache the data
-	 * in memcached.
-	 *
-	 * @return Array
-	 */
-	function getUserPicGames() {
-		global $wgMemc;
-
-		$pics = array();
-
-		// Try cache
-		$key = wfMemcKey( 'user', 'profile', 'picgame', $this->user_id );
-		$data = $wgMemc->get( $key );
-		if( $data ) {
-			wfDebug( "Got profile picgames for user {$this->user_id} from cache\n" );
-			$pics = $data;
-		} else {
-			wfDebug( "Got profile picgames for user {$this->user_id} from DB\n" );
-			$dbr = wfGetDB( DB_SLAVE );
-			$res = $dbr->select(
-				'picturegame_images',
-				array(
-					'id', 'title', 'img1', 'img2',
-					'UNIX_TIMESTAMP(pg_date) AS pic_game_date'
-				),
-				array(
-					'userid' => $this->user_id,
-					'flag' => 0 // PICTUREGAME_FLAG_NONE
-				),
-				__METHOD__,
-				array(
-					'ORDER BY' => 'id DESC',
-					'LIMIT' => 3
-				)
-			);
-			foreach( $res as $row ) {
-				$pics[] = array(
-					'id' => $row->id,
-					'title' => $row->title,
-					'img1' => $row->img1,
-					'img2' => $row->img2,
-					'timestamp' => $row->pic_game_date
-				);
-			}
-			$wgMemc->set( $key, $pics );
-		}
-
-		return $pics;
-	}
-
-	/**
-	 * Get the casual games (polls, quizzes and picture games) that the user
-	 * has created if $wgUserProfileDisplay['games'] is set to true and the
-	 * PictureGame, PollNY and QuizGame extensions have been installed.
-	 *
-	 * @param $user_id Integer: user ID number
-	 * @param $user_name String: user name
-	 * @return String: HTML or nothing if this feature isn't enabled
-	 */
-	function getCasualGames( $user_id, $user_name ) {
-		global $wgUser, $wgOut, $wgUserProfileDisplay;
-
-		if ( $wgUserProfileDisplay['games'] == false ) {
-			return '';
-		}
-
-		$output = '';
-
-		// Safe titles
-		$quiz_title = SpecialPage::getTitleFor( 'QuizGameHome' );
-		$pic_game_title = SpecialPage::getTitleFor( 'PictureGameHome' );
-
-		// Combine the queries
-		$combined_array = array();
-
-		$quizzes = $this->getUserQuiz();
-		foreach( $quizzes as $quiz ) {
-			$combined_array[] = array(
-				'type' => 'Quiz',
-				'id' => $quiz['id'],
-				'text' => $quiz['text'],
-				'timestamp' => $quiz['timestamp']
-			);
-		}
-
-		$polls = $this->getUserPolls();
-		foreach( $polls as $poll ) {
-			$combined_array[] = array(
-				'type' => 'Poll',
-				'title' => $poll['title'],
-				'timestamp' => $poll['timestamp']
-			);
-		}
-
-		$pics = $this->getUserPicGames();
-		foreach( $pics as $pic ) {
-			$combined_array[] = array(
-				'type' => 'Picture Game',
-				'id' => $pic['id'],
-				'title' => $pic['title'],
-				'img1' => $pic['img1'],
-				'img2' => $pic['img2'],
-				'timestamp' => $pic['timestamp']
-			);
-		}
-
-		usort( $combined_array, array( 'UserProfilePage', 'sortItems' ) );
-
-		if ( count( $combined_array ) > 0 ) {
-			$output .= '<div class="user-section-heading">
-				<div class="user-section-title">' .
-					wfMessage('casual-games-title')->escaped().'
-				</div>
-				<div class="user-section-actions">
-					<div class="action-right">
-					</div>
-					<div class="action-left">
-					</div>
-					<div class="visualClear"></div>
-				</div>
-			</div>
-			<div class="visualClear"></div>
-			<div class="casual-game-container">';
-
-			$x = 1;
-
-			foreach( $combined_array as $item ) {
-				$output .= ( ( $x == 1 ) ? '<p class="item-top">' : '<p>' );
-
-				if ( $item['type'] == 'Poll' ) {
-					$ns = ( defined( 'NS_POLL' ) ? NS_POLL : 300 );
-					$poll_title = Title::makeTitle( $ns, $item['title'] );
-					$casual_game_title = wfMessage( 'casual-game-poll' )->escaped();
-					$output .= '<a href="' . htmlspecialchars( $poll_title->getFullURL() ) .
-						"\" rel=\"nofollow\">
-							{$poll_title->getText()}
-						</a>
-						<span class=\"item-small\">{$casual_game_title}</span>";
-				}
-
-				if ( $item['type'] == 'Quiz' ) {
-					$casual_game_title = wfMessage( 'casual-game-quiz' )->escaped();
-					$output .= '<a href="' .
-						htmlspecialchars( $quiz_title->getFullURL( 'questionGameAction=renderPermalink&permalinkID=' . $item['id'] ) ) .
-						"\" rel=\"nofollow\">
-							{$item['text']}
-						</a>
-						<span class=\"item-small\">{$casual_game_title}</span>";
-				}
-
-				if ( $item['type'] == 'Picture Game' ) {
-					if( $item['img1'] != '' && $item['img2'] != '' ) {
-						$image_1 = $image_2 = '';
-						$render_1 = wfFindFile( $item['img1'] );
-						if ( is_object( $render_1 ) ) {
-							$thumb_1 = $render_1->transform( array( 'width' =>  25 ) );
-							$image_1 = $thumb_1->toHtml();
-						}
-
-						$render_2 = wfFindFile( $item['img2'] );
-						if ( is_object( $render_2 ) ) {
-							$thumb_2 = $render_2->transform( array( 'width' =>  25 ) );
-							$image_2 = $thumb_2->toHtml();
-						}
-
-						$casual_game_title = wfMessage( 'casual-game-picture-game' )->escaped();
-
-						$output .= '<a href="' .
-							htmlspecialchars( $pic_game_title->getFullURL( 'picGameAction=renderPermalink&id=' . $item['id'] ) ) .
-							"\" rel=\"nofollow\">
-								{$image_1}
-								{$image_2}
-								{$item['title']}
-							</a>
-							<span class=\"item-small\">{$casual_game_title}</span>";
-					}
-				}
-
-				$output .= '</p>';
-
-				$x++;
-			}
-
-			$output .= '</div>';
-		}
-
-		return $output;
-	}
-
 	function sortItems( $x, $y ) {
 		if ( $x['timestamp'] == $y['timestamp'] ) {
 			return 0;
@@ -548,6 +360,7 @@ class UserProfilePage extends Article {
 		if ( $wgUserProfileDisplay['personal'] == false ) {
 			return '';
 		}
+
 
 		$stats = new UserStats( $user_id, $user_name );
 		$stats_data = $stats->getUserStats();
@@ -608,32 +421,49 @@ class UserProfilePage extends Article {
 		$edit_info_link = SpecialPage::getTitleFor( 'UpdateProfile' );
 
 		$output = '';
+
+
+		$output .= '';
+
+					'<div><i class="fa fa-map-marker"></i> Paris</div>
+					<div><i class="fa fa-globe"></i> wikifab.org</div>
+					<div><b>Biographie</b><br>Co-fondateur de Wikifab, conducteur d\'un autorickshaw indien, cycliste et designer</div>
+				</div>';
+
 		if ( $joined_data ) {
-			$output .= '<div class="user-section-heading">
-				<div class="user-section-title">' .
-					wfMessage( 'user-personal-info-title' )->escaped() .
-				'</div>
-				<div class="user-section-actions">
-					<div class="action-right">';
+			$output .= '<div class="user-section-heading">';
+
 			if ( $wgUser->getName() == $user_name ) {
+				$output .= '
+					<div class="user-section-title">' .
+						//wfMessage( 'user-personal-info-title' )->escaped() .
+					'</div>
+					<div class="user-section-actions">
+						<div class="action-right">';
 				$output .= '<a href="' . htmlspecialchars( $edit_info_link->getFullURL() ) . '">' .
-					wfMessage( 'user-edit-this' )->escaped() . '</a>';
+						wfMessage( 'user-edit-this' )->escaped() . '</a>';
+				$output .= '</div>
+						<div class="visualClear"></div>
+					</div>';
 			}
 			$output .= '</div>
-					<div class="visualClear"></div>
-				</div>
-			</div>
 			<div class="visualClear"></div>
 			<div class="profile-info-container">' .
-				$this->getProfileSection( wfMessage( 'user-personal-info-real-name' )->escaped(), $profile_data['real_name'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-location' )->escaped(), $location, false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-hometown' )->escaped(), $hometown, false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-birthday' )->escaped(), $profile_data['birthday'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-occupation' )->escaped(), $profile_data['occupation'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-websites' )->escaped(), $profile_data['websites'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-real-name' )->escaped(), $profile_data['real_name'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-location' )->escaped(), $location, false ) .
+				$this->getProfileSection( '<i class="fa fa-map-marker"></i>', $location, false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-hometown' )->escaped(), $hometown, false ) .
+				$this->getProfileSection( '<i class="fa fa-map-marker"></i>', $hometown , false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-birthday' )->escaped(), $profile_data['birthday'], false ) .
+				$this->getProfileSection( '<i class="fa fa-birthday-cake"></i>', $profile_data['birthday'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-occupation' )->escaped(), $profile_data['occupation'], false ) .
+				$this->getProfileSection( '<i class="fa fa-suitcase"></i>', $profile_data['occupation'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-websites' )->escaped(), $profile_data['websites'], false ) .
+				$this->getProfileSection( '<i class="fa fa-globe"></i> ', $profile_data['websites'], false ) .
 				$this->getProfileSection( wfMessage( 'user-personal-info-places-lived' )->escaped(), $profile_data['places_lived'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-schools' )->escaped(), $profile_data['schools'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-about-me' )->escaped(), $profile_data['about'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-schools' )->escaped(), $profile_data['schools'], false ) .
+				$this->getProfileSection( '<i class="fa fa-graduation-cap"></i> ', $profile_data['schools'], false ) .
+				$this->getProfileSection( wfMessage( 'user-personal-info-about-me' )->escaped() .'<br/>', $profile_data['about'], false ) .
 			'</div>';
 		} elseif ( $wgUser->getName() == $user_name ) {
 			$output .= '<div class="user-section-heading">
@@ -799,14 +629,14 @@ class UserProfilePage extends Article {
 	}
 
 	/**
-	 * Get the header for the social profile page, which includes the user's
+	 * Get left column Head social profile page, which includes the user's
 	 * points and user level (if enabled in the site configuration) and lots
 	 * more.
 	 *
 	 * @param $user_id Integer: user ID
 	 * @param $user_name String: user name
 	 */
-	function getProfileTop( $user_id, $user_name ) {
+	function getProfileLeftColHead( $user_id, $user_name ) {
 		global $wgUser, $wgLang;
 		global $wgUserLevels;
 
@@ -825,19 +655,7 @@ class UserProfilePage extends Article {
 		$id = User::idFromName( $user );
 		$user_safe = urlencode( $user );
 
-		// Safe urls
-		$add_relationship = SpecialPage::getTitleFor( 'AddRelationship' );
-		$remove_relationship = SpecialPage::getTitleFor( 'RemoveRelationship' );
-		$give_gift = SpecialPage::getTitleFor( 'GiveGift' );
-		$send_board_blast = SpecialPage::getTitleFor( 'SendBoardBlast' );
-		$update_profile = SpecialPage::getTitleFor( 'UpdateProfile' );
-		$watchlist = SpecialPage::getTitleFor( 'Watchlist' );
-		$contributions = SpecialPage::getTitleFor( 'Contributions', $user );
-		$send_message = SpecialPage::getTitleFor( 'UserBoard' );
-		$upload_avatar = SpecialPage::getTitleFor( 'UploadAvatar' );
-		$user_page = Title::makeTitle( NS_USER, $user );
-		$user_social_profile = Title::makeTitle( NS_USER_PROFILE, $user );
-		$user_wiki = Title::makeTitle( NS_USER_WIKI, $user );
+		
 
 		if ( $id != 0 ) {
 			$relationship = UserRelationship::getUserRelationshipByID( $id, $wgUser->getID() );
@@ -847,7 +665,13 @@ class UserProfilePage extends Article {
 		wfDebug( 'profile type: ' . $profile_data['user_page_type'] . "\n" );
 		$output = '';
 
-		if ( $this->isOwner() ) {
+		
+
+		$output .= '<div id="profile-image">' . $avatar->getAvatarURL() .
+			'</div>';
+
+		$toggleUserPageActive = false;
+		if ( $this->isOwner()  && $toggleUserPageActive) {
 			$toggle_title = SpecialPage::getTitleFor( 'ToggleUserPage' );
 			// Cast it to an int because PHP is stupid.
 			if (
@@ -865,12 +689,12 @@ class UserProfilePage extends Article {
 			</div>';
 		}
 
-		$output .= '<div id="profile-image">' . $avatar->getAvatarURL() .
-			'</div>';
-
 		$output .= '<div id="profile-right">';
 
 		$output .= '<div id="profile-title-container">
+				<div class="profile-name">' .
+					$profile_data['real_name'].
+				'</div>
 				<div id="profile-title">' .
 					$user_name .
 				'</div>';
@@ -890,8 +714,44 @@ class UserProfilePage extends Article {
 					</div>';
 		}
 		$output .= '<div class="visualClear"></div>
-			</div>
-			<div class="profile-actions">';
+			</div>';
+
+
+		//$output .= $this->getProfileAction();
+
+		$output .= $this->getPersonalInfo( $user_id, $user_name );
+
+		$output .= '</div>';
+
+		return $output;
+	}
+
+	public function getProfileAction() {
+		global $wgUser, $wgLang;
+		global $wgUserLevels;
+
+		// Variables and other crap
+		$page_title = $this->getTitle()->getText();
+		$title_parts = explode( '/', $page_title );
+		$user = $title_parts[0];
+		$id = User::idFromName( $user );
+		$user_safe = urlencode( $user );
+
+		// Safe urls
+		$add_relationship = SpecialPage::getTitleFor( 'AddRelationship' );
+		$remove_relationship = SpecialPage::getTitleFor( 'RemoveRelationship' );
+		$give_gift = SpecialPage::getTitleFor( 'GiveGift' );
+		$send_board_blast = SpecialPage::getTitleFor( 'SendBoardBlast' );
+		$update_profile = SpecialPage::getTitleFor( 'UpdateProfile' );
+		$watchlist = SpecialPage::getTitleFor( 'Watchlist' );
+		$send_message = SpecialPage::getTitleFor( 'UserBoard' );
+		$upload_avatar = SpecialPage::getTitleFor( 'UploadAvatar' );
+		$contributions = SpecialPage::getTitleFor( 'Contributions', $user );
+		$user_page = Title::makeTitle( NS_USER, $user );
+		$user_social_profile = Title::makeTitle( NS_USER_PROFILE, $user );
+		$user_wiki = Title::makeTitle( NS_USER_WIKI, $user );
+
+		$output = '<div class="profile-actions">';
 
 		if ( $this->isOwner() ) {
 			$output .= $wgLang->pipeList( array(
@@ -952,9 +812,7 @@ class UserProfilePage extends Article {
 				wfMessage( 'user-wiki-link' )->escaped() . '</a>';
 		}
 
-		$output .= '</div>
-
-		</div>';
+		$output .= '</div>';
 
 		return $output;
 	}
