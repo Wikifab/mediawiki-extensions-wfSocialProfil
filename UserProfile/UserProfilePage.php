@@ -53,6 +53,7 @@ class UserProfilePage extends Article {
 		$this->user = User::newFromId( $this->user_id );
 		$this->user->loadFromDatabase();
 
+		//var_dump($this->user);
 		$this->is_owner = ( $this->user_name == $wgUser->getName() );
 
 		$profile = new UserProfile( $this->user_name );
@@ -190,13 +191,12 @@ class UserProfilePage extends Article {
 		];
 		$contribsPager = new ContribsPager($context, $options);
 
-		$contribs = $contribsPager->reallyDoQuery( 0, 9, true);
+		$contribs = $contribsPager->reallyDoQuery( 0, 12, true);
 
 		//var_dump($contribs);
 
 		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
-		$template = $GLOBALS['egChameleonLayoutFileSearchResult'];
-		//$wikifabSearchResultFormatter->setTemplate($template);
+		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
 
 		$out = "";
 		while($contrib = $contribs->next()) {
