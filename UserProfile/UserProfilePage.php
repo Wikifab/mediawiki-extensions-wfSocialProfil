@@ -180,7 +180,34 @@ class UserProfilePage extends Article {
 		return $out;
 	}
 
-	public function getTutorials($user_name ) {
+	public function getTutorials( $user_name ) {
+
+		$context = new RequestContext();
+		$options =  [
+			'namespace' => "0", //namespace principal, to get only tutorials
+			'target' => $this->user_name,
+			'newOnly' => 1
+		];
+		$contribsPager = new ContribsPager($context, $options);
+
+		$contribs = $contribsPager->reallyDoQuery( 0, 9, true);
+
+		//var_dump($contribs);
+
+		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
+		$template = $GLOBALS['egChameleonLayoutFileSearchResult'];
+		//$wikifabSearchResultFormatter->setTemplate($template);
+
+		$out = "";
+		while($contrib = $contribs->next()) {
+			$title = Title::newFromText( $contrib->page_title );
+			$result = SearchResult::newFromTitle( $title );
+			$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
+		}
+			
+		return $out;
+
+
 
 		$WfExploreCore = new WfExploreCore();
 
@@ -717,7 +744,7 @@ class UserProfilePage extends Article {
 			</div>';
 
 
-		//$output .= $this->getProfileAction();
+		$output .= $this->getProfileAction();
 
 		$output .= $this->getPersonalInfo( $user_id, $user_name );
 
