@@ -1,0 +1,6 @@
+{
+    "name": "pboutet/wfSocialProfile",
+    "type": "mediawiki-extension",
+    "require": {
+    }
+}
