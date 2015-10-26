@@ -102,4 +102,15 @@ class SocialProfileHooks {
 
 		return true;
 	}
+
+	public static function onSkinTemplateNavigation( &$page, &$content_navigation ) {
+		global $wgUser;
+		$namespace = $page->getTitle()->getNamespace();
+
+		if($namespace == NS_USER && ! in_array('sysop', $wgUser->getGroups())) {
+			// hide tool bar for user pages
+			$content_navigation = [];
+		}
+		return true;
+	}
 }
