@@ -684,9 +684,6 @@ class UserProfilePage extends Article {
 
 		
 
-		if ( $id != 0 ) {
-			$relationship = UserRelationship::getUserRelationshipByID( $id, $wgUser->getID() );
-		}
 		$avatar = new wAvatar( $this->user_id, 'l' );
 
 		wfDebug( 'profile type: ' . $profile_data['user_page_type'] . "\n" );
@@ -763,6 +760,11 @@ class UserProfilePage extends Article {
 		$user = $title_parts[0];
 		$id = User::idFromName( $user );
 		$user_safe = urlencode( $user );
+
+		
+		if ( $id != 0 ) {
+			$relationship = UserRelationship::getUserRelationshipByID( $id, $wgUser->getID() );
+		}
 
 		// Safe urls
 		$add_relationship = SpecialPage::getTitleFor( 'AddRelationship' );
