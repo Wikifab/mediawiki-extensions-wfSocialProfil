@@ -114,11 +114,32 @@ class UserProfilePage extends Article {
 
 		$out ='';
 
-		$out .= $this->getCenterTabs();
-		$out .= $this->getTutorials( $this->user_name);
+		$out .= '<div>
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">';
+
+		$out .= '
+				<li role="presentation" class="active"><a href="#tutorials" aria-controls="tutorials" role="tab" data-toggle="tab">Tutoriels</a></li>
+				<li role="presentation" ><a href="#contribs" aria-controls="contribs" role="tab" data-toggle="tab">Contributions</a></li>
+		';
+		$out .= '
+			  <div class="tabs-follow-btn">
+				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> Envoyer un message</button>
+			  </div>
+		  </ul>
+		  <div class="tab-content">';
+		  
+		$out .= '<div role="tabpanel" class="tab-pane active" id="tutorials">' . $this->getTutorials( $this->user_name) . '</div>';
+		$out .= '<div role="tabpanel" class="tab-pane" id="contribs">' . $this->getContributions( $this->user_name) . '</div>';
+		$out .= '</div>
+		</div>';
+
+		//$out .= $this->getCenterTabs();
+		//$out .= $this->getTutorials( $this->user_name);
+		//$out .= $this->getContributions( $this->user_name);
 
 		return $out;
-
+/*
 		// Left side
 		$out .=  '<div id="user-page-left" class="clearfix">';
 
@@ -164,10 +185,12 @@ class UserProfilePage extends Article {
 		}
 
 		$out .= '</div><div class="visualClear"></div>';
-		return $out;
+		return $out;*/
 	}
 
 	public function getCenterTabs() {
+
+
 		$out = '<div class="wf-profile-tabs">
 			  <div class="tabs-actions">
 				<a href="#" class="active" rel="nofollow">Tutoriels</a>
@@ -206,18 +229,25 @@ class UserProfilePage extends Article {
 		}
 			
 		return $out;
+	}
 
+	public function getContributions( $user_name ) {
 
+		$context = new RequestContext();
+		$options =  [
+			'namespace' => "0", //namespace principal, to get only tutorials
+			'target' => $this->user_name,
+			//'newOnly' => 1
+		];
+		$pager = new ContribsPager($context, $options);
 
-		$WfExploreCore = new WfExploreCore();
+		if ( !$pager->getNumRows() ) {
+			$out = wfMessage( 'no-contribs' )->escaped() ;
+		} else {
 
-		$WfExploreCore->executeSearch( null);
-
-		$out = "";
-
-		//$out .= $WfExploreCore->getHtmlForm();
-
-		$out .= $WfExploreCore->getSearchResultsHtml();
+			$out = $pager->getBody();
+		}
+			
 		return $out;
 	}
 
@@ -761,7 +791,7 @@ class UserProfilePage extends Article {
 		$id = User::idFromName( $user );
 		$user_safe = urlencode( $user );
 
-		
+
 		if ( $id != 0 ) {
 			$relationship = UserRelationship::getUserRelationshipByID( $id, $wgUser->getID() );
 		}
