@@ -111,6 +111,7 @@ class UserProfilePage extends Article {
 	}
 
 	public function getCenterCol() {
+		global $wgUser;
 
 		$out ='';
 
@@ -122,11 +123,27 @@ class UserProfilePage extends Article {
 				<li role="presentation" class="active"><a href="#tutorials" aria-controls="tutorials" role="tab" data-toggle="tab">Tutoriels</a></li>
 				<li role="presentation" ><a href="#contribs" aria-controls="contribs" role="tab" data-toggle="tab">Contributions</a></li>
 		';
+
+
+		// Variables and other crap
+		$page_title = $this->getTitle()->getText();
+		$title_parts = explode( '/', $page_title );
+		$user = $title_parts[0];
+		$user_safe = urlencode( $user );
+
+		$send_message = SpecialPage::getTitleFor( 'UserBoard' );
+		$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $wgUser->getName() . '&conv=' . $user_safe ) );
+
 		$out .= '
-			  <div class="tabs-follow-btn">
-				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> Envoyer un message</button>
-			  </div>
-		  </ul>
+			  <div class="tabs-follow-btn"><a href="' . $send_message_url . '"
+				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> '.wfMessage( 'user-send-message' )->escaped() . '</button>
+				  </a>
+			  </div>';
+		$out .= '
+		  </ul>';
+
+
+		$out .= '
 		  <div class="tab-content">';
 		  
 		$out .= '<div role="tabpanel" class="tab-pane active" id="tutorials">' . $this->getTutorials( $this->user_name) . '</div>';
@@ -771,7 +788,7 @@ class UserProfilePage extends Article {
 			</div>';
 
 
-		$output .= $this->getProfileAction();
+		//$output .= $this->getProfileAction();
 
 		$output .= $this->getPersonalInfo( $user_id, $user_name );
 
