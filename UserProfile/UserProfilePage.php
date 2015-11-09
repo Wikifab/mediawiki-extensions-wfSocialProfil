@@ -131,13 +131,24 @@ class UserProfilePage extends Article {
 		$user = $title_parts[0];
 		$user_safe = urlencode( $user );
 
-		$send_message = SpecialPage::getTitleFor( 'UserBoard' );
-		$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $wgUser->getName() . '&conv=' . $user_safe ) );
-
+		
 		$out .= '
-			  <div class="tabs-follow-btn"><a href="' . $send_message_url . '"
+			  <div class="tabs-follow-btn">
+			  ';
+		if ( $wgUser->getName() == $this->getTitle()->getText() ) {
+			$send_message = SpecialPage::getTitleFor( 'UpdateProfile' );
+			$send_message_url = htmlspecialchars( $send_message->getFullURL( ) );
+			$out .= '<a href="' . $send_message_url . '"
+				  <button class="btn btn-sm btn-message"><i class="fa fa-pencil-square-o"></i> '.wfMessage( 'user-edit-profile' )->escaped() . '</button>
+				  </a>';
+		} else {
+			$send_message = SpecialPage::getTitleFor( 'UserBoard' );
+			$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $wgUser->getName() . '&conv=' . $user_safe ) );
+			$out .= '<a href="' . $send_message_url . '"
 				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> '.wfMessage( 'user-send-message' )->escaped() . '</button>
-				  </a>
+				  </a>';
+		}
+		$out .= '
 			  </div>';
 		$out .= '
 		  </ul>';
@@ -507,19 +518,6 @@ class UserProfilePage extends Article {
 		if ( $joined_data ) {
 			$output .= '<div class="user-section-heading">';
 
-			if ( $wgUser->getName() == $user_name ) {
-				$output .= '
-					<div class="user-section-title">' .
-						//wfMessage( 'user-personal-info-title' )->escaped() .
-					'</div>
-					<div class="user-section-actions">
-						<div class="action-right">';
-				$output .= '<a href="' . htmlspecialchars( $edit_info_link->getFullURL() ) . '">' .
-						wfMessage( 'user-edit-this' )->escaped() . '</a>';
-				$output .= '</div>
-						<div class="visualClear"></div>
-					</div>';
-			}
 			$output .= '</div>
 			<div class="visualClear"></div>
 			<div class="profile-info-container">' .
