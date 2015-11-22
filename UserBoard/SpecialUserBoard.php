@@ -129,12 +129,12 @@ class SpecialViewUserBoard extends SpecialPage {
 			} else {
 				$out->setPageTitle( $this->msg( 'userboard_otherboardwith', $user_name, $user_name_2 )->parse() );
 			}
+			$output = '<div class="user-board-top-links">';
+			$output .= '<a href="' . htmlspecialchars( $user_2->getFullURL() ) . '">&lt; ' .
+				$this->msg( 'userboard_backprofile', $user_name_2 )->parse() . '</a>';
+			$output .= '</div>';
 		}
 
-		$output = '<div class="user-board-top-links">';
-		$output .= '<a href="' . htmlspecialchars( $user_2->getFullURL() ) . '">&lt; ' .
-			$this->msg( 'userboard_backprofile', $user_name_2 )->parse() . '</a>';
-		$output .= '</div>';
 
 		$board_to_board = ''; // Prevent E_NOTICE
 
