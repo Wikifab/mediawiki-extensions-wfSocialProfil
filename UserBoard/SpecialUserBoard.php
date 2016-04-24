@@ -33,6 +33,7 @@ class SpecialViewUserBoard extends SpecialPage {
 	 * @param $params Mixed: parameter(s) passed to the page or null
 	 */
 	public function execute( $params ) {
+		$output = '';
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$currentUser = $this->getUser();
