@@ -86,8 +86,8 @@ $wgSpecialPages['ViewRelationshipRequests'] = 'SpecialViewRelationshipRequests';
 $wgSpecialPages['ViewRelationships'] = 'SpecialViewRelationships';
 
 // Necessary AJAX functions
-require_once( "$IP/extensions/SocialProfile/UserBoard/UserBoard_AjaxFunctions.php" );
-require_once( "$IP/extensions/SocialProfile/UserRelationship/Relationship_AjaxFunctions.php" );
+require_once( "UserBoard/UserBoard_AjaxFunctions.php" );
+require_once( "UserRelationship/Relationship_AjaxFunctions.php" );
 
 // What to display on social profile pages by default?
 $wgUserProfileDisplay['board'] = true;
@@ -211,10 +211,10 @@ $wgExtensionCredits['parserhook'][] = array(
 $wgAutoloadClasses['SocialProfileHooks'] = __DIR__ . '/SocialProfileHooks.php';
 
 // Loader files
-require_once( "$IP/extensions/SocialProfile/UserProfile/UserProfile.php" ); // Profile page configuration loader file
-require_once( "$IP/extensions/SocialProfile/UserGifts/Gifts.php" ); // UserGifts (user-to-user gifting functionality) loader file
-require_once( "$IP/extensions/SocialProfile/SystemGifts/SystemGifts.php" ); // SystemGifts (awards functionality) loader file
-require_once( "$IP/extensions/SocialProfile/UserActivity/UserActivity.php" ); // UserActivity - recent social changes
+require_once( "UserProfile/UserProfile.php" ); // Profile page configuration loader file
+require_once( "UserGifts/Gifts.php" ); // UserGifts (user-to-user gifting functionality) loader file
+require_once( "SystemGifts/SystemGifts.php" ); // SystemGifts (awards functionality) loader file
+require_once( "UserActivity/UserActivity.php" ); // UserActivity - recent social changes
 
 $wgHooks['BeforePageDisplay'][] = 'SocialProfileHooks::onBeforePageDisplay';
 $wgHooks['CanonicalNamespaces'][] = 'SocialProfileHooks::onCanonicalNamespaces';
