@@ -1,3 +1,24 @@
+.cleared {
+	clear: both;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix { display: inline-block; }
+
+/* Monaco is different */
+.skin-monaco .clearfix { display: block; }
+
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+/* End hide from IE-mac */
+
 .firstHeading {
 	border-bottom: none;
 	margin: 0px !important;
@@ -55,8 +76,8 @@
 .user-section-title {
 	float: left;
 	font-size: 20px;
-	letter-spacing: -1px;
-	padding: 0px 10px 0px 0px;
+	padding: 0px 10px 5px 0px;
+	font-weight: 500;
 }
 
 .user-section-actions {
@@ -85,7 +106,7 @@
 	background-color: #fff;
 	border-bottom: 1px solid #D4DFD7;
 	padding: 10px 0px;
-	margin: 0px 0px 20px 0px;
+	margin: 0px 0px 30px 0px;
 	position: relative;
 }
 
@@ -135,7 +156,7 @@
 #profile-image img {
 	border: 1px solid #dcdcdc;
 	background-color: #fff;
-	padding: 3px;
+	width:200px;
 }
 
 #profile-right {
@@ -511,33 +532,37 @@
 
 .profile-tab-bar {
 	margin-top: 20px;
+	border-bottom:1px solid #ddd;
 }
 
 .profile-tab {
 	float: left;
-	background-color: #68BD46;
-	height: 22px;
 	min-width: 72px;
-	padding: 6px 5px 0px 5px;
+	padding: 14px 15px;
 	margin: 0px 5px 0px 0px;
 	text-align: center;
 }
 
 .profile-tab-on {
-	background-color: #466C2C;
+	  border: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 	float: left;
-	height: 22px;
 	color: #ffffff;
-	font-size: 12px;
 	min-width: 72px;
 	font-weight: bold;
-	padding: 6px 5px 0px 5px;
-	margin: 0px 5px 0px 0px;
+	padding: 14px 15px;
+	margin: 0px 5px -1px 0px;
 	text-align: center;
 }
 
 .profile-tab-on a, .profile-tab a {
-	color: #fff;
+	color: #000;
 	font-weight: normal;
 	text-decoration: none;
 }
@@ -547,11 +572,11 @@
 }
 
 .profile-tab a:visited {
-	color: #FFFFFF !important;
+	color: #000 !important;
 }
 
 .profile-tab-on a:visited {
-	color: #FFFFFF !important;
+	color: #000 !important;
 }
 
 .profile-update-button {
@@ -626,40 +651,23 @@
 	position: absolute;
 	top: 5px;
 	right: 0px;
-	background-color: orange;
-	padding: 2px 10px;
+	background-color: #f5f8fa;
+	border: 1px solid #e1e8ed;
+	color: #66757f;
+	background-image: linear-gradient(#ffffff,#f5f8fa);
+	padding: 6px 12px;
+	font-size: 14px;
+ 	line-height: 1.42857143;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #profile-toggle-button a {
-	color: #fff;
-	font-weight: bold;
+
 }
 
 /* The text "Message type" on the left side of the message type selector on profile page */
 .profile-board-message-type {
 	color: #797979;
-}
-
-/* Responsive stuff for mobile devices */
-@media screen and (max-width: 750px) {
-	/* Special:UpdateProfile & Special:EditProfile */
-	.mw-special-EditProfile textarea,
-	.mw-special-UpdateProfile textarea {
-		min-width: 60%;
-		max-width: 100%;
-	}
-	div.profile-tab {
-		/**
-		 * I don't like how the tabs' texts are off-center, but this
-		 * is still better than nothing
-		 */
-		margin-bottom: 10px;
-	}
-}
-
-@media screen and (max-width: 750px) and (orientation: portrait) {
-	.mw-special-EditProfile textarea,
-	.mw-special-UpdateProfile textarea {
-		width: 30% !important;
-	}
 }
