@@ -516,12 +516,12 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		array_shift( $countries );
 
 		$this->getOutput()->setPageTitle( $this->msg( 'edit-profile-title' )->plain() );
-
-		$form = UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-personal' )->plain() );
+		
+		$form = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-personal' )->plain() );
 		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">';
 		$form .= '<div class="profile-info clearfix">';
 		$form .= '<div class="profile-update">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-info' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-name' )->plain() . '</p>
 			<p class="profile-update-unit"><input type="text" size="25" name="real_name" id="real_name" value="' . $real_name . '"/></p>
 			<div class="visualClear"></div>
@@ -544,9 +544,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		<div class="visualClear"></div>';
 
 		$form .= '<div class="profile-update">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-location' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-city' )->plain() . '</p>
 			<p class="profile-update-unit"><input type="text" size="25" name="location_city" id="location_city" value="' . ( isset( $location_city ) ? $location_city : '' ) . '" /></p>
+
 			<div class="visualClear"></div>
 			<p class="profile-update-unit-left" id="location_state_label">' . $this->msg( 'user-profile-personal-country' )->plain() . '</p>';
 		$form .= '<p class="profile-update-unit">';
@@ -557,10 +557,14 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				</script>";
 		$form .= "<select name=\"location_country\" id=\"location_country\" onchange=\"displaySection('location_state',this.value,'')\"><option></option>";
 
-		foreach ( $countries as $country ) {
+	foreach ( $countries as $country ) {
 			$form .= "<option value=\"{$country}\"" . ( ( $country == $location_country ) ? ' selected="selected"' : '' ) . ">";
 			$form .= $country . "</option>\n";
 		}
+		
+		// Hide country field in the user profile update form
+
+			/*
 
 		$form .= '</select>';
 		$form .= '</p>
@@ -580,7 +584,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<script type=\"text/javascript\">
 				displaySection(\"hometown_state\",\"" . $hometown_country . "\",\"" . ( isset( $hometown_state ) ? $hometown_state : '' ) . "\");
 			</script>";
-		$form .= "<select name=\"hometown_country\" id=\"hometown_country\" onchange=\"displaySection('hometown_state',this.value,'')\"><option></option>";
+		$form .= "<select name=\"hometown_country\" id=\"hometown_country\" onchange=\"displaySection('hometown_state',this.value,'')\"><option></option>"; */
 
 		foreach ( $countries as $country ) {
 			$form .= "<option value=\"{$country}\"" . ( ( $country == $hometown_country ) ? ' selected="selected"' : '' ) . ">";
@@ -590,23 +594,21 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		$form .= '</select>';
 		$form .= '</p>
 			<div class="visualClear"></div>
-		</div>
+		</div> 
 		<div class="visualClear"></div>';
 
 		$form .= '<div class="profile-update">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-birthday' )->plain() . '</p>
 			<p class="profile-update-unit-left" id="birthday-format">' .
 				$this->msg( $showYOB ? 'user-profile-personal-birthdate-with-year' : 'user-profile-personal-birthdate' )->plain() .
 			'</p>
 			<p class="profile-update-unit"><input type="text"' .
 			( $showYOB ? ' class="long-birthday"' : null ) .
-			' size="25" name="birthday" id="birthday" value="' .
+			' size="25" placeholder="' . $this->msg( 'user-profile-personal-birthdate-placeholder' )->plain() . '"  name="birthday" id="birthday" value="' .
 			( isset( $birthday ) ? $birthday : '' ) . '" /></p>
 			<div class="visualClear"></div>
 		</div><div class="visualClear"></div>';
 
 		$form .= '<div class="profile-update" id="profile-update-personal-aboutme">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
 			<p class="profile-update-unit">
 				<textarea name="about" id="about" rows="3" cols="75">' . ( isset( $about ) ? $about : '' ) . '</textarea>
@@ -615,41 +617,10 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		</div>
 		<div class="visualClear"></div>
 
-		<div class="profile-update" id="profile-update-personal-work">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-work' )->plain() . '</p>
-			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-occupation' )->plain() . '</p>
-			<p class="profile-update-unit">
-				<textarea name="occupation" id="occupation" rows="2" cols="75">' . ( isset( $occupation ) ? $occupation : '' ) . '</textarea>
-			</p>
-			<div class="visualClear"></div>
-		</div>
-		<div class="visualClear"></div>
-
-		<div class="profile-update" id="profile-update-personal-education">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-education' )->plain() . '</p>
-			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-schools' )->plain() . '</p>
-			<p class="profile-update-unit">
-				<textarea name="schools" id="schools" rows="2" cols="75">' . ( isset( $schools ) ? $schools : '' ) . '</textarea>
-			</p>
-			<div class="visualClear"></div>
-		</div>
-		<div class="visualClear"></div>
-
-		<div class="profile-update" id="profile-update-personal-places">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-places' )->plain() . '</p>
-			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-placeslived' )->plain() . '</p>
-			<p class="profile-update-unit">
-				<textarea name="places" id="places" rows="3" cols="75">' . ( isset( $places ) ? $places : '' ) . '</textarea>
-			</p>
-			<div class="visualClear"></div>
-		</div>
-		<div class="visualClear"></div>
-
 		<div class="profile-update" id="profile-update-personal-web">
-			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-web' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-websites' )->plain() . '</p>
 			<p class="profile-update-unit">
-				<textarea name="websites" id="websites" rows="2" cols="75">' . ( isset( $websites ) ? $websites : '' ) . '</textarea>
+				<textarea name="websites" id="websites" rows="1" placeholder="http://www.wikifab.org" cols="75">' . ( isset( $websites ) ? $websites : '' ) . '</textarea>
 			</p>
 			<div class="visualClear"></div>
 		</div>
@@ -771,48 +742,51 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$showYOB = isset( $s, $s->up_birthday ) ? false : true;
+		$showYOB = isset( $s, $s->up_birthday ) ? false : flase;
 
 		// @todo If the checkboxes are in front of the option, this would look more like Special:Preferences
 		$this->getOutput()->setPageTitle( $this->msg( 'user-profile-section-preferences' )->plain() );
 
-		$form = UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-preferences' )->plain() );
+		$form = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-preferences' )->plain() );
 		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">';
 		$form .= '<div class="profile-info clearfix">
 			<div class="profile-update">
 				<p class="profile-update-title">' . $this->msg( 'user-profile-preferences-emails' )->plain() . '</p>
-				<p class="profile-update-row">'
-					. $this->msg( 'user-profile-preferences-emails-personalmessage' )->plain() .
-					' <input type="checkbox" size="25" name="notify_message" id="notify_message" value="1"' . ( ( $user->getIntOption( 'notifymessage', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+				<p class="profile-update-row profile-notification-boxes">
+					<input type="checkbox" size="25" name="notify_message" id="notify_message" value="1"' . ( ( $user->getIntOption( 'notifymessage', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+					'. $this->msg( 'user-profile-preferences-emails-personalmessage' )->plain() .'
 				</p>
-				<p class="profile-update-row">'
-					. $this->msg( 'user-profile-preferences-emails-friendfoe' )->plain() .
-					' <input type="checkbox" size="25" class="createbox" name="notify_friend" id="notify_friend" value="1" ' . ( ( $user->getIntOption( 'notifyfriendrequest', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+				<p class="profile-update-row profile-notification-boxes">
+					<input type="checkbox" size="25" class="createbox" name="notify_friend" id="notify_friend" value="1" ' . ( ( $user->getIntOption( 'notifyfriendrequest', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+					'. $this->msg( 'user-profile-preferences-emails-friendfoe' )->plain() .'
 				</p>
-				<p class="profile-update-row">'
-					. $this->msg( 'user-profile-preferences-emails-gift' )->plain() .
-					' <input type="checkbox" size="25" name="notify_gift" id="notify_gift" value="1" ' . ( ( $user->getIntOption( 'notifygift', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+				<p class="profile-update-row profile-notification-boxes">
+					<input type="checkbox" size="25" name="notify_gift" id="notify_gift" value="1" ' . ( ( $user->getIntOption( 'notifygift', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+					'. $this->msg( 'user-profile-preferences-emails-gift' )->plain() .'
 				</p>
 
-				<p class="profile-update-row">'
-					. $this->msg( 'user-profile-preferences-emails-level' )->plain() .
-					' <input type="checkbox" size="25" name="notify_honorifics" id="notify_honorifics" value="1"' . ( ( $user->getIntOption( 'notifyhonorifics', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+				<p class="profile-update-row profile-notification-boxes">
+					<input type="checkbox" size="25" name="notify_honorifics" id="notify_honorifics" value="1"' . ( ( $user->getIntOption( 'notifyhonorifics', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+					'. $this->msg( 'user-profile-preferences-emails-level' )->plain() .'
 				</p>';
 
-		$form .= '<p class="profile-update-title">' .
+		// Hide "Show year of birth checkbox?"
+
+		/* $form .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-preferences-miscellaneous' )->plain() .
 			'</p>
 			<p class="profile-update-row">' .
 				$this->msg( 'user-profile-preferences-miscellaneous-show-year-of-birth' )->plain() .
 				' <input type="checkbox" size="25" name="show_year_of_birth" id="show_year_of_birth" value="1"' . ( ( $user->getIntOption( 'showyearofbirth', $showYOB ) == 1 ) ? 'checked' : '' ) . '/>
-			</p>';
+			</p>'; */
 
 		// Allow extensions (like UserMailingList) to add new checkboxes
 		Hooks::run( 'SpecialUpdateProfile::displayPreferencesForm', array( $this, &$form ) );
 
 		$form .= '</div>
 			<div class="visualClear"></div>';
-		$form .= '<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
+		$form .= '<input type="button" class="site-button" id="notification-btn" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
 			</form>';
 		$form .= '</div>';
 

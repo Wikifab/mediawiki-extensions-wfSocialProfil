@@ -298,7 +298,7 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 		$form .= '<div class="profile-update">
 			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-birthday' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-birthdate-with-year' )->plain() . '</p>
-			<p class="profile-update-unit"><input type="text" class="long-birthday" size="25" name="birthday" id="birthday" value="' . ( isset( $birthday ) ? $birthday : '' ) . '" /></p>
+			<p class="profile-update-unit"><input type="text" placeholder="' . $this->msg( 'user-profile-personal-birthdate-placeholder' )->plain() . '" class="long-birthday" size="25" name="birthday" id="birthday" value="' . ( isset( $birthday ) ? $birthday : '' ) . '" /></p>
 			<div class="visualClear"></div>
 		</div><div class="visualClear"></div>';
 
