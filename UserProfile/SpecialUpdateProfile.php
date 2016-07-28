@@ -612,15 +612,15 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		<div class="profile-update" id="profile-update-personal-web">
 			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-website' )->plain() . '</p>
 			<p class="profile-update-unit">
-				<input type="text" size="33" name="websites" id="websites" placeholder="http://www.wikifab.org" value="' . $websites . '"/>
-			</p>
+				<textarea rows="1" cols="33" name="websites" id="websites" placeholder="http://www.wikifab.org">' . ( isset( $websites ) ? $websites : '' ) .  '</textarea>
 			<div class="visualClear"></div>
 		</div>
 		
 		<div class="visualClear"></div>
+		<hr>
 
 		<div class="profile-update" id="profile-update-personal-work">
-			<p class="profile-update-title profile-update-title-last">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
+			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-bio' )->plain() . '</p>
 			<p class="profile-update-unit">
 				<textarea name="about" id="about" placeholder="' . $this->msg( 'user-profile-placeholder-bio' )->plain() . '" rows="2" cols="75">' . ( isset( $about ) ? $about : '' ) . '</textarea>
@@ -757,7 +757,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			__METHOD__
 		);
 
-		$showYOB = isset( $s, $s->up_birthday ) ? false : flase;
+		$showYOB = isset( $s, $s->up_birthday ) ? false : false;
 
 		// @todo If the checkboxes are in front of the option, this would look more like Special:Preferences
 		$this->getOutput()->setPageTitle( $this->msg( 'user-profile-section-preferences' )->plain() );

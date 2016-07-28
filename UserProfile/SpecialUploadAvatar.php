@@ -85,52 +85,48 @@ class SpecialUploadAvatar extends SpecialUpload {
 
 		$uid = $user->getId();
 
-		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1></div>';
+		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
+			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
 		$output .= '<div class="profile-info">';
 		$output .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-picture-yourpicture' )->plain() . '</p>';
 		$output .= '<p>' . $this->msg( 'user-profile-picture-yourpicturestext' )->plain() . '</p>';
 
-		$output .= '<table cellspacing="0" cellpadding="0" style="margin-top:20px;">';
-		$output .= '<tr>
-			<td valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+		$output .= '<div>';
+		$output .= '
+			<div style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
 				$this->msg( 'user-profile-picture-large' )->plain() .
-			'</td>
-			<td style="padding-bottom:20px;">
+			'</div>
+			<div style="padding-bottom:20px;">
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_l.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
-			</td>
-		</tr>';
-		$output .= '<tr>
-			<td valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			</div>';
+		$output .= '
+			<div style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
 				$this->msg( 'user-profile-picture-medlarge' )->plain() .
-			'</td>
-			<td style="padding-bottom:20px;">
+			'</div>
+			<div style="padding-bottom:20px;">
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_ml.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
-			</td>
-		</tr>';
-		$output .= '<tr>
-			<td valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			</div>';
+		$output .= '
+			<div valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
 				$this->msg( 'user-profile-picture-medium' )->plain() .
-			'</td>
-			<td style="padding-bottom:20px;">
+			'</div>
+			<div style="padding-bottom:20px;">
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_m.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
-			</td>
-		</tr>';
-		$output .= '<tr>
-			<td valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			</div>';
+		$output .= '
+			<div valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
 				$this->msg( 'user-profile-picture-small' )->plain() .
-			'</td>
-			<td style="padding-bottom:20px;">
+			'</div>
+			<div style="padding-bottom:20px;">
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_s.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
-			</td>
-		</tr>';
-		$output .= '<tr>
-			<td>
+			</div>';
+		$output .= '
+			<div>
 				<input type="button" onclick="javascript:history.go(-1)" class="site-button" value="' . $this->msg( 'user-profile-picture-uploaddifferent' )->plain() . '" />
-			</td>
-		</tr>';
-		$output .= '</table>';
+			</div>';
+		$output .= '</div>';
 		$output .= '</div>';
 
 		$this->getOutput()->addHTML( $output );
@@ -147,6 +143,8 @@ class SpecialUploadAvatar extends SpecialUpload {
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		global $wgUseCopyrightUpload, $wgUserProfileDisplay;
+		
+		$user= $this->getContext()->getUser();
 
 		if ( $wgUserProfileDisplay['avatar'] === false ) {
 			$message = $this->msg( 'socialprofile-uploads-disabled' )->plain();
@@ -177,25 +175,13 @@ class SpecialUploadAvatar extends SpecialUpload {
 				htmlspecialchars( $this->mUploadSource ) . "\" style='width:100px' /></td>
 				";
 		}
-		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1></div>';
+		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
+			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
 		$output .= '<div class="profile-info">';
-
-		if ( $this->getAvatar( 'l' ) != '' ) {
-			$output .= '<table>
-				<tr>
-					<td>
-						<p class="profile-update-title">' .
-							$this->msg( 'user-profile-picture-currentimage' )->plain() .
-						'</p>
-					</td>
-				</tr>';
-				$output .= '<tr>
-					<td>' . $this->getAvatar( 'l' ) . '</td>
-				</tr>
-			</table>';
-		}
-
+		
+		$output .= '<div class="row">';
+		$output .= '<div class="col-md-8 col-sm-6 col-xs-12">';
 		$output .= '<form id="upload" method="post" enctype="multipart/form-data" action="">';
 		// The following two lines are delicious copypasta from HTMLForm.php,
 		// function getHiddenFields() and they are required; wpEditToken is, as
@@ -224,9 +210,22 @@ class SpecialUploadAvatar extends SpecialUpload {
 					</td>
 				</tr>
 			</table>
-			</form>' . "\n";
+			</form></div>' . "\n";
 
-		$output .= '</div>';
+		if ( $this->getAvatar( 'l' ) != '' ) {
+			$output .= '
+				<div class="col-md-4 col-sm-6 col-xs-12">
+						<p class="profile-update-title">' .
+							$this->msg( 'user-profile-picture-currentimage' )->plain() .
+						'</p>';
+				$output .= '<div>
+					' . $this->getAvatar( 'l' ) . '</div>
+				</div>';
+		}
+
+
+
+		$output .= '</div></div></div>';
 
 		return $output;
 	}

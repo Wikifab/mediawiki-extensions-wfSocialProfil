@@ -530,10 +530,11 @@ class UserProfilePage extends Article {
 				//$this->getProfileSection( wfMessage( 'user-personal-info-places-lived' )->escaped(), $profile_data['places_lived'], false ) .
 				//$this->getProfileSection( wfMessage( 'user-personal-info-schools' )->escaped(), $profile_data['schools'], false ) .
 				//$this->getProfileSection( '<i class="fa fa-graduation-cap"></i> ', $profile_data['schools'], false ) .
+				'<hr><div class="profile-user-info">' .
 				$this->getProfileSection( wfMessage( 'user-personal-info-about-me' )->escaped() .'<br/>', $profile_data['about'], false ) .
 				$this->getProfileSection( wfMessage( 'user-personal-info-skills' )->escaped() .'<br/>', $profile_data['occupation'], false ) .
 				$this->getProfileSection( wfMessage( 'user-personal-front-labs' )->escaped() .'<br/>', $profile_data['schools'], false ) .
-
+				'</div>' .
 
 			'</div>';
 		} elseif ( $wgUser->getName() == $user_name ) {
@@ -1264,7 +1265,7 @@ class UserProfilePage extends Article {
 				</div>
 			</div>
 			<div class="visualClear"></div>
-			<div class="user-gift-container">';
+			<div class="user-gift-container"><div class="row">';
 
 			$x = 1;
 
@@ -1284,10 +1285,10 @@ class UserProfilePage extends Article {
 				if ( $gift['status'] == 1 ) {
 					$class = 'class="user-page-new"';
 				}
-				$output .= '<a href="' . htmlspecialchars( $gift_link->getFullURL( 'gift_id=' . $gift['id'] ) ) . '" ' .
-					$class . " rel=\"nofollow\">{$gift_image}</a>";
+				$output .= '<div class="col-md-3 col-sm-3 col-xs-3"><a href="' . htmlspecialchars( $gift_link->getFullURL( 'gift_id=' . $gift['id'] ) ) . '" ' .
+					$class . " rel=\"nofollow\">{$gift_image}</a></div>";
 				if ( $x == count( $gifts ) || $x != 1 && $x % $per_row == 0 ) {
-					$output .= '<div class="visualClear"></div>';
+					$output .= '<div class="visualClear"></div></div>';
 				}
 
 				$x++;
