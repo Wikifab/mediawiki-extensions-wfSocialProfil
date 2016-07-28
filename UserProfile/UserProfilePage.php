@@ -508,6 +508,8 @@ class UserProfilePage extends Article {
 		$output = '';
 
 
+
+
 		if ( $joined_data ) {
 			$output .= '<div class="user-section-heading">';
 
@@ -522,13 +524,17 @@ class UserProfilePage extends Article {
 				//$this->getProfileSection( wfMessage( 'user-personal-info-birthday' )->escaped(), $profile_data['birthday'], false ) .
 				$this->getProfileSection( '<i class="fa fa-birthday-cake"></i>', $profile_data['birthday'], false ) .
 				//$this->getProfileSection( wfMessage( 'user-personal-info-occupation' )->escaped(), $profile_data['occupation'], false ) .
-				$this->getProfileSection( '<i class="fa fa-suitcase"></i>', $profile_data['occupation'], false ) .
+				//$this->getProfileSection( '<i class="fa fa-suitcase"></i>', $profile_data['occupation'], false ) .
 				//$this->getProfileSection( wfMessage( 'user-personal-info-websites' )->escaped(), $profile_data['websites'], false ) .
 				$this->getProfileSection( '<i class="fa fa-globe"></i> ', $profile_data['websites'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-info-places-lived' )->escaped(), $profile_data['places_lived'], false ) .
+				//$this->getProfileSection( wfMessage( 'user-personal-info-places-lived' )->escaped(), $profile_data['places_lived'], false ) .
 				//$this->getProfileSection( wfMessage( 'user-personal-info-schools' )->escaped(), $profile_data['schools'], false ) .
-				$this->getProfileSection( '<i class="fa fa-graduation-cap"></i> ', $profile_data['schools'], false ) .
+				//$this->getProfileSection( '<i class="fa fa-graduation-cap"></i> ', $profile_data['schools'], false ) .
 				$this->getProfileSection( wfMessage( 'user-personal-info-about-me' )->escaped() .'<br/>', $profile_data['about'], false ) .
+				$this->getProfileSection( wfMessage( 'user-personal-info-skills' )->escaped() .'<br/>', $profile_data['occupation'], false ) .
+				$this->getProfileSection( wfMessage( 'user-personal-front-labs' )->escaped() .'<br/>', $profile_data['schools'], false ) .
+
+
 			'</div>';
 		} elseif ( $wgUser->getName() == $user_name ) {
 			$output .= '<div class="user-section-heading">
@@ -782,8 +788,8 @@ class UserProfilePage extends Article {
 		//$output .= $this->getProfileAction();
 
 		$output .= $this->getPersonalInfo( $user_id, $user_name );
-		
-		$output .= $this->getAwards( $this->user_name );
+
+		$output .= $this->getGifts( $this->user_name );
 
 		$output .= '</div>';
 

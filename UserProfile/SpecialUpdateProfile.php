@@ -200,9 +200,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 					" '{$section}'"
 			);
 			$out->addHTML(
-				'<span class="profile-on">' .
+				'<div class="alert alert-success alert-profile"><i class="fa fa-check" aria-hidden="true"></i> ' .
 				$this->msg( 'user-profile-update-saved' )->plain() .
-				'</span><br /><br />'
+				'. <a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></div>'
 			);
 
 			// create the user page if it doesn't exist yet
@@ -517,16 +517,18 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 		$this->getOutput()->setPageTitle( $this->msg( 'edit-profile-title' )->plain() );
 		
-		$form = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$form = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
+			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-personal' )->plain() );
 		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">';
 		$form .= '<div class="profile-info clearfix">';
 		$form .= '<div class="profile-update">
+			<p class="profile-update-title">' . $this->msg( 'user-profile-account-settings' )->plain() . '</p>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-name' )->plain() . '</p>
-			<p class="profile-update-unit"><input type="text" size="25" name="real_name" id="real_name" value="' . $real_name . '"/></p>
+			<p class="profile-update-unit"><input type="text" size="33" name="real_name" id="real_name" value="' . $real_name . '"/></p>
 			<div class="visualClear"></div>
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-email' )->plain() . '</p>
-			<p class="profile-update-unit"><input type="text" size="25" name="email" id="email" value="' . $email . '"/>';
+			<p class="profile-update-unit"><input type="text" size="33" name="email" id="email" value="' . $email . '"/>';
 		if ( !$user->mEmailAuthenticated ) {
 			$confirm = SpecialPage::getTitleFor( 'Confirmemail' );
 			$form .= " <a href=\"{$confirm->getFullURL()}\">" . $this->msg( 'user-profile-personal-confirmemail' )->plain() . '</a>';
@@ -545,7 +547,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 		$form .= '<div class="profile-update">
 			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-city' )->plain() . '</p>
-			<p class="profile-update-unit"><input type="text" size="25" name="location_city" id="location_city" value="' . ( isset( $location_city ) ? $location_city : '' ) . '" /></p>
+			<p class="profile-update-unit"><input type="text" size="33" name="location_city" id="location_city" value="' . ( isset( $location_city ) ? $location_city : '' ) . '" /></p>
 
 			<div class="visualClear"></div>
 			<p class="profile-update-unit-left" id="location_state_label">' . $this->msg( 'user-profile-personal-country' )->plain() . '</p>';
@@ -603,24 +605,35 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'</p>
 			<p class="profile-update-unit"><input type="text"' .
 			( $showYOB ? ' class="long-birthday"' : null ) .
-			' size="25" placeholder="' . $this->msg( 'user-profile-personal-birthdate-placeholder' )->plain() . '"  name="birthday" id="birthday" value="' .
+			' size="33" placeholder="' . $this->msg( 'user-profile-personal-birthdate-placeholder' )->plain() . '"  name="birthday" id="birthday" value="' .
 			( isset( $birthday ) ? $birthday : '' ) . '" /></p>
 			<div class="visualClear"></div>
-		</div><div class="visualClear"></div>';
-
-		$form .= '<div class="profile-update" id="profile-update-personal-aboutme">
-			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
+		</div>
+		<div class="profile-update" id="profile-update-personal-web">
+			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-website' )->plain() . '</p>
 			<p class="profile-update-unit">
-				<textarea name="about" id="about" rows="3" cols="75">' . ( isset( $about ) ? $about : '' ) . '</textarea>
+				<input type="text" size="33" name="websites" id="websites" placeholder="http://www.wikifab.org" value="' . $websites . '"/>
 			</p>
 			<div class="visualClear"></div>
 		</div>
+		
 		<div class="visualClear"></div>
 
-		<div class="profile-update" id="profile-update-personal-web">
-			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-websites' )->plain() . '</p>
+		<div class="profile-update" id="profile-update-personal-work">
+			<p class="profile-update-title profile-update-title-last">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
+			<p class="profile-update-unit-left">' . $this->msg( 'user-profile-personal-bio' )->plain() . '</p>
 			<p class="profile-update-unit">
-				<textarea name="websites" id="websites" rows="1" placeholder="http://www.wikifab.org" cols="75">' . ( isset( $websites ) ? $websites : '' ) . '</textarea>
+				<textarea name="about" id="about" placeholder="' . $this->msg( 'user-profile-placeholder-bio' )->plain() . '" rows="2" cols="75">' . ( isset( $about ) ? $about : '' ) . '</textarea>
+			</p>
+			<div class="visualClear"></div>
+			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-skills' )->plain() . '</p>
+			<p class="profile-update-unit">
+				<textarea name="occupation" id="occupation" placeholder="' . $this->msg( 'user-profile-placeholder-skills' )->plain() . '" rows="2" cols="75">' . ( isset( $occupation ) ? $occupation : '' ) . '</textarea>
+			</p>
+			<div class="visualClear"></div>
+			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-labs' )->plain() . '</p>
+			<p class="profile-update-unit">
+				<textarea name="schools" id="schools" placeholder="' . $this->msg( 'user-profile-placeholder-labs' )->plain() . '" rows="2" cols="75">' . ( isset( $schools ) ? $schools : '' ) . '</textarea>
 			</p>
 			<div class="visualClear"></div>
 		</div>
@@ -628,6 +641,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 		$form .= '
 			<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
+		
+		<input type="button" class="cancel-btn-profil" value="' . $this->msg( 'cancel' )->plain() . '" size="20" onclick="history.go(-1);" />
 			</div>
 		</form>';
 
@@ -747,7 +762,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		// @todo If the checkboxes are in front of the option, this would look more like Special:Preferences
 		$this->getOutput()->setPageTitle( $this->msg( 'user-profile-section-preferences' )->plain() );
 
-		$form = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$form = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
+			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-preferences' )->plain() );
 		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">';
 		$form .= '<div class="profile-info clearfix">
@@ -788,7 +804,11 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<div class="visualClear"></div>';
 		$form .= '<input type="button" class="site-button" id="notification-btn" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
 			</form>';
-		$form .= '</div>';
+		$form .= '</div>
+					<div>
+						' . $this->msg( 'user-profile-preferences-link1' )->plain() . '
+						<a href="index.php/Special:Preferences">' . $this->msg( 'user-profile-preferences-link2' )->plain() . '</a>.
+					</div>';
 
 		return $form;
 	}

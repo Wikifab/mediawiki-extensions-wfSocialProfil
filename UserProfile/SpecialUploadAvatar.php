@@ -85,7 +85,7 @@ class SpecialUploadAvatar extends SpecialUpload {
 
 		$uid = $user->getId();
 
-		$output = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
 		$output .= '<div class="profile-info">';
 		$output .= '<p class="profile-update-title">' .
@@ -177,7 +177,7 @@ class SpecialUploadAvatar extends SpecialUpload {
 				htmlspecialchars( $this->mUploadSource ) . "\" style='width:100px' /></td>
 				";
 		}
-		$output = '<h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>';
+		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
 		$output .= '<div class="profile-info">';
 

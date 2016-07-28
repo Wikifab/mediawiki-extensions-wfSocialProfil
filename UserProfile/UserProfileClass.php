@@ -247,7 +247,7 @@ class UserProfile {
 				$output .= '</div>';
 			}
 		}
-
+		
 		$output .= '<div class="visualClear"></div></div>';
 
 		return $output;
