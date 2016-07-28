@@ -508,13 +508,6 @@ class UserProfilePage extends Article {
 		$output = '';
 
 
-		$output .= '';
-
-					'<div><i class="fa fa-map-marker"></i> Paris</div>
-					<div><i class="fa fa-globe"></i> wikifab.org</div>
-					<div><b>Biographie</b><br>Co-fondateur de Wikifab, conducteur d\'un autorickshaw indien, cycliste et designer</div>
-				</div>';
-
 		if ( $joined_data ) {
 			$output .= '<div class="user-section-heading">';
 
@@ -789,6 +782,8 @@ class UserProfilePage extends Article {
 		//$output .= $this->getProfileAction();
 
 		$output .= $this->getPersonalInfo( $user_id, $user_name );
+		
+		$output .= $this->getAwards( $this->user_name );
 
 		$output .= '</div>';
 

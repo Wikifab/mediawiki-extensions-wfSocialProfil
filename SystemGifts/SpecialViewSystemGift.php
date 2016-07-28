@@ -91,8 +91,8 @@ class ViewSystemGift extends UnlistedSpecialPage {
 			$output .= "<div class=\"ga-description\">
 					{$giftImage}
 					<div class=\"ga-name\">{$gift['name']}</div>
-					<div class=\"ga-timestamp\">({$gift['timestamp']})</div>
-					<div class=\"ga-description-message\">\"{$message}\"</div>";
+					<div class=\"ga-description-message\">{$message}</div>
+					<div class=\"ga-more-link\">En savoir plus</div>";
 			$output .= '<div class="visualClear"></div>
 				</div>';
 
