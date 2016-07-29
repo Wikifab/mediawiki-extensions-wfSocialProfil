@@ -736,8 +736,20 @@ class UserProfilePage extends Article {
 
 		
 
-		$output .= '<div id="profile-image">' . $avatar->getAvatarURL() .
+		
+		if ( $this->isOwner() ) {
+		$output .= '<div id="profile-image" class="owner-image">
+						
+						<div class="profile-image-edit-btn">
+						<a href="/index.php/Special:UploadAvatar"><span class="glyphicon glyphicon-camera"></span></a>
+						</div>
+						' . $avatar->getAvatarURL() .
 			'</div>';
+		}
+		else {
+			$output .= '<div id="profile-image">' . $avatar->getAvatarURL() .
+				'</div>';
+		}
 
 		$toggleUserPageActive = false;
 		if ( $this->isOwner()  && $toggleUserPageActive) {
@@ -1243,10 +1255,8 @@ class UserProfilePage extends Article {
 		$per_row = 4;
 
 		if ( $gifts ) {
-			$output .= '<div class="user-section-heading">
-				<div class="user-section-title">' .
-					wfMessage( 'user-gifts-title' )->escaped() .
-				'</div>
+			$output .= '<div class="user-section-heading-gift"><div class="user-section-heading">
+				<hr>
 				<div class="user-section-actions">
 					<div class="action-right">';
 			if ( $gift_count > 4 ) {
@@ -1263,7 +1273,7 @@ class UserProfilePage extends Article {
 			$output .= '</div>
 					<div class="visualClear"></div>
 				</div>
-			</div>
+			</div></div>
 			<div class="visualClear"></div>
 			<div class="user-gift-container"><div class="row">';
 

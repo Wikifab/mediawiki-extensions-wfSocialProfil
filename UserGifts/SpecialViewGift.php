@@ -92,19 +92,28 @@ class ViewGift extends UnlistedSpecialPage {
 			$message = $out->parse( trim( $gift['message'] ), false );
 
 			$output .= '<div class="g-description-container">';
-			$output .= '<div class="g-description">' .
+			$output .= '<div class="row g-description"><div class="col-md-2 col-sm-3 col-xs-12">' .
 					$giftImage .
-					'<div class="g-name">' . $gift['name'] . '</div>
+					'</div><div class="col-md-10 col-sm-9 col-xs-12"><div class="g-name">' . $gift['name'] . '</div>
 					<div class="g-timestamp">(' . $gift['timestamp'] . ')</div>
 					<div class="g-from">' . $this->msg(
 						'g-from',
 						htmlspecialchars( $sender->getFullURL() ),
 						$gift['user_name_from']
 					)->text() . '</div>';
+						
+						
+// Link to let user give gift to others						
+						
+			/*			
 			if ( $message ) {
 				$output .= '<div class="g-user-message">' . $message . '</div>';
 			}
-			$output .= '<div class="visualClear"></div>
+			
+			*/
+
+// Link to let user give gift to others
+			/* $output .= '<div class="visualClear"></div>
 					<div class="g-describe">' . $gift['description'] . '</div>
 					<div class="g-actions">
 						<a href="' . htmlspecialchars( $giveGiftLink->getFullURL( 'gift_id=' . $gift['gift_id'] ) ) . '">' .
@@ -115,7 +124,18 @@ class ViewGift extends UnlistedSpecialPage {
 					$this->msg( 'g-remove-gift' )->plain() . '</a>';
 			}
 			$output .= '</div>
+				</div></div>'; */
+			
+			
+			$output .= '<div class="visualClear"></div>
+					<div class="g-user-message">' . $gift['description'] . '</div>';
+			if ( $gift['user_name_to'] == $user->getName() ) {
+				$output .= '<div class="remove-gift-btn"><a href="' . htmlspecialchars( $removeGiftLink->getFullURL( 'gift_id=' . $gift['id'] ) ) . '">' .
+					$this->msg( 'g-remove-gift' )->plain() . '</a></div>';
+			}
+			$output .= '</div>
 				</div>';
+			
 
 			$output .= '<div class="g-recent">
 					<div class="g-recent-title">' .
@@ -125,16 +145,20 @@ class ViewGift extends UnlistedSpecialPage {
 						$this->msg( 'g-given', $gift['gift_count'] )->parse() .
 					'</div>';
 
+			$output .= '<div class="row">';
+			
 			foreach ( $res as $row ) {
 				$userToId = $row->ug_user_id_to;
 				$avatar = new wAvatar( $userToId, 'ml' );
 				$userNameLink = Title::makeTitle( NS_USER, $row->ug_user_name_to );
 
-				$output .= '<a href="' . htmlspecialchars( $userNameLink->getFullURL() ) . "\">
+				$output .= '<div class="col-md-1 col-sm-2 col-xs-4"><a href="' . htmlspecialchars( $userNameLink->getFullURL() ) . "\">
 					{$avatar->getAvatarURL()}
-				</a>";
+				</a></div>";
 			}
 
+			$output .= '</div>';
+			
 			$output .= '<div class="visualClear"></div>
 				</div>
 			</div>';

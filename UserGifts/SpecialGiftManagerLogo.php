@@ -273,6 +273,7 @@ class GiftManagerLogo extends UnlistedSpecialPage {
 				$thumbWidth = $origWidth;
 			}
 			$thumbHeight = ( $thumbWidth * $origHeight / $origWidth );
+			$border = "";
 			if ( $thumbHeight < $thumbWidth ) {
 				$border = ' -bordercolor white -border 0x' . ( ( $thumbWidth - $thumbHeight ) / 2 );
 			}

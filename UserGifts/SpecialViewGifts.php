@@ -144,14 +144,18 @@ class ViewGifts extends SpecialPage {
 					'</span>';
 				}
 				$output .= '</div>';
-
+				/*
 				$output .= '<div class="g-from">' .
 					$this->msg( 'g-from', htmlspecialchars( $user_from->getFullURL() ), $gift['user_name_from'] )->text() .
 				'</div>
 					<div class="g-actions">
 						<a href="' . htmlspecialchars( $giveGiftLink->getFullURL( 'gift_id=' . $gift['gift_id'] ) ) . '">' .
 							$this->msg( 'g-to-another' )->plain() .
-						'</a>';
+						'</a>';*/
+				$output .= '<div class="g-from">' .
+					$this->msg( 'g-from', htmlspecialchars( $user_from->getFullURL() ), $gift['user_name_from'] )->text() .
+				'</div>
+					<div class="g-actions">';
 				if ( $rel->user_name == $currentUser->getName() ) {
 					$output .= '&#160;';
 					$output .= $this->msg( 'pipe-separator' )->escaped();

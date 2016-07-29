@@ -88,38 +88,43 @@ class SpecialUploadAvatar extends SpecialUpload {
 		$output = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
 			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
-		$output .= '<div class="profile-info">';
+		$output .= '<div class="alert-avatar"><div class="alert alert-success alert-profile"><i class="fa fa-check" aria-hidden="true"></i> ' .
+				$this->msg( 'user-avatar-update-saved' )->plain() .
+					'. <a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></div></div>' .
+						'<div class="profile-info">';
+		
+		
 		$output .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-picture-yourpicture' )->plain() . '</p>';
 		$output .= '<p>' . $this->msg( 'user-profile-picture-yourpicturestext' )->plain() . '</p>';
 
 		$output .= '<div>';
 		$output .= '
-			<div style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			<div style="color:#797979;padding-bottom:6px;">' .
 				$this->msg( 'user-profile-picture-large' )->plain() .
 			'</div>
-			<div style="padding-bottom:20px;">
+			<div>
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_l.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
 			</div>';
 		$output .= '
-			<div style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			<div style="color:#797979;padding-bottom:6px;">' .
 				$this->msg( 'user-profile-picture-medlarge' )->plain() .
 			'</div>
-			<div style="padding-bottom:20px;">
+			<div>
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_ml.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
 			</div>';
 		$output .= '
-			<div valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			<div style="color:#797979;padding-bottom:6px;">' .
 				$this->msg( 'user-profile-picture-medium' )->plain() .
 			'</div>
-			<div style="padding-bottom:20px;">
+			<div>
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_m.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
 			</div>';
 		$output .= '
-			<div valign="top" style="color:#797979;font-size:12px;font-weight:bold;padding-bottom:20px;">' .
+			<div style="color:#797979;padding-bottom:6px;">' .
 				$this->msg( 'user-profile-picture-small' )->plain() .
 			'</div>
-			<div style="padding-bottom:20px;">
+			<div>
 				<img src="' . $wgUploadPath . '/avatars/' . $wgAvatarKey . '_' . $uid . '_s.' . $ext . '?ts=' . rand() . '" alt="" border="0" />
 			</div>';
 		$output .= '
