@@ -773,21 +773,26 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 					<input type="checkbox" size="25" name="notify_message" id="notify_message" value="1"' . ( ( $user->getIntOption( 'notifymessage', 1 ) == 1 ) ? 'checked' : '' ) . '/>
 					'. $this->msg( 'user-profile-preferences-emails-personalmessage' )->plain() .'
 				</p>
-				<p class="profile-update-row profile-notification-boxes">
-					<input type="checkbox" size="25" class="createbox" name="notify_friend" id="notify_friend" value="1" ' . ( ( $user->getIntOption( 'notifyfriendrequest', 1 ) == 1 ) ? 'checked' : '' ) . '/>
-					'. $this->msg( 'user-profile-preferences-emails-friendfoe' )->plain() .'
-				</p>
+				
 				<p class="profile-update-row profile-notification-boxes">
 					<input type="checkbox" size="25" name="notify_gift" id="notify_gift" value="1" ' . ( ( $user->getIntOption( 'notifygift', 1 ) == 1 ) ? 'checked' : '' ) . '/>
 					'. $this->msg( 'user-profile-preferences-emails-gift' )->plain() .'
 				</p>
-
 				<p class="profile-update-row profile-notification-boxes">
 					<input type="checkbox" size="25" name="notify_honorifics" id="notify_honorifics" value="1"' . ( ( $user->getIntOption( 'notifyhonorifics', 1 ) == 1 ) ? 'checked' : '' ) . '/>
 					'. $this->msg( 'user-profile-preferences-emails-level' )->plain() .'
 				</p>';
 
+
+		// Add the lines above to get notify if someone ask you to get a friends or a foe
+/*
+				<p class="profile-update-row profile-notification-boxes">
+					<input type="checkbox" size="25" class="createbox" name="notify_friend" id="notify_friend" value="1" ' . ( ( $user->getIntOption( 'notifyfriendrequest', 1 ) == 1 ) ? 'checked' : '' ) . '/>
+					'. $this->msg( 'user-profile-preferences-emails-friendfoe' )->plain() .'
+				</p>*/
+
 		// Hide "Show year of birth checkbox?"
+	
 
 		/* $form .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-preferences-miscellaneous' )->plain() .
