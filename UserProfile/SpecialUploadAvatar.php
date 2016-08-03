@@ -92,8 +92,8 @@ class SpecialUploadAvatar extends SpecialUpload {
 				$this->msg( 'user-avatar-update-saved' )->plain() .
 					'. <a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></div></div>' .
 						'<div class="profile-info">';
-		
-		
+
+
 		$output .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-picture-yourpicture' )->plain() . '</p>';
 		$output .= '<p>' . $this->msg( 'user-profile-picture-yourpicturestext' )->plain() . '</p>';
@@ -148,7 +148,7 @@ class SpecialUploadAvatar extends SpecialUpload {
 	 */
 	protected function getUploadForm( $message = '', $sessionKey = '', $hideIgnoreWarning = false ) {
 		global $wgUseCopyrightUpload, $wgUserProfileDisplay;
-		
+
 		$user= $this->getContext()->getUser();
 
 		if ( $wgUserProfileDisplay['avatar'] === false ) {
@@ -184,7 +184,7 @@ class SpecialUploadAvatar extends SpecialUpload {
 			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$output .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-picture' )->plain() );
 		$output .= '<div class="profile-info">';
-		
+
 		$output .= '<div class="row">';
 		$output .= '<div class="col-md-8 col-sm-6 col-xs-12">';
 		$output .= '<form id="upload" method="post" enctype="multipart/form-data" action="">';
@@ -359,7 +359,7 @@ class UploadAvatar extends UploadFromFile {
 	/**
 	 * Create the thumbnails and delete old files
 	 */
-	public function performUpload( $comment, $pageText, $watch, $user ) {
+	public function performUpload( $comment, $pageText, $watch, $user, $tags = [] ) {
 		global $wgUploadDirectory, $wgAvatarKey, $wgMemc;
 
 		$this->avatarUploadDirectory = $wgUploadDirectory . '/avatars';
