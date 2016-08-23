@@ -144,7 +144,7 @@ class UserProfilePage extends Article {
 		} else {
 			// follow button
 			global $wgAutoloadClasses;
-			if (isset($wgAutoloadClasses['UsersWatchButton'])) {
+			if ($wgUser->getId() && isset($wgAutoloadClasses['UsersWatchButton'])) {
 				$out .= UsersWatchButton::getHtml($user);
 			}
 			// send message button
