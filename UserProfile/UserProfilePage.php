@@ -131,7 +131,7 @@ class UserProfilePage extends Article {
 		$user = $title_parts[0];
 		$user_safe = urlencode( $user );
 
-		
+
 		$out .= '
 			  <div class="tabs-follow-btn">
 			  ';
@@ -142,6 +142,12 @@ class UserProfilePage extends Article {
 				  <button class="btn btn-sm btn-message"><i class="fa fa-pencil-square-o"></i> '.wfMessage( 'user-edit-profile' )->escaped() . '</button>
 				  </a>';
 		} else {
+			// follow button
+			global $wgAutoloadClasses;
+			if (isset($wgAutoloadClasses['UsersWatchButton'])) {
+				$out .= UsersWatchButton::getHtml($user);
+			}
+			// send message button
 			$send_message = SpecialPage::getTitleFor( 'UserBoard' );
 			$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $wgUser->getName() . '&conv=' . $user_safe ) );
 			$out .= '<a href="' . $send_message_url . '"
@@ -154,9 +160,10 @@ class UserProfilePage extends Article {
 		  </ul>';
 
 
+
 		$out .= '
 		  <div class="tab-content">';
-		  
+
 		$out .= '<div role="tabpanel" class="tab-pane active" id="tutorials">' . $this->getTutorials( $this->user_name) . '</div>';
 		$out .= '<div role="tabpanel" class="tab-pane" id="contribs">' . $this->getContributions( $this->user_name) . '</div>';
 		$out .= '</div>
@@ -255,7 +262,7 @@ class UserProfilePage extends Article {
 			$result = SearchResult::newFromTitle( $title );
 			$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
 		}
-			
+
 		return $out;
 	}
 
@@ -275,7 +282,7 @@ class UserProfilePage extends Article {
 
 			$out = $pager->getBody();
 		}
-			
+
 		return $out;
 	}
 
@@ -727,19 +734,19 @@ class UserProfilePage extends Article {
 		$id = User::idFromName( $user );
 		$user_safe = urlencode( $user );
 
-		
+
 
 		$avatar = new wAvatar( $this->user_id, 'l' );
 
 		wfDebug( 'profile type: ' . $profile_data['user_page_type'] . "\n" );
 		$output = '';
 
-		
 
-		
+
+
 		if ( $this->isOwner() ) {
 		$output .= '<div id="profile-image" class="owner-image">
-						
+
 						<div class="profile-image-edit-btn">
 						<a href="/index.php/Special:UploadAvatar"><span class="glyphicon glyphicon-camera"></span></a>
 						</div>
@@ -879,7 +886,9 @@ class UserProfilePage extends Article {
 			$output .= '<a href="' . htmlspecialchars( $give_gift->getFullURL( 'user=' . $user_safe ) ) . '" rel="nofollow">' .
 				wfMessage( 'user-send-gift' )->escaped() . '</a>';
 			$output .= wfMessage( 'pipe-separator' )->escaped();
+
 		}
+
 
 		$output .= '<a href="' . htmlspecialchars( $contributions->getFullURL() ) . '" rel="nofollow">' . wfMessage( 'user-contributions' )->escaped() . '</a> ';
 
