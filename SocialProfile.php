@@ -90,6 +90,9 @@ require_once( "UserBoard/UserBoard_AjaxFunctions.php" );
 require_once( "UserRelationship/Relationship_AjaxFunctions.php" );
 
 // What to display on social profile pages by default?
+if(!isset($wgUserProfileDisplay['userswatchlist'])) {
+	$wgUserProfileDisplay['userswatchlist'] = false;
+}
 $wgUserProfileDisplay['board'] = true;
 $wgUserProfileDisplay['foes'] = true;
 $wgUserProfileDisplay['friends'] = true;

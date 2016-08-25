@@ -112,6 +112,27 @@ class UserProfilePage extends Article {
 
 	public function getCenterCol() {
 		global $wgUser;
+		global $wgUserProfileDisplay;
+
+		$tabs = [];
+		$tabs['tutorials'] = [
+				'label' => 'Tutoriels',
+				'content' => $this->getTutorials( $this->user_name)
+		];
+		$tabs['contribs'] = [
+				'label' => 'Contributions',
+				'content' => $this->getContributions( $this->user_name)
+		];
+		if( $wgUserProfileDisplay['userswatchlist']) {
+			$tabs['followers'] = [
+					'label' => wfMessage('userswatchbutton-followers'),
+					'content' => $this->getFollowers($this->user)
+			];
+			$tabs['following'] = [
+					'label' => wfMessage('userswatchbutton-following'),
+					'content' => $this->getFollowings( $this->user)
+			];
+		}
 
 		$out ='';
 
@@ -119,10 +140,19 @@ class UserProfilePage extends Article {
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">';
 
-		$out .= '
-				<li role="presentation" class="active"><a href="#tutorials" aria-controls="tutorials" role="tab" data-toggle="tab">Tutoriels</a></li>
-				<li role="presentation" ><a href="#contribs" aria-controls="contribs" role="tab" data-toggle="tab">Contributions</a></li>
-		';
+		$activeClass = 'active';
+		foreach ($tabs as $key => $tab) {
+			$out .= '
+					<li id="tab-'.$key.'" role="presentation" class="'.$activeClass.'">
+					<a href="#'.$key.'" aria-controls="'.$key.'" role="tab" data-toggle="tab">
+							'.$tab['label'].'
+					</a></li>';
+			$activeClass = '';
+		}
+		//$out .= '
+		//		<li role="presentation" class="active"><a href="#tutorials" aria-controls="tutorials" role="tab" data-toggle="tab">Tutoriels</a></li>
+		//		<li role="presentation" ><a href="#contribs" aria-controls="contribs" role="tab" data-toggle="tab">Contributions</a></li>
+		//';
 
 
 		// Variables and other crap
@@ -143,8 +173,7 @@ class UserProfilePage extends Article {
 				  </a>';
 		} else {
 			// follow button
-			global $wgAutoloadClasses;
-			if ($wgUser->getId() && isset($wgAutoloadClasses['UsersWatchButton'])) {
+			if ($wgUser->getId() && $wgUserProfileDisplay['userswatchlist']) {
 				$out .= UsersWatchButton::getHtml($user);
 			}
 			// send message button
@@ -164,8 +193,14 @@ class UserProfilePage extends Article {
 		$out .= '
 		  <div class="tab-content">';
 
-		$out .= '<div role="tabpanel" class="tab-pane active" id="tutorials">' . $this->getTutorials( $this->user_name) . '</div>';
-		$out .= '<div role="tabpanel" class="tab-pane" id="contribs">' . $this->getContributions( $this->user_name) . '</div>';
+		$activeClass = 'active';
+		foreach ($tabs as $key => $tab) {
+			$out .= '<div role="tabpanel" class="tab-pane '.$activeClass.'" id="'.$key.'">' . $tab['content'] . '</div>';
+
+			$activeClass = '';
+		}
+		//$out .= '<div role="tabpanel" class="tab-pane active" id="tutorials">' . $this->getTutorials( $this->user_name) . '</div>';
+		//$out .= '<div role="tabpanel" class="tab-pane" id="contribs">' . $this->getContributions( $this->user_name) . '</div>';
 		$out .= '</div>
 		</div>';
 
@@ -237,6 +272,14 @@ class UserProfilePage extends Article {
 			</div><div class="cleared"></div>';
 
 		return $out;
+	}
+
+	public function getFollowers( User $user ) {
+		return UsersWatchButton::getFollowers($user);
+	}
+
+	public function getFollowings( User $user ) {
+		return UsersWatchButton::getFollowing($user);
 	}
 
 	public function getTutorials( $user_name ) {
@@ -718,6 +761,7 @@ class UserProfilePage extends Article {
 	function getProfileLeftColHead( $user_id, $user_name ) {
 		global $wgUser, $wgLang;
 		global $wgUserLevels;
+		global $wgUserProfileDisplay;
 
 		$stats = new UserStats( $user_id, $user_name );
 		$stats_data = $stats->getUserStats();
@@ -807,9 +851,16 @@ class UserProfilePage extends Article {
 
 		//$output .= $this->getProfileAction();
 
+		global $wgAutoloadClasses;
+
+		if ($wgUser->getId() && $wgUserProfileDisplay['userswatchlist']) {
+			$output .= UsersWatchButton::getUsersCounters($user);
+		}
+
 		$output .= $this->getPersonalInfo( $user_id, $user_name );
 
 		$output .= $this->getGifts( $this->user_name );
+
 
 		$output .= '</div>';
 
