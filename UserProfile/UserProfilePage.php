@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User profile Wiki Page
  *
@@ -123,6 +124,12 @@ class UserProfilePage extends Article {
 				'label' => 'Contributions',
 				'content' => $this->getContributions( $this->user_name)
 		];
+		if( $wgUserProfileDisplay['userswatchlist']) {
+			$tabs['star'] = [
+					'label' => wfMessage('userspageslinks-tab-favorites'),
+					'content' => $this->getFavorites($this->user)
+			];
+		}
 		if( $wgUserProfileDisplay['userswatchlist']) {
 			$tabs['followers'] = [
 					'label' => wfMessage('userswatchbutton-followers'),
@@ -271,6 +278,37 @@ class UserProfilePage extends Article {
 			  </div>
 			</div><div class="cleared"></div>';
 
+		return $out;
+	}
+
+	public function getFavorites( User $user ) {
+		$usersLinksIdidit = UsersPagesLinks\UsersPagesLinksCore::getInstance()->getUsersPagesLinks($user, 'ididit');
+		$usersLinksStars = UsersPagesLinks\UsersPagesLinksCore::getInstance()->getUsersPagesLinks($user, 'star');
+
+
+		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
+		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
+
+		$out = '';
+		if ($usersLinksIdidit) {
+			$out .= '<h4>Je les ai fait :</h4>';
+			$out .= '<div class="row">';
+			foreach ($usersLinksIdidit as $title) {
+				$result = SearchResult::newFromTitle( $title );
+				$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
+			}
+			$out .= '</div>';
+		}
+		if ($usersLinksStars) {
+			$out .= '<h4>Favoris</h4>';
+			$out .= '<div class="row">';
+
+			foreach ($usersLinksIdidit as $title) {
+				$result = SearchResult::newFromTitle( $title );
+				$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
+			}
+			$out .= '</div>';
+		}
 		return $out;
 	}
 
