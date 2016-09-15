@@ -176,7 +176,7 @@ class UserProfilePage extends Article {
 			$send_message = SpecialPage::getTitleFor( 'UpdateProfile' );
 			$send_message_url = htmlspecialchars( $send_message->getFullURL( ) );
 			$out .= '<a href="' . $send_message_url . '"
-				  <button class="btn btn-sm btn-message"><i class="fa fa-pencil-square-o"></i> '.wfMessage( 'user-edit-profile' )->escaped() . '</button>
+				  <button class="btn btn-sm btn-message"><i class="fa fa-pencil-square-o"></i><span class="btn-follow-text"> '.wfMessage( 'user-edit-profile' )->escaped() . '</span></button>
 				  </a>';
 		} else {
 			// follow button
@@ -187,7 +187,7 @@ class UserProfilePage extends Article {
 			$send_message = SpecialPage::getTitleFor( 'UserBoard' );
 			$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $wgUser->getName() . '&conv=' . $user_safe ) );
 			$out .= '<a href="' . $send_message_url . '"
-				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i> '.wfMessage( 'user-send-message' )->escaped() . '</button>
+				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i><span class="btn-follow-text"> '.wfMessage( 'user-send-message' )->escaped() . '</span></button>
 				  </a>';
 		}
 		$out .= '
