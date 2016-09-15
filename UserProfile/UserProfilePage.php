@@ -891,7 +891,7 @@ class UserProfilePage extends Article {
 
 		global $wgAutoloadClasses;
 
-		if ($wgUser->getId() && $wgUserProfileDisplay['userswatchlist']) {
+		if ($wgUserProfileDisplay['userswatchlist']) {
 			$output .= UsersWatchButton::getUsersCounters($user);
 		}
 
