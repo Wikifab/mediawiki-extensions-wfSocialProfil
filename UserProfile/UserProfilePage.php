@@ -827,12 +827,12 @@ class UserProfilePage extends Article {
 
 
 		if ( $this->isOwner() ) {
-		$output .= '<div id="profile-image" class="owner-image">
-
-						<div class="profile-image-edit-btn">
-						<a href="/index.php/Special:UploadAvatar"><span class="glyphicon glyphicon-camera"></span></a>
-						</div>
-						' . $avatar->getAvatarURL() .
+			$uploadAvatarUrl = htmlspecialchars( \SpecialPage::getTitleFor( 'UploadAvatar')->getFullURL() )
+			$output .= '<div id="profile-image" class="owner-image">
+					<div class="profile-image-edit-btn">
+					<a href="'.$uploadAvatarUrl.'"><span class="glyphicon glyphicon-camera"></span></a>
+					</div>
+					' . $avatar->getAvatarURL() .
 			'</div>';
 		}
 		else {
