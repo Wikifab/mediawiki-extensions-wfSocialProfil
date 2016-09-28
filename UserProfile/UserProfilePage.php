@@ -303,7 +303,7 @@ class UserProfilePage extends Article {
 			$out .= '<h4>Favoris</h4>';
 			$out .= '<div class="row">';
 
-			foreach ($usersLinksIdidit as $title) {
+			foreach ($usersLinksStars as $title) {
 				$result = SearchResult::newFromTitle( $title );
 				$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
 			}
