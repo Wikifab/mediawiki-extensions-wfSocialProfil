@@ -180,7 +180,7 @@ class UserProfilePage extends Article {
 				  </a>';
 		} else {
 			// follow button
-			if ($wgUser->getId() && $wgUserProfileDisplay['userswatchlist']) {
+			if ($wgUserProfileDisplay['userswatchlist']) {
 				$out .= UsersWatchButton::getHtml($user);
 			}
 			// send message button
