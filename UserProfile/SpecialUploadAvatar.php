@@ -236,6 +236,25 @@ class SpecialUploadAvatar extends SpecialUpload {
 	}
 
 	/**
+	 * Stashes the upload and shows the main upload form.
+	 *
+	 * Note: only errors that can be handled by changing the name or
+	 * description should be redirected here. It should be assumed that the
+	 * file itself is sane and has passed UploadBase::verifyFile. This
+	 * essentially means that UploadBase::VERIFICATION_ERROR and
+	 * UploadBase::EMPTY_FILE should not be passed here.
+	 *
+	 * @param string $message HTML message to be passed to mainUploadForm
+	 */
+	protected function showRecoverableUploadError( $message ) {
+		$sessionKey = $this->mUpload->stashSession();
+		$message = '<div class="error">' . $message . "</div>\n";
+
+		$form = $this->getUploadForm( $message, $sessionKey );
+		$this->showUploadForm( $form );
+	}
+
+	/**
 	 * Gets an avatar image with the specified size
 	 *
 	 * @param $size String: size of the image ('s' for small, 'm' for medium,
