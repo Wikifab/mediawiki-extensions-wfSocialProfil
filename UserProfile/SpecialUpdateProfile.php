@@ -316,7 +316,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		return $birthday_date;
 	}
 
-	public static function formatBirthday( $birthday, $showYOB = false ) {
+	public static function formatBirthday( $birthday, $showYOB = false ) {          
 		$dob = explode( '-', $birthday );
 		if ( count( $dob ) == 3 ) {
 			$month = $dob[1];
@@ -363,9 +363,23 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_schools' => $request->getVal( 'schools' ),
 			'up_places_lived' => $request->getVal( 'places' ),
 			'up_websites' => $request->getVal( 'websites' ),
-			'up_relationship' => $request->getVal( 'relationship' )
+			'up_relationship' => $request->getVal( 'relationship' ),
+			'up_custom_1' => $request->getVal( 'custom1' ),
+			'up_custom_2' => $request->getVal( 'custom2' ),
+			'up_custom_3' => $request->getVal( 'custom3' ),
+			'up_custom_4' => $request->getVal( 'custom4' ),
+			'up_custom_5' => $request->getVal( 'custom5' ),
+			'up_custom_6' => $request->getVal( 'custom6' ),
+			'up_custom_7' => $request->getVal( 'custom7' ),
+			'up_custom_8' => $request->getVal( 'custom8' ),
+			'up_custom_9' => $request->getVal( 'custom9' ),
+			'up_custom_10' => $request->getVal( 'custom10' ),
+			'up_custom_11' => $request->getVal( 'custom11' ),
+			'up_custom_12' => implode(",",$request->getArray( 'custom12' )) 				
 		);
-
+		// Le champ custom_11 à chaque submit ajoute un espace et si je les enlève et re-submit il
+		// m'affiche une erreur. 
+		
 		$dbw->update(
 			'user_profile',
 			/* SET */$basicProfileData,
@@ -462,13 +476,17 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 	 * @param $user Object: User
 	 */
 	function displayBasicForm( $user ) {
+		global $wgSocialProfileCustomFields;
 		$dbr = wfGetDB( DB_SLAVE );
 		$s = $dbr->selectRow( 'user_profile',
 			array(
 				'up_location_city', 'up_location_state', 'up_location_country',
 				'up_hometown_city', 'up_hometown_state', 'up_hometown_country',
 				'up_birthday', 'up_occupation', 'up_about', 'up_schools',
-				'up_places_lived', 'up_websites'
+				'up_places_lived', 'up_websites',
+				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4',
+					'up_custom_5','up_custom_6','up_custom_7', 'up_custom_8',
+					'up_custom_9','up_custom_10','up_custom_11','up_custom_12'
 			),
 			array( 'up_user_id' => $user->getID() ),
 			__METHOD__
@@ -489,6 +507,18 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			$schools = $s->up_schools;
 			$places = $s->up_places_lived;
 			$websites = $s->up_websites;
+			$custom1 = $s->up_custom_1;
+			$custom2 = $s->up_custom_2;
+			$custom3 = $s->up_custom_3;
+			$custom4 = $s->up_custom_4;
+			$custom5 = $s->up_custom_5;
+			$custom6 = $s->up_custom_6;
+			$custom7 = $s->up_custom_7;
+			$custom8 = $s->up_custom_8;
+			$custom9 = $s->up_custom_9;
+			$custom10 = $s->up_custom_10;
+			$custom11 = $s->up_custom_11;
+			$custom12 = $s->up_custom_12;
 		}
 
 		if ( !isset( $location_country ) ) {
@@ -515,8 +545,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		$countries = explode( "\n*", $this->msg( 'userprofile-country-list' )->inContentLanguage()->text() );
 		array_shift( $countries );
 
-		$this->getOutput()->setPageTitle( $this->msg( 'edit-profile-title' )->plain() );
+		$this->getOutput()->setPageTitle( $this->msg( 'edit-profile-title')->plain() );
 		
+				
 		$form = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
 			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-personal' )->plain() );
@@ -609,15 +640,86 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			( isset( $birthday ) ? $birthday : '' ) . '" /></p>
 			<div class="visualClear"></div>
 		</div>
+		
 		<div class="profile-update" id="profile-update-personal-web">
 			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-website' )->plain() . '</p>
 			<p class="profile-update-unit">
 				<textarea rows="1" cols="33" name="websites" id="websites" placeholder="http://www.wikifab.org">' . ( isset( $websites ) ? $websites : '' ) .  '</textarea>
 			<div class="visualClear"></div>
 		</div>
-		
+
+		<div class="profile-update">
+			<div id="profile-update-custom1">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field1' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size=33 name="custom1" id="fav_moment" placeholder="' .$this->msg('custom-info-field1-placeholder')->plain() .'"  value="' . ( isset( $custom1 ) ? $custom1 : '' ). '" /> </p>
+			<div class="visualClear"></div>
+		</div>
+		<div class="profile-update">
+			<div id="profile-update-custom2">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field2' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom2" id="least_moment" placeholder="' .$this->msg('custom-info-field2-placeholder')->plain() .'" value="' . ( isset( $custom2 ) ? $custom2 : '' ) . '"/></p>
+			</div>
 		<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom3">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field3' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom3" id="fav_athlete" placeholder="' .$this->msg('custom-info-field3-placeholder')->plain() .'" value="' . ( isset( $custom3 ) ? $custom3 : '' ) . '"/></p>
+			</div>
+		<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom4">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field4' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom4" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field4-placeholder')->plain() .'" value="' . ( isset( $custom4 ) ? $custom4 : '' ) . '"/></p>
+			</div>
+		<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom5">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field5' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom5" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field5-placeholder')->plain() .'" value="' . ( isset( $custom5 ) ? $custom5 : '' ) . '"/></p>
+			</div>
+			<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom6">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field6' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom6" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field6-placeholder')->plain() .'" value="' . ( isset( $custom6 ) ? $custom6 : '' ) . '"/></p>
+			</div>
+		<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom7">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field7' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom7" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field7-placeholder')->plain() .'" value="' . ( isset( $custom7 ) ? $custom7 : '' ) . '"/></p>
+			</div>
+		<div class="visualClear"></div>
+		</div>
+
+		<div class="profile-update">
+			<div id="profile-update-custom8">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field8' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<input type="text" size="33" name="custom8" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field8-placeholder')->plain() .'" value="' . ( isset( $custom8 ) ? $custom8 : '' ) . '"/></p>
+			</div>
+		<div class="visualClear"></div>
+		</div>
+
 		<hr>
+
 
 		<div class="profile-update" id="profile-update-personal-work">
 			<p class="profile-update-title">' . $this->msg( 'user-profile-personal-aboutme' )->plain() . '</p>
@@ -626,6 +728,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				<textarea name="about" id="about" placeholder="' . $this->msg( 'user-profile-placeholder-bio' )->plain() . '" rows="2" cols="75">' . ( isset( $about ) ? $about : '' ) . '</textarea>
 			</p>
 			<div class="visualClear"></div>
+
 			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-skills' )->plain() . '</p>
 			<p class="profile-update-unit">
 				<textarea name="occupation" id="occupation" placeholder="' . $this->msg( 'user-profile-placeholder-skills' )->plain() . '" rows="2" cols="75">' . ( isset( $occupation ) ? $occupation : '' ) . '</textarea>
@@ -635,13 +738,55 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<p class="profile-update-unit">
 				<textarea name="schools" id="schools" placeholder="' . $this->msg( 'user-profile-placeholder-labs' )->plain() . '" rows="2" cols="75">' . ( isset( $schools ) ? $schools : '' ) . '</textarea>
 			</p>
-			<div class="visualClear"></div>
-		</div>
-		<div class="visualClear"></div>';
 
+		
+		<div class="visualClear"></div>
+			<div id="profile-update-custom9">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field9' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<textarea type="text" name="custom9" id="least_fav_athlete" rows="2" cols="75">' . ( isset( $custom9 ) ? $custom9 : '' ) .  '</textarea>
+			</p>
+			</div>
+
+		<div class="visualClear"></div>
+			<div id="profile-update-custom10">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field10' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<textarea name="custom10" id="least_fav_athlete" rows="2" cols="75">' . ( isset( $custom10 ) ? $custom10 : '' ) . '</textarea>
+		</p>
+			</div>
+
+		<div class="visualClear"></div>
+			<div id="profile-update-custom11">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field11' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">
+				<textarea name="custom11" id="least_fav_athlete" rows="2" cols="75"> ' . ( isset( $custom11 ) ? $custom11 : '' ) . '</textarea>
+			</p>
+			</div>
+
+		<div class="visualClear"></div>
+			<div id="profile-update-custom12">
+			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
+			<p class="profile-update-unit">' ;
+		// Je ne comprends pas pourquoi les cases se décochent (juste physiquement parce que en interne 
+		//elles conservent la valeur cochée et s'affichent
+		
+		foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
+			$checked = $value == $custom12 ? 'checked' : '';
+			$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '. $checked.'/> '
+					. $this->msg('custom_info_field12_' . $value ) .'</br>' ;
+		}
+		
+		
+		$form .= '</p>
+			</div>
+		<div class="visualClear"></div>
+
+		</div>
+		<div class="visualClear"></div>				
+		</div>';
 		$form .= '
 			<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
-		
 		<input type="button" class="cancel-btn-profil" value="' . $this->msg( 'cancel' )->plain() . '" size="20" onclick="history.go(-1);" />
 			</div>
 		</form>';
@@ -824,68 +969,66 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 	 * @param $user Object: User
 	 * @return $form Mixed: HTML output
 	 */
-	function displayCustomForm( $user ) {
-		$dbr = wfGetDB( DB_MASTER );
-		$s = $dbr->selectRow(
-			'user_profile',
-			array(
-				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4',
-				'up_custom_5'
-			),
-			array( 'up_user_id' => $user->getID() ),
-			__METHOD__
-		);
+// 	function displayCustomForm( $user ) {
+// 		$dbr = wfGetDB( DB_MASTER );
+// 		$s = $dbr->selectRow(
+// 			'user_profile',
+// 			array(
+// 				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4'
+// 			array( 'up_user_id' => $user->getID() )
+// 			__METHOD__
+// 		);
 
-		if ( $s !== false ) {
-			$custom1 = $s->up_custom_1;
-			$custom2 = $s->up_custom_2;
-			$custom3 = $s->up_custom_3;
-			$custom4 = $s->up_custom_4;
-		}
+// 		if ( $s !== false ) {
+// 			$custom1 = $s->up_custom_1;
+// 			$custom2 = $s->up_custom_2;
+// 			$custom3 = $s->up_custom_3;
+// 			$custom4 = $s->up_custom_4;
+// 		}
 
-		$this->getOutput()->setHTMLTitle( $this->msg( 'pagetitle',
-			$this->msg( 'user-profile-tidbits-title' )->inContentLanguage()->escaped()
-		)->parse() );
+// 		$this->getOutput()->setHTMLTitle( $this->msg( 'pagetitle',
+// 			$this->msg( 'user-profile-tidbits-title' )->inContentLanguage()->escaped()
+// 		)->parse() );
 
-		$form = '<h1>' . $this->msg( 'user-profile-tidbits-title' ) . '</h1>';
-		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-custom' )->plain() );
-		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">
-			<div class="profile-info clearfix">
-				<div class="profile-update">
-					<p class="profile-update-title">' . $this->msg( 'user-profile-tidbits-title' )->inContentLanguage()->parse() . '</p>
-					<div id="profile-update-custom1">
-					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field1' )->inContentLanguage()->parse() . '</p>
-					<p class="profile-update-unit">
-						<textarea name="custom1" id="fav_moment" rows="3" cols="75">' . ( isset( $custom1 ) ? $custom1 : '' ) . '</textarea>
-					</p>
-					</div>
-					<div class="visualClear"></div>
-					<div id="profile-update-custom2">
-					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field2' )->inContentLanguage()->parse() . '</p>
-					<p class="profile-update-unit">
-						<textarea name="custom2" id="least_moment" rows="3" cols="75">' . ( isset( $custom2 ) ? $custom2 : '' ) . '</textarea>
-					</p>
-					</div>
-					<div class="visualClear"></div>
-					<div id="profile-update-custom3">
-					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field3' )->inContentLanguage()->parse() . '</p>
-					<p class="profile-update-unit">
-						<textarea name="custom3" id="fav_athlete" rows="3" cols="75">' . ( isset( $custom3 ) ? $custom3 : '' ) . '</textarea>
-					</p>
-					</div>
-					<div class="visualClear"></div>
-					<div id="profile-update-custom4">
-					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field4' )->inContentLanguage()->parse() . '</p>
-					<p class="profile-update-unit">
-						<textarea name="custom4" id="least_fav_athlete" rows="3" cols="75">' . ( isset( $custom4 ) ? $custom4 : '' ) . '</textarea>
-					</p>
-					</div>
-					<div class="visualClear"></div>
-				</div>
-			<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
-			</div>
-		</form>';
+// 		$form = '<h1>' . $this->msg( 'user-profile-tidbits-title' ) . '</h1>';
+// 		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-custom' )->plain() );
+// 		$form .= '<form action="" method="post" enctype="multipart/form-data" name="profile">
+// 			<div class="profile-info clearfix">
+// 				<div class="profile-update">
+// 					<p class="profile-update-title">' . $this->msg( 'user-profile-tidbits-title' )->inContentLanguage()->parse() . '</p>
+// 					<div id="profile-update-custom1">
+// 					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field1' )->inContentLanguage()->parse() . '</p>
+// 					<p class="profile-update-unit">
+// 						<textarea name="custom1" id="fav_moment" rows="3" cols="75">' . ( isset( $custom1 ) ? $custom1 : '' ) . '</textarea>
+// 					</p>
+// 					</div>
+// 					<div class="visualClear"></div>
+// 					<div id="profile-update-custom2">
+// 					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field2' )->inContentLanguage()->parse() . '</p>
+// 					<p class="profile-update-unit">
+// 						<textarea name="custom2" id="least_moment" rows="3" cols="75">' . ( isset( $custom2 ) ? $custom2 : '' ) . '</textarea>
+// 					</p>
+// 					</div>
+// 					<div class="visualClear"></div>
+// 					<div id="profile-update-custom3">
+// 					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field3' )->inContentLanguage()->parse() . '</p>
+// 					<p class="profile-update-unit">
+// 						<textarea name="custom3" id="fav_athlete" rows="3" cols="75">' . ( isset( $custom3 ) ? $custom3 : '' ) . '</textarea>
+// 					</p>
+// 					</div>
+// 					<div class="visualClear"></div>
+// 					<div id="profile-update-custom4">
+// 					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field4' )->inContentLanguage()->parse() . '</p>
+// 					<p class="profile-update-unit">
+// 						<textarea name="custom4" id="least_fav_athlete" rows="3" cols="75">' . ( isset( $custom4 ) ? $custom4 : '' ) . '</textarea>
+// 					</p>
+// 					</div>
+// 					<div class="visualClear"></div>
+// 				</div>
+// 			<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
+// 			</div>
+// 		</form>';
 
-		return $form;
-	}
-}
+// 		return $form;
+// 	}
+ }

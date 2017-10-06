@@ -171,7 +171,10 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 				'up_location_city', 'up_location_state', 'up_location_country',
 				'up_hometown_city', 'up_hometown_state', 'up_hometown_country',
 				'up_birthday', 'up_occupation', 'up_about', 'up_schools',
-				'up_places_lived', 'up_websites'
+				'up_places_lived', 'up_websites',
+				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4','up_custom_5',
+				'up_custom_6','up_custom_7','up_custom_8','up_custom_9','up_custom_10',
+				'up_custom_11','up_custom_12'
 			),
 			array( 'up_user_id' => $tar->getID() ),
 			__METHOD__
@@ -190,6 +193,19 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 			$schools = $s->up_schools;
 			$places = $s->up_places_lived;
 			$websites = $s->up_websites;
+			$custom1 = $s->up_custom_1;
+			$custom2 = $s->up_custom_2;
+			$custom3 = $s->up_custom_3;
+			$custom4 = $s->up_custom_4;
+			$custom5 = $s->up_custom_5;
+			$custom6 = $s->up_custom_6;
+			$custom7 = $s->up_custom_7;
+			$custom8 = $s->up_custom_8;
+			$custom9 = $s->up_custom_9;
+			$custom10 = $s->up_custom_10;
+			$custom11 = $s->up_custom_11;
+			$custom12 = $s->up_custom_12;
+			
 		}
 
 		if ( !isset( $location_country ) ) {
@@ -463,15 +479,15 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 			$custom2 = $s->up_custom_2;
 			$custom3 = $s->up_custom_3;
 			$custom4 = $s->up_custom_4;
+			$custom5 = $s->up_custom_5;
+			
 		}
 
-		$this->getOutput()->setHTMLTitle( $this->msg( 'pagetitle',
-			$this->msg( 'user-profile-tidbits-title' )->plain() )->parse() );
-		$form = '<h1>' . $this->msg( 'user-profile-tidbits-title' )->plain() . '</h1>';
+		$this->getOutput()->setPageTitle( $this->msg( 'user-profile-section-interests' )->plain() );
+		
 		//$form = UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-custom' )->plain() );
 		$form = '<div class="profile-info clearfix">
 				<div class="profile-update">
-					<p class="profile-update-title">' . $this->msg( 'user-profile-tidbits-title' )->inContentLanguage()->parse() . '</p>
 					<div id="profile-update-custom1">
 					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field1' )->inContentLanguage()->parse() . '</p>
 					<p class="profile-update-unit">

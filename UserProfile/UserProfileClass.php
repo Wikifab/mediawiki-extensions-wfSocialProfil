@@ -45,6 +45,14 @@ class UserProfile {
 		'custom_2',
 		'custom_3',
 		'custom_4',
+		'custom_5',
+		'custom_6',
+		'custom_7',
+		'custom_8',
+		'custom_9',
+		'custom_10',
+		'custom_11',
+		'custom_12',
 		'email'
 	);
 
@@ -139,6 +147,14 @@ class UserProfile {
 			$profile['custom_3'] = isset( $row->up_custom_3 ) ? $row->up_custom_3 : '';
 			$profile['custom_4'] = isset( $row->up_custom_4 ) ? $row->up_custom_4 : '';
 			$profile['custom_5'] = isset( $row->up_custom_5 ) ? $row->up_custom_5 : '';
+			$profile['custom_6'] = isset( $row->up_custom_6 ) ? $row->up_custom_6 : '';
+			$profile['custom_7'] = isset( $row->up_custom_7 ) ? $row->up_custom_7 : '';
+			$profile['custom_8'] = isset( $row->up_custom_8 ) ? $row->up_custom_8 : '';
+			$profile['custom_9'] = isset( $row->up_custom_9 ) ? $row->up_custom_9 : '';
+			$profile['custom_10'] = isset( $row->up_custom_10 ) ? $row->up_custom_10 : '';
+			$profile['custom_11'] = isset( $row->up_custom_11 ) ? $row->up_custom_11 : '';
+			$profile['custom_12'] = isset( $row->up_custom_12 ) ? $row->up_custom_12 : '';
+			
 			$profile['user_page_type'] = isset( $row->up_type ) ? $row->up_type : '';
 			$wgMemc->set( $key, $profile );
 		}
