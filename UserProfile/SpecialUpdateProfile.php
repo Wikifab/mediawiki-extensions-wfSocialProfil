@@ -375,10 +375,11 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_custom_9' => $request->getVal( 'custom9' ),
 			'up_custom_10' => $request->getVal( 'custom10' ),
 			'up_custom_11' => $request->getVal( 'custom11' ),
-			'up_custom_12' => implode(",",$request->getArray( 'custom12' )) 				
+			'up_custom_12' => implode(",",$request->getArray('custom12'))
+			
 		);
 		// Le champ custom_11 à chaque submit ajoute un espace et si je les enlève et re-submit il
-		// m'affiche une erreur. 
+		// m'affiche une erreur. 				
 		
 		$dbw->update(
 			'user_profile',
@@ -768,13 +769,15 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<div id="profile-update-custom12">
 			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
 			<p class="profile-update-unit">' ;
-		// Je ne comprends pas pourquoi les cases se décochent (juste physiquement parce que en interne 
-		//elles conservent la valeur cochée et s'affichent
 		
+		$newTest = explode (",",$custom12);
 		foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
-			$checked = $value == $custom12 ? 'checked' : '';
-			$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '. $checked.'/> '
-					. $this->msg('custom_info_field12_' . $value ) .'</br>' ;
+			if (in_array($value, $newTest)) {
+				//$checked = $value == $newTest ? 'checked' : '';
+				$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" /> '
+						. $this->msg('custom_info_field12_' . $value ) .'</br>' ;
+			}
+			
 		}
 		
 		
