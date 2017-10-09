@@ -375,11 +375,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_custom_9' => $request->getVal( 'custom9' ),
 			'up_custom_10' => $request->getVal( 'custom10' ),
 			'up_custom_11' => $request->getVal( 'custom11' ),
-			'up_custom_12' => implode(",",$request->getArray('custom12'))
-			
+			'up_custom_12' =>implode(",", $request->getArray('custom12'))
+				
 		);
-		// Le champ custom_11 à chaque submit ajoute un espace et si je les enlève et re-submit il
-		// m'affiche une erreur. 				
 		
 		$dbw->update(
 			'user_profile',
@@ -770,16 +768,18 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
 			<p class="profile-update-unit">' ;
 		
-		$newTest = explode (",",$custom12);
+		//Les valeurs checkées sont mises dans un tableau
+		$selectivesValues = explode (",",$custom12);
+		//Pour chaque élément du tableau parcouru 
 		foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
-			if (in_array($value, $newTest)) {
-				//$checked = $value == $newTest ? 'checked' : '';
-				$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" /> '
+		// On affiche la case cochée si elle est dans le tableau, sinon on affiche la case non cochée
+			  	$checked = in_array($value, $selectivesValues) ? 'checked' : '';
+		// le formulaire affiche donc toutes les valeurs du tableau cochée et non cochées après le submit
+		$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '.$checked.' /> '
 						. $this->msg('custom_info_field12_' . $value ) .'</br>' ;
-			}
+			
 			
 		}
-		
 		
 		$form .= '</p>
 			</div>
