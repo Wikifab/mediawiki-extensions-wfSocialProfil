@@ -775,8 +775,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		// On affiche la case cochée si elle est dans le tableau, sinon on affiche la case non cochée
 			  	$checked = in_array($value, $selectivesValues) ? 'checked' : '';
 		// le formulaire affiche donc toutes les valeurs du tableau cochée et non cochées après le submit
-		$form .= '<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '.$checked.' /> '
-						. $this->msg('custom_info_field12_' . $value ) .'</br>' ;
+		$form .= '<label>' .'<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '.$checked.' /> '
+						. $this->msg('custom_info_field12_' . $value ) .'</label>' . '</br>' ;
 			
 			
 		}
