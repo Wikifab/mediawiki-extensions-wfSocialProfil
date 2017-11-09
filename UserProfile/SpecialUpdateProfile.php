@@ -596,7 +596,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				</script>";
 		$form .= "<select name=\"location_country\" id=\"location_country\" onchange=\"displaySection('location_state',this.value,'')\"><option></option>";
 
-	foreach ( $countries as $country ) {
+		foreach ( $countries as $country ) {
 			$form .= "<option value=\"{$country}\"" . ( ( $country == $location_country ) ? ' selected="selected"' : '' ) . ">";
 			$form .= $country . "</option>\n";
 		}
@@ -718,7 +718,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				<p class="profile-update-unit">' ;
 
 			//Les valeurs checkées sont mises dans un tableau
-			$selectivesValues = isset($custom12) ? explode (",",$custom12) : [];
+			$selectivesValues = isset($custom[12]) ? explode (",",$custom[12]) : [];
 			//Pour chaque élément du tableau parcouru
 
 			foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
