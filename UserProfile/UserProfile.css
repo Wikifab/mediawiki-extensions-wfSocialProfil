@@ -813,14 +813,6 @@
     padding: 8px 13px;
 }
 
-#profileWf .project-card .col-xs-5, .searchresults .project-card .col-xs-5 {
-    padding-right: 0px;
-}
-
-#profileWf .project-card .col-xs-7, .searchresults .project-card .col-xs-7 {
-    padding-left: 0px;
-}
-
 #profileWf .project-byline {
 	display:none;
 }
@@ -871,5 +863,104 @@
 .profile-info-container div {
     margin: 0px 0px 8px 0px;
     color: #666;
+}
+
+.profile-info .profile-update-unit-left {
+    color: #777777;
+    font-weight: normal;
+    font-size: 14px;
+    float: left;
+    padding-top: 7px;
+    width: 175px;
+    text-align: right;
+    padding-right: 30px;
+}
+
+.profile-update-unit {
+    float: left;
+    width: 450px;
+}
+
+.profile-info .profile-update-title {
+    margin: 0px 0px 14px 0px !important;
+}
+
+.profile-update-title {
+    font-size: 16px;
+    color: #333;
+    margin: 0px 0px 5px 0px !important;
+    font-weight: bold;
+}
+
+.go-back-btn {
+    padding: 3px 9px 2px;
+    font-size: 11px;
+    float: left;
+    margin-left: 13px;
+    margin-top: 18px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.profile-info input, .profile-info textarea {
+    padding: 7px 9px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.profile-info input.site-button {
+    border: none;
+    margin-top: 20px;
+    margin-left: 175px;
+    padding: 7px 13px;
+}
+
+.mw-special-UpdateProfile h1, .mw-special-UploadAvatar h1 {
+    font-size: 28px;
+    margin-top: 10px;
+    float: left;
+}
+
+.edit-profile-title {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.profile-info #upload input.site-button {
+    margin-left: 0px;
+}
+
+.profile-info input#wpUploadFile {
+    background: #f1f1f1;
+}
+
+.profile-info input#notification-btn {
+    margin-left: 0px;
+    margin-top: 5px;
+}
+
+.profile-info select {
+    background: #fff;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+}
+
+.mw-special-UpdateProfile .p-tb.navbar, .mw-special-UploadAvatar .p-tb.navbar {
+	display: none;
+}
+
+@media (max-width: 1200px) {
+	.project-thumbnail img {
+    	min-height: 154px;
+    	width: 100%;
+	}
+
+	.project-thumbnail {
+    	height: 154px;
+	}
 }
 
