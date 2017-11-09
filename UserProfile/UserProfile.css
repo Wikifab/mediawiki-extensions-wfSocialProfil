@@ -670,3 +670,206 @@
 .profile-board-message-type {
 	color: #797979;
 }
+
+/* The style from Wikifab Social Profile */
+
+#profileWf .mw-body ul {
+	padding-left: 1ex;
+}
+
+#profileWf .nav-tabs .btn-sm {
+	font-size:1em;
+    margin-left: 3px;
+}
+
+#profileWf .tab-content h4 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+#profileWf .contributions .mw-headline {
+	font-size:bold;
+}
+
+#profileWf .tab-content {
+	margin-top:20px;
+}
+
+#profileWf .tab-content #tutorials .project-card-author {
+	display:none;
+}
+
+#profileWf .contributions img {
+	width:100%;
+}
+
+#profileWf .contributions {
+    border-bottom: 1px solid #ddd;
+}
+
+#profileWf #profile-image {
+    margin: 0px 0px 14px 0px;
+    width: 100%;
+    float: left;
+}
+
+#profileWf #profile-image img {
+    width: 100%;
+	border-radius: 6px;
+	border:none;
+}
+
+#profileWf .profile-name {
+    margin-top: 7px;
+	font-size: 22px;
+}
+
+#profileWf #profile-right{
+	width:100%;
+}
+
+#profileWf #profile-title-container {
+	float:left;
+	padding:0px;
+}
+
+#profileWf #honorific-level {
+	margin-top:6px;
+}
+
+#profileWf #profile-title {
+    font-size: 1.2em;
+    line-height: 19px;
+    color: #aaa;
+    margin-bottom: 3px;
+    font-weight: normal;
+	width:100%;
+}
+
+#profileWf .user-gift-container img {
+    padding: 0px;
+    border: none;
+	width: 100%;
+}
+
+#profileWf .user-gift-container a {
+    width: 100%;
+    margin: 0px;
+}
+
+#profileWf .user-section-actions .action-left {
+    float: right;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+#profileWf #points-level {
+	background-color: #2c9ab7;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+#profileWf h5.project-title {
+	font-size: 15px;
+}
+
+#profileWf .profile-info-container a {
+    width: 91%;
+    float: right;
+    overflow: hidden;
+}
+
+.profile-info-container .fa {
+	width: 13px;
+	text-align: center;
+}
+
+#profileWf .profile-info-container {
+	margin-top: 12px;
+	padding: 0px;
+}
+
+.wf-profile-tabs {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    float: left;
+    width: 100%;
+}
+
+.tabs-follow-btn .btn-message {
+	background: #475257;
+	color: #fff;
+	transition: all ease .25s;
+}
+
+.tabs-follow-btn .btn-message:hover {
+	background-color: #3b4448;
+	color:#fff;
+}
+
+#profileWf .nav-tabs > li > a {
+    margin-right: 2px;
+    padding: 8px 13px;
+}
+
+#profileWf .project-card .col-xs-5, .searchresults .project-card .col-xs-5 {
+    padding-right: 0px;
+}
+
+#profileWf .project-card .col-xs-7, .searchresults .project-card .col-xs-7 {
+    padding-left: 0px;
+}
+
+#profileWf .project-byline {
+	display:none;
+}
+
+#profileWf .project-blurb {
+	margin-bottom:5px;
+}
+
+#profileWf h5.project-title {
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+@media only screen and (max-width: 550px) {
+	
+	#profileWf .project-location {
+		display:block;
+	}
+}
+
+.tabs-follow-btn {
+    float: right;
+}
+
+#content.mw-body {
+    padding: 0px;
+}
+
+.profile-image-edit-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.profile-image-edit-btn .glyphicon {
+	background: #fff;
+	padding: 5px;
+	border-radius: 3px;
+	font-size: 19px;
+	border: 1px solid #ddd;
+}
+
+.profile-info-container .fa {
+	width: 13px;
+	text-align: center;
+}
+
+.profile-info-container div {
+    margin: 0px 0px 8px 0px;
+    color: #666;
+}
+
