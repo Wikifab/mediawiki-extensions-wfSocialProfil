@@ -929,6 +929,26 @@
     margin-bottom: 10px;
 }
 
+.profile-info #upload input.site-button {
+    margin-left: 0px;
+}
+
+.profile-info input#wpUploadFile {
+    background: #f1f1f1;
+}
+
+.profile-info input#notification-btn {
+    margin-left: 0px;
+    margin-top: 5px;
+}
+
+.profile-info select {
+    background: #fff;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    height: 34px;
+}
+
 .mw-special-UpdateProfile .p-tb.navbar, .mw-special-UploadAvatar .p-tb.navbar {
 	display: none;
 }
