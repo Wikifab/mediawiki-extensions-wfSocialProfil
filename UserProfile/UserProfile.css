@@ -917,6 +917,22 @@
     padding: 7px 13px;
 }
 
+.mw-special-UpdateProfile h1, .mw-special-UploadAvatar h1 {
+    font-size: 28px;
+    margin-top: 10px;
+    float: left;
+}
+
+.edit-profile-title {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.mw-special-UpdateProfile .p-tb.navbar, .mw-special-UploadAvatar .p-tb.navbar {
+	display: none;
+}
+
 @media (max-width: 1200px) {
 	.project-thumbnail img {
     	min-height: 154px;
