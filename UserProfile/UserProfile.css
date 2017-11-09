@@ -813,14 +813,6 @@
     padding: 8px 13px;
 }
 
-#profileWf .project-card .col-xs-5, .searchresults .project-card .col-xs-5 {
-    padding-right: 0px;
-}
-
-#profileWf .project-card .col-xs-7, .searchresults .project-card .col-xs-7 {
-    padding-left: 0px;
-}
-
 #profileWf .project-byline {
 	display:none;
 }
@@ -871,5 +863,16 @@
 .profile-info-container div {
     margin: 0px 0px 8px 0px;
     color: #666;
+}
+
+@media (max-width: 1200px) {
+	.project-thumbnail img {
+    	min-height: 154px;
+    	width: 100%;
+	}
+
+	.project-thumbnail {
+    	height: 154px;
+	}
 }
 
