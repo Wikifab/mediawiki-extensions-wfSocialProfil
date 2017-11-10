@@ -757,6 +757,10 @@
     margin: 0px;
 }
 
+.profile-info textarea#websites {
+	max-width: 257px;
+}
+
 #profileWf .user-section-actions .action-left {
     float: right;
     font-size: 10px;
@@ -948,19 +952,3 @@
     font-size: 14px;
     height: 34px;
 }
-
-.mw-special-UpdateProfile .p-tb.navbar, .mw-special-UploadAvatar .p-tb.navbar {
-	display: none;
-}
-
-@media (max-width: 1200px) {
-	.project-thumbnail img {
-    	min-height: 154px;
-    	width: 100%;
-	}
-
-	.project-thumbnail {
-    	height: 154px;
-	}
-}
-
