@@ -252,8 +252,8 @@ class SpecialViewUserBoard extends SpecialPage {
 				$output .= '<div class="user-page-message-form">
 					<input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_name_to . '"/>
 					<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user_name_from . '"/>
-					<span class="user-board-message-type">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
-					<select id="message_type">
+					<span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
+					<select class="user-board-message-hide" id="message_type">
 						<option value="0">' . $this->msg( 'userboard_public' )->plain() . '</option>
 						<option value="1">' . $this->msg( 'userboard_private' )->plain() . '</option>
 					</select>
@@ -306,10 +306,8 @@ class SpecialViewUserBoard extends SpecialPage {
 					</span>';
 				}
 
-				// Mark private messages as such
-				if ( $ub_message['type'] == 1 ) {
-					$ub_message_type_label = '(' . $this->msg( 'userboard_private' )->plain() . ')';
-				}
+				// Mark all messages as private
+				$ub_message_type_label = '(' . $this->msg( 'userboard_private' )->plain() . ')';
 
 				// had global function to cut link text if too long and no breaks
 				// $ub_message_text = preg_replace_callback( "/(<a[^>]*>)(.*?)(<\/a>)/i", 'cut_link_text', $ub_message['message_text'] );
@@ -318,7 +316,7 @@ class SpecialViewUserBoard extends SpecialPage {
 				$userPageURL = htmlspecialchars( $user->getFullURL() );
 				$output .= "<div class=\"user-board-message\">
 					<div class=\"user-board-message-from\">
-							<a href=\"{$userPageURL}\" title=\"{$ub_message['user_name_from']}}\">{$ub_message['user_name_from']} </a> {$ub_message_type_label}
+							<a href=\"{$userPageURL}\" title=\"{$ub_message['user_name_from']}}\">{$ub_message['user_name_from']} </a>
 					</div>
 					<div class=\"user-board-message-time\">"
 						. $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $ub_message['timestamp'] ) )->parse() .
