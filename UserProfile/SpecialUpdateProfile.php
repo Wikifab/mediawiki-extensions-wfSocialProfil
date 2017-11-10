@@ -354,6 +354,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$request = $this->getRequest();
 
+		$custom12 = $request->getArray('custom12') ? implode(",", $request->getArray('custom12')) : '';
+
 		$basicProfileData = array(
 			'up_location_city' => $request->getVal( 'location_city' ),
 			'up_location_state' => $request->getVal( 'location_state' ),
@@ -381,7 +383,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_custom_9' => $request->getVal( 'custom9' ),
 			'up_custom_10' => $request->getVal( 'custom10' ),
 			'up_custom_11' => $request->getVal( 'custom11' ),
-			'up_custom_12' =>implode(",", $request->getArray('custom12'))
+			'up_custom_12' => $custom12
 
 		);
 
