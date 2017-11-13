@@ -37,6 +37,7 @@
 	"userboard_confirmdelete": "Êtes-vous certain{{GENDER:||e|(e)}} de vouloir supprimer ce message ?",
 	"userboard_sendmessage": "Envoyer un message à $1",
 	"userboard_myboard": "Mon tableau",
+	"userboard_received_ago":"reçu depuis le $1",
 	"userboard_posted_ago": "envoyé depuis $1",
 	"userboard_private": "privé",
 	"userboard_public": "public",

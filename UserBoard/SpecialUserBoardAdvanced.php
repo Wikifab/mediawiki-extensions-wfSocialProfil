@@ -26,7 +26,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $this->setHeaders();
         // Add CSS & JS
         $out->addModuleStyles( array(
-            'ext.socialprofile.userboard.css'
+            'ext.socialprofile.userboardadvanced.css'
         ) );
         $out->addModules( 'ext.socialprofile.userboardadvanced.js' );
 
@@ -61,17 +61,15 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         else {
             $user_2_id = $user_2->getId();
         }
-        //Messages quand on a pas d'user
-        $ub_messages = $b->getUserBoardMessages(
+        //Messages quand on a pas d'user (gauche)
+        $ub_messages = $b->getUserBoardAllMessages(
             $currentUser->getId(),
             0,
             $nb_conversation_show,
             $page
             );
-        // Nouvelles requête quand on a sélectionné un user avec lequel on a une conversation
-        //$uba_messsages = $ba->displayMessages( $currentUser->getId(), 0, 10 );
-
-        $uba_messages = $ba->getUserBoardAllMessages(
+        // Messages quand on a un user (droite)
+        $uba_messages = $ba->getUserBoardMessages(
             $currentUser->getId(),
             $user_2_id,
             $nb_conversation_show,
@@ -79,27 +77,25 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             );
 
         if($user_2_id==0){
-            $html= $this->getAllDiscussions ($currentUser, $user_2,$ub_messages);
-            $out->addHTML($html);
+            $html= $this->getAllMessages ($currentUser, $user_2,$ub_messages);
         }
-        else {
-            $html= $this->getAllDiscussions ($currentUser, $user_2,$ub_messages);
-            $html .= $this->getAllMessages($currentUser, $user_2,$uba_messages);
-            $out->addHTML($html);
+        else{
+            $html= $this->getAllMessages($currentUser, $user_2,$ub_messages);
+            $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
         }
 
+        $out->addHTML($html);
 
     }
 
 // Permet d'afficher toutes les conversations qu'on a eu avec tous les utilsateurs (qui nous ont envoyé un message)
-    private function getAllDiscussions ($user, $user_2, $messages){
+    private function getAllMessages  ($user, $user_2, $messages){
         $b = new UserBoard();
-        $html ="<div class=col-md-5>";
-
+        $html ="<div class=\"uba-message-list col-md-5 \">";
+        $user_name=$user->getName();
         foreach ( $messages as $message) {
 
             $user_title = Title::makeTitle( NS_USER, $message['user_name_from'] );
-            $avatar = new wAvatar( $message['user_id_from'], 'm' );
             $delete_link = '';
 
             $message_text = $message['message_text'];
@@ -107,45 +103,70 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
            //Cas où on a pas de user_2
             if (!($user_2)){
-                $user_2_name = 0;
-            }
-            else {
-                $user_2_name =$user_2->getName();
-                $user_2_name = $message['user_name_from']  ;
-            }
+                $user_2 =
+                $user_2_name = $message['user_name_from'];
 
+            }
+            // Si l'expéditeur est la personne connectée
+            if($user_name == $message['user_name_from']){
+                $avatar = new wAvatar( $message['user_id'], 'm' );
+                $user_2_name = $message['user_name']  ;
 
-                $board_to_board = '<a href="' . SpecialUserBoardAdvanced::getUserBoardToBoardURLAdvanced( $user_2_name).'">' .
-                    $this->msg( 'userboard_boardtoboard' )->plain() . '</a>';
+                $board_to_board = SpecialUserBoardAdvanced::getUserBoardToBoardURLAdvanced( $user_2_name);
 
                     $html .= "<div class=\"uba-message\">
-            				<div class=\"user-board-message-from\">
-            						<a href=\"{$userPageURL}\" title=\"{$message['user_name_from']}}\">{$message['user_name_from']} </a>
-            				</div>
-            				<div class=\"user-board-message-time\">"
-            				. $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
-            				"</div>
-            				<div class=\"user-board-message-content\">
-            					<div class=\"user-board-message-image\">
-            						<a href=\"{$userPageURL}\" title=\"{$message['user_name_from']}\">{$avatar->getAvatarURL()}</a>
-            					</div>
-            					<div class=\"user-board-message-body\">
-            						{$message_text}
-            					</div>
-            					<div class=\"visualClear\"></div>
-            				</div>
-            				<div class=\"user-board-message-links\">
-            					{$board_to_board}
-            					{$delete_link}
-            				</div>
-            			</div>";
+                        <a href=\"{$board_to_board}\">
+        				<div class=\"uba-message-avatar\">
+        						{$avatar->getAvatarURL()}
+        					</div>
+                        <div class=\"uba-content\">
+                            <h4 class=\"uba-message-from\">
+        						{$user_2_name}
+        				    </h4>
+                            <span class=\"uba-message-time\">"
+        				        . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
+        				    "</span>
+                            <p class=\"uba-message-body\">
+        						{$message_text}
+        					</p>
+                        </div>
+
+                     </div></a>";
             }
+            // Si l'expéditeur est un autre utilisateur que le connecté
+            else {
+                $avatar = new wAvatar( $message['user_id_from'], 'm' );
+                $user_2_name = $message['user_name_from']  ;
+
+                $board_to_board = SpecialUserBoardAdvanced::getUserBoardToBoardURLAdvanced( $user_2_name);
+                $html .=  "<div class=\"uba-message\">
+                        <a href=\"{$board_to_board}\">
+        				<div class=\"uba-message-avatar\">
+        						{$avatar->getAvatarURL()}
+        					</div>
+                        <div class=\"uba-content\">
+                            <h4 class=\"uba-message-from\">
+        						{$user_2_name}
+        				    </h4>
+                            <span class=\"uba-message-time\">"
+                            . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
+                            "</span>
+                            <p class=\"uba-message-body\">
+        						{$message_text}
+        					</p>
+                        </div>
+
+                     </div></a>";
+            }
+
+        }
+
         $html .= "</div>";
         return ($html);
 
     }
 
-     private function getAllMessages ($user, $user_2,$messageUsers){
+    private function getAllDiscussions($user, $user_2,$messageUsers){
         $per_page = 25;
 
 
@@ -165,27 +186,21 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
              $message_text = $messageUser['message_text'];
              $userPageURL = htmlspecialchars( $user_title->getFullURL() );
-
-             $html .= "<div class=\"uba-display-conv\">
-            				<div class=\"user-board-message-from\">
-            						<a href=\"{$userPageURL}\" title=\"{$messageUser['user_name_from']}}\">{$messageUser['user_name_from']} </a>
-            				</div>
-            				<div class=\"user-board-message-time\">"
-            				. $this->msg( 'userboard_posted_ago', $ba->getTimeAgo( $messageUser['timestamp'] ) )->parse() .
-            				"</div>
-            				<div class=\"user-board-message-content\">
-            					<div class=\"user-board-message-image\">
+             $html .= "<div class=\"uba-discussion\">
+                            <div class=\"uba-discussion-avatar\">
             						<a href=\"{$userPageURL}\" title=\"{$messageUser['user_name_from']}\">{$avatar->getAvatarURL()}</a>
-            					</div>
-            					<div class=\"user-board-message-body\">
+            				</div>
+                            <div class=\"uba-discussion-content\">
+                                <h4 class=\"uba-discussion-from\">
+            						<a href=\"{$userPageURL}\" title=\"{$messageUser['user_name_from']}}\">{$messageUser['user_name_from']}</a>
+            				    </h4>
+                                <span class=\"uba-discussion-time\">"
+            				        . $this->msg( 'userboard_posted_ago', $ba->getTimeAgo( $messageUser['timestamp'] ) )->parse() .
+            				    "</div>
+            					<div class=\"uba-discussion-body\">
                                     {$message_text}
             					</div>
-            					<div class=\"visualClear\"></div>
-            				</div>
-            				<div class=\"user-board-message-links\">
-            					{$delete_link}
-            				</div>
-                        </div>";
+                    </div>";
             }
             // Input avec le message à envoyer et l'url sur laquelle on voit le message
             $html .= '<div class="user-page-message-form">
@@ -193,8 +208,8 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 					<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
 					<span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
 					<select class="user-board-message-hide" id="message_type">
-						<option value="0">' . $this->msg( 'userboard_public' )->plain() . '</option>
-						<option value="1">' . $this->msg( 'userboard_private' )->plain() . '</option>
+						<option value="1">' . $this->msg( 'userboard_public' )->plain() . '</option>
+						<option value="0">' . $this->msg( 'userboard_private' )->plain() . '</option>
 					</select>
 					<p>
 					<textarea name="message" id="message" cols="63" rows="4"></textarea>

@@ -321,10 +321,10 @@ class UserBoard {
 
 		return $messages;
 	}
-	public function getUserBoardAllMessages( $user_id, $user_id_2 = 0, $limit = 0, $page = 0 ) {
+	public function getUserBoardAllMessages( $limit = 0, $page = 0 ) {
 	    global $wgUser, $wgOut, $wgTitle;
+	    $user_id=$wgUser->getId();
 	    $dbr = wfGetDB( DB_SLAVE );
-
 	    if ( $limit > 0 ) {
 	        $limitvalue = 0;
 	        if ( $page ) {
@@ -332,51 +332,64 @@ class UserBoard {
 	        }
 	        $limit_sql = " LIMIT {$limitvalue},{$limit} ";
 	    }
+	    $user_sql = "ub_user_id = {$user_id} OR ub_user_id_from={$user_id}";
 
-	    if ( $user_id_2 ) {
-	        $user_sql = "( (ub_user_id={$user_id} AND ub_user_id_from={$user_id_2}) OR
-					(ub_user_id={$user_id_2} AND ub_user_id_from={$user_id}) )";
-	        if ( !( $user_id == $wgUser->getID() || $user_id_2 == $wgUser->getID() ) ) {
-	            $user_sql .= ' AND ub_type = 0 ';
-	        }
-	    } else {
-	        $user_sql = "ub_user_id = {$user_id}";
-	        if ( $user_id != $wgUser->getID() ) {
-	            $user_sql .= ' AND ub_type = 0 ';
-	        }
-	        if ( $wgUser->isLoggedIn() ) {
-	            $user_sql .= " OR (ub_user_id={$user_id} AND ub_user_id_from={$wgUser->getID() }) ";
-	        }
-	    }
 
-	    $sql = "SELECT ub_id, ub_user_id_from, ub_user_name_from, ub_user_id, ub_user_name,
-			ub_message,UNIX_TIMESTAMP(ub_date) AS unix_time,ub_type
+	    $sql = "SELECT ub_id, ub_user_id_from, ub_user_id, max(UNIX_TIMESTAMP(ub_date)) AS unix_time,ub_type
 			FROM {$dbr->tableName( 'user_board' )}
 			WHERE {$user_sql}
-			ORDER BY ub_date ASC
-			{$limit_sql}";
-			$res = $dbr->query( $sql, __METHOD__ );
+			GROUP BY ub_user_id_from, ub_user_id ORDER BY unix_time DESC";
 
-			$messages = array();
+	    $res = $dbr->query( $sql, __METHOD__ );
+		$messages = array();
+        $test = array();
 
 			foreach ( $res as $row ) {
 			    $parser = new Parser();
-			    $message_text = $parser->parse( $row->ub_message, $wgTitle, $wgOut->parserOptions(), true );
+
+
+			    if ($user_id == $row->ub_user_id_from) {
+			        $user_id_2 = $row->ub_user_id;
+			    }
+			    else {
+			        $user_id_2 = $row->ub_user_id_from;
+			    }
+                if(isset($test[$user_id_2])){
+                    continue;
+                }
+
+                $test[$user_id_2]=true;
+
+			    $user_sql = "ub_user_id = {$user_id} AND ub_user_id_from = {$user_id_2}";
+			    $user_sql .= " OR ub_user_id_from={$user_id} AND ub_user_id = {$user_id_2}";
+
+			    $secondQuery = "SELECT ub_id, ub_user_id_from, ub_user_name_from, ub_user_id, ub_user_name,
+			ub_message,UNIX_TIMESTAMP(ub_date) AS unix_time,ub_type
+			FROM {$dbr->tableName( 'user_board' )}
+			WHERE {$user_sql}
+			ORDER BY ub_date DESC
+			LIMIT 1";
+			    $result = $dbr->query( $secondQuery, __METHOD__ );
+			    //Permet de mettre un objet en tableau
+			    $row2 = $result->fetchRow();
+
+			    $message_text = $parser->parse( $row2['ub_message'], $wgTitle, $wgOut->parserOptions(), true );
 			    $message_text = $message_text->getText();
 
 			    $messages[] = array(
-			        'id' => $row->ub_id,
-			        'timestamp' => ( $row->unix_time ),
-			        'user_id_from' => $row->ub_user_id_from,
-			        'user_name_from' => $row->ub_user_name_from,
-			        'user_id' => $row->ub_user_id,
-			        'user_name' => $row->ub_user_name,
+			        'id'=>($row2['ub_id']),
+			        'timestamp' => $row2['unix_time'],
+			        'user_id_from' => $row2['ub_user_id_from'],
+			        'user_name_from' => $row2['ub_user_name_from'],
+			        'user_id' => $row2['ub_user_id'],
+			        'user_name' => $row2['ub_user_name'],
 			        'message_text' => $message_text,
-			        'type' => $row->ub_type
+			        'type' => $row2['ub_type']
 			    );
 			}
 
 			return $messages;
+
 	}
 	/**
 	 * Get the amount of board-to-board messages sent between the users whose

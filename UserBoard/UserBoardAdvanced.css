@@ -1,4 +1,7 @@
-.uba-message
-{
+.uba-message{
 	width:100%;
+}
+
+.user-board-message-hide {
+	display:none;
 }
