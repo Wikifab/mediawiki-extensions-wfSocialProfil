@@ -347,13 +347,14 @@ class UserBoard {
 			foreach ( $res as $row ) {
 			    $parser = new Parser();
 
-
+                //We are looking for the sender of the message
 			    if ($user_id == $row->ub_user_id_from) {
 			        $user_id_2 = $row->ub_user_id;
 			    }
 			    else {
 			        $user_id_2 = $row->ub_user_id_from;
 			    }
+
                 if(isset($test[$user_id_2])){
                     continue;
                 }
@@ -391,6 +392,8 @@ class UserBoard {
 			return $messages;
 
 	}
+
+
 	/**
 	 * Get the amount of board-to-board messages sent between the users whose
 	 * IDs are $user_id and $user_id_2.
