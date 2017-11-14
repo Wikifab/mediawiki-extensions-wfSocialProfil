@@ -38,8 +38,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $user_name_2 = $request->getVal( 'user' );
         $user_2= User::newFromName($user_name_2);
 
-
-
         $nb_conversation_show = 25;
         $page = $request->getInt( 'page', 1 );
 
@@ -55,11 +53,10 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             return false;
         }
 
-
         $b = new UserBoard();
         $ba = new UserBoard();
 
-        // Si l'utilisateur choisi n'est pas encore sélectionné, on le met à 0 pour pas qu'il soit booléen
+        // Si l'utilisateur choisi n'est pas encore sélectionné, on le met à 0 sinon c'est celui choisi
         if (!($user_2)){
             $user_2_id = 0;
         }
@@ -73,10 +70,8 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             $nb_conversation_show,
             $page
             );
-
         // Si on a pas d'user 2 et qu'il y a quand même des messages on donne par défaut la valeur de cet user à l'user2
         if($user_2_id==0 && $ub_messages ){
-
             $lastMessage = $ub_messages[0];
 
             if($lastMessage['user_id_from'] == $currentUser->getId()) {
@@ -87,19 +82,24 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             }
             $user_2= User::newFromId($user_2_id);
 
+
         }
 
-        $html = $this->getAllMessages ($currentUser, $user_2,$ub_messages);
+        $html = $this->getAllMessages($currentUser, $user_2,$ub_messages);
+        if($user_2){
+            // Messages quand on a un user (droite)
+            $uba_messages = $ba->getUserBoardMessages(
+                $currentUser->getId(),
+                $user_2_id,
+                $nb_conversation_show,
+                $page
+                );
+            $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
 
-        // Messages quand on a un user (droite)
-        $uba_messages = $ba->getUserBoardMessages(
-            $currentUser->getId(),
-            $user_2_id,
-            $nb_conversation_show,
-            $page
-            );
-        $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
-
+        }
+        else if (!($user_2) && !($ub_messages)){
+            $html .= $this->msg('userboard_nomessages')->plain();
+       }
 
         $out->addHTML($html);
 
@@ -108,11 +108,10 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 // Permet d'afficher toutes les conversations qu'on a eu avec tous les utilsateurs (qui nous ont envoyé un message)
     private function getAllMessages  ($user, $user_2_active, $messages){
         $b = new UserBoard();
-        $html ="<div class=\"uba-message-list col-md-5 \">";
         $user_name=$user->getName();
+        $html ="<div class=\"uba-message-list col-md-5 \">";
 
         foreach ( $messages as $message) {
-
             $user_title = Title::makeTitle( NS_USER, $message['user_name_from'] );
             $delete_link = '';
 
@@ -127,10 +126,18 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             else {
                 $class="";
             }
-            // Si l'expéditeur est la personne connectée
+            // Si l'on a un message de ou pour quelqu'un cette personne devra apparaître dans le fil de la conversation
             if($user_name == $message['user_name_from']){
-                $avatar = new wAvatar( $message['user_id'], 'm' );
+                $user_2_id=$message['user_id'];
                 $user_2_name = $message['user_name']  ;
+
+            }
+            else {
+                $user_2_id=$message['user_id_from'];
+                $user_2_name = $message['user_name_from']  ;
+
+            }
+                $avatar = new wAvatar( $user_2_id, 'm' );
 
                 $board_to_board = SpecialUserBoardAdvanced::getUserBoardToBoardURLAdvanced( $user_2_name);
 
@@ -152,32 +159,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                         </div>
 
                      </div></a>";
-            }
-            // Si l'expéditeur est un autre utilisateur que le connecté
-            else {
-                $avatar = new wAvatar( $message['user_id_from'], 'm' );
-                $user_2_name = $message['user_name_from']  ;
-
-                $board_to_board = SpecialUserBoardAdvanced::getUserBoardToBoardURLAdvanced( $user_2_name);
-                $html .=  "<div class=\"uba-message\">
-                        <a href=\"{$board_to_board}\">
-        				<div class=\"uba-message-avatar\">
-        						{$avatar->getAvatarURL()}
-        					</div>
-                        <div class=\"uba-content\">
-                            <h4 class=\"uba-message-from\">
-        						{$user_2_name}
-        				    </h4>
-                            <span class=\"uba-message-time\">"
-                            . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
-                            "</span>
-                            <p class=\"uba-message-body\">
-        						{$message_text}
-        					</p>
-                        </div>
-
-                     </div></a>";
-            }
 
         }
         $html .= "</div>";
@@ -190,15 +171,18 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $per_page = 25;
         $ba =  new UserBoard();
         $html = "<div class=\"user-page-message-form col-md-7\">";
+        $html .= "<h1 class=\"firstHeading\">".$this->msg('userboard-advanced-all-messages', $user_2->getName())->parse()."</h1>";
 
         // Boucle sur les messages d'une même conversation pour afficher les messages de droite du plus ancien au plus récent
-        for ($i=count($messageUsers)-1; $i>=1; $i--){
+        for ($i=count($messageUsers)-1; $i>=0; $i--){
             $user_title = Title::makeTitle( NS_USER, $messageUsers[$i]['user_name_from'] );
             $avatar = new wAvatar( $messageUsers[$i]['user_id_from'], 'm' );
             $delete_link = '';
             $board_to_board='';
 
 
+
+            $delete_link = "<a href=\"javascript:void(0);\" data-message-id=\"{$messageUsers[$i]['id']}\"> ".$this->msg('userboard_delete',$avatar)->parse()." </a>";
             $message_text = $messageUsers[$i]['message_text'];
             $userPageURL = htmlspecialchars( $user_title->getFullURL() );
             $html .= "<div class=\"uba-discussion\">
@@ -211,14 +195,20 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         				    </h4>
                             <span class=\"uba-discussion-time\">"
                             . $this->msg( 'userboard_posted_ago', $ba->getTimeAgo( $messageUsers[$i]['timestamp'] ) )->parse() .
-        				    "</div>
+        				    "</span>
+                            <span class=\"user-board-red\">
+                            {$delete_link}
+        				    </span>
         					<div class=\"uba-discussion-body\">
                                 {$message_text}
         					</div>
-                </div>";
+                        </div>
+                     </div>";
         }
         // Input avec le message à envoyer et l'url sur laquelle on voit le message
+        $avatar_user_2 = new wAvatar($user_2->getId(), 's');
         $html .= '<div class="user-page-message-form">
+                <div class="uba-send-message"> '.$this->msg('userboard-send-message-title',$avatar_user_2)->plain().'
 				<input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_2->getName() . '"/>
 				<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
 				<span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>

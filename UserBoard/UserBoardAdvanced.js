@@ -29,7 +29,6 @@ var UserBoardAdvanced = {
 						user_1 = recipient;
 						user_2 = '';
 					}
-//					var params = ( user_2 ) ? '&conv=' + user_2 : '';
 					var url = mw.config.get( 'wgScriptPath' ) + '/index.php?title=Special:UserBoardAdvanced&user=' + user_2;
 					window.location = url;
 				}
@@ -46,11 +45,11 @@ var UserBoardAdvanced = {
 					rsargs: [id]
 				},
 				function( data ) {
-					//window.location.reload();
+					window.location.reload();
 					// 1st parent = span.user-board-red
 					// 2nd parent = div.user-board-message-links
 					// 3rd parent = div.user-board-message = the container of a msg
-					jQuery( this ).parent().parent().parent().hide( 100 );
+					jQuery( this ).parents('div .uba-discussion').hide( 100 );
 				}
 			);
 		}
@@ -60,12 +59,11 @@ var UserBoardAdvanced = {
 jQuery( document ).ready( function() {
 	// "Delete" link
 	jQuery( 'span.user-board-red a' ).on( 'click', function() {
-		UserBoard.deleteMessage( jQuery( this ).data( 'message-id' ) );
+		UserBoardAdvanced.deleteMessage( jQuery( this ).data( 'message-id' ) );
 	} );
 
 	// Submit button
 	jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
 		UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
-		//alert('Hello');
 	} );
 } );

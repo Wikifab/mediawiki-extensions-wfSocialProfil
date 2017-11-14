@@ -75,7 +75,7 @@ class UserBoard {
 
 		// Send email if user's email is confirmed and s/he's opted in to recieving social notifications
 		if ( $user->isEmailConfirmed() && $user->getIntOption( 'notifymessage', 1 ) ) {
-			$board_link = SpecialPage::getTitleFor( 'UserBoard' );
+			$board_link = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
 			$update_profile_link = SpecialPage::getTitleFor( 'UpdateProfile' );
 			$subject = wfMessage( 'message_received_subject', $user_from )->parse();
 			$body = wfMessage( 'message_received_body',
@@ -242,7 +242,7 @@ class UserBoard {
 				);
 
 				$stats = new UserStatsTrack( $s->ub_user_id, $s->ub_user_name );
-				if ( $s->ub_type == 0 ) {
+				if ( $s->ub_type == 0) {
 					$stats->decStatField( 'user_board_count' );
 				} else {
 					$stats->decStatField( 'user_board_count_priv' );
