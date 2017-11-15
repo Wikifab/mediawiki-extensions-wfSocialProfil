@@ -129,7 +129,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             // Si l'on a un message de ou pour quelqu'un cette personne devra apparaître dans le fil de la conversation
             if($user_name == $message['user_name_from']){
                 $user_2_id=$message['user_id'];
-                $user_2_name = $message['user_name']  ;
+                $user_2_name = $message['user_name'] ;
 
             }
             else {
@@ -180,12 +180,21 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             $delete_link = '';
             $board_to_board='';
 
+           // Permet de mettre la classe right aux messages de la personne connectée et left pour ceux reçus
+           if ($messageUsers[$i]['user_id_from'] == $user->getId()){
+               $class='message-right';
+           }
+           else {
+               $class = 'message-left';
+           }
 
 
             $delete_link = "<a href=\"javascript:void(0);\" data-message-id=\"{$messageUsers[$i]['id']}\"> ".$this->msg('userboard_delete',$avatar)->parse()." </a>";
             $message_text = $messageUsers[$i]['message_text'];
             $userPageURL = htmlspecialchars( $user_title->getFullURL() );
-            $html .= "<div class=\"uba-discussion\">
+
+
+            $html .= "<div class=\"uba-discussion {$class}\">
                         <div class=\"uba-discussion-avatar\">
         						<a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}\">{$avatar->getAvatarURL()}</a>
         				</div>
