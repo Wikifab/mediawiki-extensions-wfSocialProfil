@@ -84,8 +84,8 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
 
         }
-
-        $html = $this->getAllMessages($currentUser, $user_2,$ub_messages);
+        $html = "<div class=\"row\">";
+        $html .= $this->getAllMessages($currentUser, $user_2,$ub_messages);
         if($user_2){
             // Messages quand on a un user (droite)
             $uba_messages = $ba->getUserBoardMessages(
@@ -94,13 +94,14 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                 $nb_conversation_show,
                 $page
                 );
+            $html .='<h2 class="uba-discussion-list-title">'.$this->msg('userboard-advanced-all-messages',$user_2->getName())->parse().'</h2>';
             $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
 
         }
         else if (!($user_2) && !($ub_messages)){
             $html .= $this->msg('userboard_nomessages')->plain();
        }
-
+        $html .= "</div>";
         $out->addHTML($html);
 
     }
@@ -109,7 +110,8 @@ class SpecialUserBoardAdvanced extends SpecialPage {
     private function getAllMessages  ($user, $user_2_active, $messages){
         $b = new UserBoard();
         $user_name=$user->getName();
-        $html ="<div class=\"uba-message-list col-md-5 \">";
+        $html = '<h2 class="uba-message-list-title">'.$this->msg('userboardadvanced').'</h2>';
+        $html .="<div class=\"uba-message-list col-md-5 \">";
 
         foreach ( $messages as $message) {
             $user_title = Title::makeTitle( NS_USER, $message['user_name_from'] );
@@ -171,7 +173,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $per_page = 25;
         $ba =  new UserBoard();
         $html = "<div class=\"user-page-message-form col-md-7\">";
-        $html .= "<h1 class=\"firstHeading\">".$this->msg('userboard-advanced-all-messages', $user_2->getName())->parse()."</h1>";
 
         // Boucle sur les messages d'une même conversation pour afficher les messages de droite du plus ancien au plus récent
         for ($i=count($messageUsers)-1; $i>=0; $i--){
@@ -214,9 +215,11 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                         </div>
                      </div>";
         }
+        $html .= "</div>";
+
         // Input avec le message à envoyer et l'url sur laquelle on voit le message
         $avatar_user_2 = new wAvatar($user_2->getId(), 's');
-        $html .= '<div class="user-page-message-form">
+        $html .= '<div class="user-page-message-send">
                 <div class="uba-send-message"> '.$this->msg('userboard-send-message-title',$avatar_user_2)->plain().'
 				<input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_2->getName() . '"/>
 				<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
@@ -234,7 +237,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
 			</div>';
 
-        $html .= "</div>";
 
 
         return ($html);
