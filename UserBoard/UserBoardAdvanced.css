@@ -103,7 +103,7 @@ p.uba-send-message-author {
 .uba-discussion {
     float: left;
     width: 100%;
-    margin-bottom: 20px;
+    margin: 10px 0;
     position: relative;
 }
 

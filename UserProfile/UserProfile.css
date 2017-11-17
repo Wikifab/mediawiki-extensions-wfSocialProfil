@@ -110,29 +110,41 @@
 }
 
 #profile-title-container {
-	padding: 0px 0px 6px 6px;
+    padding: 0;
+    float: left;
 }
 
 #profile-title {
 	float: left;
-	font-size: 2em;
-	line-height: 26px;
-	font-weight: bold;
+    font-size: 1.2em;
+    line-height: 19px;
+    color: #aaa;
+    margin-bottom: 3px;
+    font-weight: normal;
+    width: 100%;
 	margin: 0px 15px 0px 0px;
 }
 
 #points-level {
 	float: left;
 	font-size: 11px;
-	background-color: #CC0000;
+    background-color: #2c9ab7;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 	padding: 1px 5px;
 	margin: 4px 8px 0px 0px;
 	text-align: center;
 }
 
+#profileWf .profile-name {
+    margin-top: 7px;
+    font-size: 22px;
+}
+
 #honorific-level {
 	float: left;
-	margin: 4px 0px 0px 0px;
+	margin: 6px 0px 0px 0px;
 	font-size: 12px;
 }
 
@@ -153,9 +165,15 @@
 }
 
 #profile-image img {
-	border: 1px solid #dcdcdc;
-	background-color: #fff;
-	width:200px;
+    width: 100%;
+    border-radius: 6px;
+    border: none;
+}
+
+.profile-image-edit-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
 #profile-right {
@@ -312,6 +330,7 @@
 /* Profile Data */
 .profile-info-container {
 	padding: 0px 0px 17px 0px;
+	margin-top: 12px;
 }
 
 .profile-info-container b {
@@ -532,6 +551,37 @@
 .profile-tab-bar {
 	margin-top: 20px;
 	border-bottom:1px solid #ddd;
+}
+
+#profileWf .tab-content #tutorials .project-card-author {
+    display: none;
+}
+
+.profile-image-edit-btn .glyphicon {
+    background: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 19px;
+    border: 1px solid #ddd;
+}
+
+#profileWf .tabs-follow-btn {
+    float: right;
+}
+
+#profileWf .tab-content {
+    margin-top: 20px;
+}
+
+#profileWf .nav-tabs .btn-sm {
+    font-size: 1em;
+    margin-left: 3px;
+}
+
+.tabs-follow-btn .btn-message {
+    background: #475257;
+    color: #fff;
+    transition: all ease .25s;
 }
 
 .profile-tab {
