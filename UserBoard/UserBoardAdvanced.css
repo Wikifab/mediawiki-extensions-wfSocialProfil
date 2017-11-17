@@ -169,6 +169,7 @@ h4.uba-discussion-from a {
     background-color: #0084ff;
     padding: 3px 12px;
     width: auto;
+    max-width: calc(100% - 30px);
     float: right;
     margin-bottom: 3px;
     color: #fff;
