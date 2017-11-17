@@ -155,9 +155,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                             <span class=\"uba-message-time\">"
         				        . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
         				    "</span>
-                            <p class=\"uba-message-body\">
+                            <div class=\"uba-message-body\">
         						{$message_text}
-        					</p>
+        					</div>
                         </div>
 
                      </div></a>";
