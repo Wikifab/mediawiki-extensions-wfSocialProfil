@@ -224,17 +224,66 @@ h4.uba-discussion-from a {
     margin-right:5px;
     font-size: 16px;
     margin-bottom: 5px;
+    width:100%;
 }
 
 .uba-content .uba-message-time {
     float: left;
     font-size: 12px;
+    width:100%;
     color: #bbb;
 }
 
-.uba-content p {
-    color:#999;
+.uba-message-body {
+    float: left;
+    width: 100%;
+    height: 18px;
+    overflow: hidden;
+}
+
+.uba-message-body p {
+    color: #999;
     float: left;
     height: 20px;
     overflow: hidden;
+    margin-bottom: 0px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    line-height: 18px;
+    float: left;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+@media (max-width: 992px) {
+
+.uba-message-list .uba-content {
+    display: none;
+}
+
+.uba-message-list {
+    width: 66px;
+    top: 48px;
+}
+
+.user-page-message-form {
+    margin: 0px 0 0 66px;
+    width: calc(100% - 66px);
+    padding: 0 30px 130px;
+    top: 48px;
+}
+
+h2.uba-message-list-title, h2.uba-discussion-list-title {
+    display: none;
+}
+
+.uba-send-message-textarea {
+    width: calc(100% - 150px);
+}
+
+.user-page-message-send {
+    margin: 0 0 0 66px;
+}
+
 }
