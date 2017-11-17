@@ -111,7 +111,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $b = new UserBoard();
         $user_name=$user->getName();
         $html = '<h2 class="uba-message-list-title">'.$this->msg('userboardadvanced').'</h2>';
-        $html .="<div class=\"uba-message-list col-md-5 \">";
+        $html .="<div class=\"uba-message-list\">";
 
         foreach ( $messages as $message) {
             $user_title = Title::makeTitle( NS_USER, $message['user_name_from'] );
@@ -180,20 +180,24 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             $avatar = new wAvatar( $messageUsers[$i]['user_id_from'], 'm' );
             $delete_link = '';
             $board_to_board='';
+            $timeAgo='';
 
            // Permet de mettre la classe right aux messages de la personne connectée et left pour ceux reçus
            if ($messageUsers[$i]['user_id_from'] == $user->getId()){
                $class='message-right';
+               $timeAgo = $this->msg('userboard_posted_ago', $ba->getTimeAgo($messageUsers[$i]['timestamp']) )->parse() ;
+
            }
            else {
                $class = 'message-left';
+               $timeAgo = $this->msg('userboard_received_ago', $ba->getTimeAgo($messageUsers[$i]['timestamp']) )->parse() ;
+
            }
 
 
             $delete_link = "<a href=\"javascript:void(0);\" data-message-id=\"{$messageUsers[$i]['id']}\"> ".$this->msg('userboard_delete',$avatar)->parse()." </a>";
             $message_text = $messageUsers[$i]['message_text'];
             $userPageURL = htmlspecialchars( $user_title->getFullURL() );
-
 
             $html .= "<div class=\"uba-discussion {$class}\">
                         <div class=\"uba-discussion-avatar\">
@@ -203,13 +207,10 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                             <h4 class=\"uba-discussion-from\">
         						<a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}}\">{$messageUsers[$i]['user_name_from']}</a>
         				    </h4>
-                            <span class=\"uba-discussion-time\">"
-                            . $this->msg( 'userboard_posted_ago', $ba->getTimeAgo( $messageUsers[$i]['timestamp'] ) )->parse() .
-        				    "</span>
                             <span class=\"user-board-red\">
                             {$delete_link}
         				    </span>
-        					<div class=\"uba-discussion-body\">
+        					<div class=\"uba-discussion-body data-toggle=\"tooltip\" data-placement=\"right\" title=\"{$timeAgo}\">
                                 {$message_text}
         					</div>
                         </div>
@@ -218,9 +219,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $html .= "</div>";
 
         // Input avec le message à envoyer et l'url sur laquelle on voit le message
-        $avatar_user_2 = new wAvatar($user_2->getId(), 's');
         $html .= '<div class="user-page-message-send">
-                <div class="uba-send-message"> '.$this->msg('userboard-send-message-title',$avatar_user_2)->plain().'
+                <div class="uba-send-message">
+                <p class="uba-send-message-author"> '.$this->msg('userboard-send-message-title',$user_2->getName())->plain().'</p>
 				<input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_2->getName() . '"/>
 				<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
 				<span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
@@ -228,8 +229,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 					<option value="1">' . $this->msg( 'userboard_public' )->plain() . '</option>
 					<option value="0">' . $this->msg( 'userboard_private' )->plain() . '</option>
 				</select>
-				<p>
-				<textarea name="message" id="message" cols="63" rows="4"></textarea>
+				<p class="uba-send-message-textarea">
+				<textarea name="message" id="message" rows="2"></textarea>
+                </p>
 
 				<div class="user-page-message-box-button">
 					<input type="button" value="' . $this->msg( 'userboard_sendbutton' )->plain() . '" class="site-button" data-per-page="' . $per_page . '" />
