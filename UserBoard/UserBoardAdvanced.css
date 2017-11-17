@@ -1,3 +1,95 @@
+body.mw-special-UserBoardAdvanced .wiki-nav,
+body.mw-special-UserBoardAdvanced .feedback,
+body.mw-special-UserBoardAdvanced .footerdata,
+body.mw-special-UserBoardAdvanced .footer-main,
+body.mw-special-UserBoardAdvanced .contentHeader {
+    display: none;
+}
+
+body.mw-special-UserBoardAdvanced .navbar-default.p-navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    height: 51px;
+}
+
+h2.uba-message-list-title,
+h2.uba-discussion-list-title {
+    position: fixed;
+    overflow-y: scroll;
+    top: 51px;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    padding: 12px 10px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+h2.uba-message-list-title {
+    left: 0;
+    width: 300px;
+    border-right: 1px solid #ddd;
+}
+
+h2.uba-discussion-list-title {
+    left: 300px;
+    width: calc(100% - 300px);
+}
+
+.uba-send-message-textarea {
+    float:left;
+    margin-right: 8px;
+    width: calc(100% - 390px);
+}
+
+.user-page-message-send {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    right: 0;
+    left: 0;
+    margin: 0 0 0 300px;
+    float: left;
+    padding: 5px 10px 0;
+    background: #f8f8f8;
+    border-top: 1Px solid #ddd;
+}
+
+.user-page-message-box-button input {
+    float: left;
+    padding: 11px;
+}
+
+.uba-message-list {
+    position: fixed;
+    width: 300px;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    border-right: 1px solid #ddd;
+    top: 91px;
+}
+
+.user-page-message-form {
+    margin: 0px 0 0 300px;
+    width: calc(100% - 300px);
+    padding: 0 30px 180px;
+    overflow-y: scroll;
+    position: fixed;
+    left: 0;
+    top: 91px;
+    height: 100vh;
+}
+
+p.uba-send-message-author {
+    margin-bottom: 4px;
+}
+
 .uba-message{
     width: 100%;
     float: left;
@@ -98,12 +190,16 @@ h4.uba-discussion-from a {
 }
 
 .uba-message-avatar  {
-        float: left;
+    float: left;
     margin-right: 10px;
 }
 
 .uba-message:hover {
     background-color:#f1f1f1;
+}
+
+.uba-message.active {
+    background-color:#f8f8f8;
 }
 
 .uba-message-avatar {
@@ -126,8 +222,19 @@ h4.uba-discussion-from a {
     float:left;
     margin-top: 3px;
     margin-right:5px;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.uba-content .uba-message-time {
+    float: left;
+    font-size: 12px;
+    color: #bbb;
 }
 
 .uba-content p {
     color:#999;
+    float: left;
+    height: 20px;
+    overflow: hidden;
 }
