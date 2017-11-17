@@ -178,7 +178,7 @@
 
 #profile-right {
 	float: left;
-	position: relative;
+    width: 100%;
 }
 
 .profile-actions a {
@@ -334,13 +334,49 @@
 }
 
 .profile-info-container b {
-	color: #555;
-	margin: 0px 10px 0px 0px;
+    color: #555;
+    width: 17px;
+    float: left;
+    text-align: center;
+    margin-right: 6px;
+}
+
+.profile-info-container .profile-user-info b {
+    color: #555;
+    width: 17px;
+    float: left;
+    text-align: left;
+    margin-right: 6px;
+    width: 100%;
 }
 
 .profile-info-container div {
 	margin: 0px 0px 8px 0px;
 	color: #666;
+	width: 100%;
+    float: left;
+    white-space: nowrap;
+    vertical-align: baseline;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.profile-info-container div.profile-user-info {
+	border-top: 1px solid #ddd;
+    margin-top: 20px;
+    padding-top: 25px;
+}
+
+.profile-info-container div.profile-user-info div {
+	white-space: normal;
+    vertical-align: normal;
+    text-overflow: normal;
+    overflow: normal;
+}
+
+.user-section-heading-gift {
+    float: left;
+    width: 100%;
 }
 
 .bold-fix b {
@@ -576,6 +612,10 @@
 #profileWf .nav-tabs .btn-sm {
     font-size: 1em;
     margin-left: 3px;
+}
+
+#profileWf .nav-tabs .btn-sm:hover {
+	color:#fff;
 }
 
 .tabs-follow-btn .btn-message {
