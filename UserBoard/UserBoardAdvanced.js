@@ -66,5 +66,6 @@ jQuery( document ).ready( function() {
 	jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
 		UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
 	} );
-	
+	$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+
 } );
