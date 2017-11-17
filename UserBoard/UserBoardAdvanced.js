@@ -36,7 +36,7 @@ var UserBoardAdvanced = {
 		}
 	},
 
-	deleteMessage: function( id ) {
+	deleteOwnMessage: function( id ) {
 		if ( confirm( mw.msg( 'userboard_confirmdelete' ) ) ) {
 			jQuery.post(
 				mw.util.wikiScript(), {
@@ -47,9 +47,9 @@ var UserBoardAdvanced = {
 				function( data ) {
 					window.location.reload();
 					// 1st parent = span.user-board-red
-					// 2nd parent = div.user-board-message-links
-					// 3rd parent = div.user-board-message = the container of a msg
-					jQuery( this ).parents('div .uba-discussion').hide( 100 );
+					// 2nd parent = div.uba-discussion-content
+					// 3rd parent = div.uba-discussion.message-right
+					jQuery( this ).parent().parent().parent().hide();
 				}
 			);
 		}
@@ -66,4 +66,5 @@ jQuery( document ).ready( function() {
 	jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
 		UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
 	} );
+	
 } );

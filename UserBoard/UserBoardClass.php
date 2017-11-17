@@ -250,7 +250,32 @@ class UserBoard {
 			}
 		}
 	}
+	public function deleteOwnMessage( $ub_id ) {
+	    if ( $ub_id ) {
+	        $dbw = wfGetDB( DB_MASTER );
+	        $s = $dbw->selectRow(
+	            'user_board',
+	            array( $currentuser->getId(),
+	                'ub_user_name'),
+	            array( 'ub_id' => $ub_id ),
+	            __METHOD__
+	            );
+	        if ( $s != false ) {
+	            $dbw->delete(
+	                'user_board',
+	                array( 'ub_id' => $ub_id ),
+	                __METHOD__
+	                );
 
+	            $stats = new UserStatsTrack( $s->ub_user_id, $s->ub_user_name );
+	            if ( $s->ub_type == 0) {
+	                $stats->decStatField( 'user_board_count' );
+	            } else {
+	                $stats->decStatField( 'user_board_count_priv' );
+	            }
+	        }
+	    }
+	}
 	/**
 	 * Get the user board messages for the user with the ID $user_id.
 	 *

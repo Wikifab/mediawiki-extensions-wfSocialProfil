@@ -38,6 +38,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $user_name_2 = $request->getVal( 'user' );
         $user_2= User::newFromName($user_name_2);
 
+
         $nb_conversation_show = 25;
         $page = $request->getInt( 'page', 1 );
 
@@ -86,7 +87,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         }
         $html = "<div class=\"row\">";
         $html .= $this->getAllMessages($currentUser, $user_2,$ub_messages);
-        if($user_2){
+        if($user_2 && $user_2_id != $currentUser->getId()){
             // Messages quand on a un user (droite)
             $uba_messages = $ba->getUserBoardMessages(
                 $currentUser->getId(),
@@ -96,11 +97,25 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                 );
             $html .='<h2 class="uba-discussion-list-title">'.$this->msg('userboard-advanced-all-messages',$user_2->getName())->parse().'</h2>';
             $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
+            //Si on a jamais parlé à cet utilisateur affiché message pour commencer conversation
+            if($user_2 && !($uba_messages)){
+                $html .= "<div class=\"uba-discussion-error-message\"> " .$this->msg('userboard-advanced-nomessageswiththisone')->plain() ."</div>";
+            }
 
         }
         else if (!($user_2) && !($ub_messages)){
             $html .= $this->msg('userboard_nomessages')->plain();
-       }
+        }
+        // On ne peut pas parler à nous-même
+        if($user_2 && $user_2_id == $currentUser->getId()){
+            $html .= "<div class=\"uba-discussion-error-message\"> " .$this->msg('userboard-advanced-nomessageswithyourself')->plain() ."</div>";
+
+        }
+
+
+
+
+
         $html .= "</div>";
         $out->addHTML($html);
 
@@ -178,24 +193,24 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         for ($i=count($messageUsers)-1; $i>=0; $i--){
             $user_title = Title::makeTitle( NS_USER, $messageUsers[$i]['user_name_from'] );
             $avatar = new wAvatar( $messageUsers[$i]['user_id_from'], 'm' );
-            $delete_link = '';
             $board_to_board='';
             $timeAgo='';
 
            // Permet de mettre la classe right aux messages de la personne connectée et left pour ceux reçus
            if ($messageUsers[$i]['user_id_from'] == $user->getId()){
+               $delete_link = "<a href=\"javascript:void(0);\" class=\"fa fa-trash-o\" data-message-id=\"{$messageUsers[$i]['id']}\"> </a>";
                $class='message-right';
                $timeAgo = $this->msg('userboard_posted_ago', $ba->getTimeAgo($messageUsers[$i]['timestamp']) )->parse() ;
 
            }
            else {
+               $delete_link = "<a href=\"javascript:void(0);\" class=\"fa fa-trash-o\" data-message-id=\"{$messageUsers[$i]['id']}\"> </a>";
                $class = 'message-left';
                $timeAgo = $this->msg('userboard_received_ago', $ba->getTimeAgo($messageUsers[$i]['timestamp']) )->parse() ;
 
            }
 
 
-            $delete_link = "<a href=\"javascript:void(0);\" data-message-id=\"{$messageUsers[$i]['id']}\"> ".$this->msg('userboard_delete',$avatar)->parse()." </a>";
             $message_text = $messageUsers[$i]['message_text'];
             $userPageURL = htmlspecialchars( $user_title->getFullURL() );
 
@@ -210,7 +225,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                             <span class=\"user-board-red\">
                             {$delete_link}
         				    </span>
-        					<div class=\"uba-discussion-body data-toggle=\"tooltip\" data-placement=\"right\" title=\"{$timeAgo}\">
+        					<div class=\"uba-discussion-body\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"{$timeAgo}\">
                                 {$message_text}
         					</div>
                         </div>
