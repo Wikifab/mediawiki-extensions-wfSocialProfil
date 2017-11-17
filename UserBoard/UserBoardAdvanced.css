@@ -39,6 +39,18 @@ h2.uba-discussion-list-title {
     width: calc(100% - 300px);
 }
 
+.user-board-red a {
+    color: #ddd;
+    transition: .2s;
+    margin: 4px 6px;
+    font-size: 19px;
+}
+
+.user-board-red a:hover {
+    color: #52bad5;
+    text-decoration: none;
+}
+
 .uba-send-message-textarea {
     float:left;
     margin-right: 8px;
@@ -255,6 +267,16 @@ h4.uba-discussion-from a {
     vertical-align: baseline;
 }
 
+.uba-discussion-error-message {
+    top: 50%;
+    float: left;
+    left: 300px;
+    position: fixed;
+    text-align: center;
+    width: calc(100% - 300px);
+    padding:15px;
+}
+
 @media (max-width: 992px) {
 
 .uba-message-list .uba-content {
@@ -264,6 +286,11 @@ h4.uba-discussion-from a {
 .uba-message-list {
     width: 66px;
     top: 48px;
+}
+
+.uba-discussion-error-message {
+    left: 66px;
+    width: calc(100% - 66px);
 }
 
 .user-page-message-form {
