@@ -48,7 +48,7 @@ class SpecialViewUserBoard extends SpecialPage {
 		) );
 		$out->addModules( 'ext.socialprofile.userboard.js' );
 
-		$ub_messages_show = 25;
+		$ub_messages_show = 5;
 		$user_name = $request->getVal( 'user' );
 		$user_name_2 = $request->getVal( 'conv' );
 		$user_id_2 = ''; // Prevent E_NOTICE

@@ -35,12 +35,12 @@ function wfDeleteBoardMessage( $ub_id ) {
 	}
 
 	$b = new UserBoard();
-	if (
-		$b->doesUserOwnMessage( $wgUser->getID(), $ub_id ) ||
-		$wgUser->isAllowed( 'userboard-delete' )
-	) {
-		$b->deleteMessage( $ub_id );
-	}
+// 	if (
+// 		$b->doesUserOwnMessage( $wgUser->getID(), $ub_id ) ||
+// 		$wgUser->isAllowed( 'userboard-delete' )
+// 	) {
+	    $b->deleteMessage( $ub_id );
+	//}
 
 	return 'ok';
 }

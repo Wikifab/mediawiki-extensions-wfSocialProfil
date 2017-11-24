@@ -39,7 +39,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $user_2= User::newFromName($user_name_2);
 
 
-        $nb_conversation_show = 25;
+        $nb_conversation_show = 10;
         $page = $request->getInt( 'page', 1 );
 
 
@@ -56,7 +56,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
         $b = new UserBoard();
         $ba = new UserBoard();
-
         // Si l'utilisateur choisi n'est pas encore sélectionné, on le met à 0 sinon c'est celui choisi
         if (!($user_2)){
             $user_2_id = 0;
@@ -74,7 +73,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         // Si on a pas d'user 2 et qu'il y a quand même des messages on donne par défaut la valeur de cet user à l'user2
         if($user_2_id==0 && $ub_messages ){
             $lastMessage = $ub_messages[0];
-
             if($lastMessage['user_id_from'] == $currentUser->getId()) {
                 $user_2_id = $lastMessage['user_id'];
             } else {
@@ -82,11 +80,11 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
             }
             $user_2= User::newFromId($user_2_id);
-
-
         }
         $html = "<div class=\"row\">";
-        $html .= $this->getAllMessages($currentUser, $user_2,$ub_messages);
+        $html .= $this->displayAllConversation($currentUser, $user_2,$ub_messages);
+
+
         if($user_2 && $user_2_id != $currentUser->getId()){
             // Messages quand on a un user (droite)
             $uba_messages = $ba->getUserBoardMessages(
@@ -95,8 +93,13 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                 $nb_conversation_show,
                 $page
                 );
+
             $html .='<h2 class="uba-discussion-list-title">'.$this->msg('userboard-advanced-all-messages',$user_2->getName())->parse().'</h2>';
-            $html .= $this->getAllDiscussions($currentUser, $user_2,$uba_messages);
+            $html .= $this->getAllMessages($currentUser, $user_2,$uba_messages, $page);
+
+            // Appel de la fonction qui met à 0 un message entrant et à 1 si on l'a lu.
+            $b->markMessageRead($currentUser, $uba_messages);
+
             //Si on a jamais parlé à cet utilisateur affiché message pour commencer conversation
             if($user_2 && !($uba_messages)){
                 $html .= "<div class=\"uba-discussion-error-message\"> " .$this->msg('userboard-advanced-nomessageswiththisone')->plain() ."</div>";
@@ -112,17 +115,13 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
         }
 
-
-
-
-
         $html .= "</div>";
         $out->addHTML($html);
 
     }
 
 // Permet d'afficher toutes les conversations qu'on a eu avec tous les utilsateurs (qui nous ont envoyé un message)
-    private function getAllMessages  ($user, $user_2_active, $messages){
+    private function displayAllConversation  ($user, $user_2_active, $messages){
         $b = new UserBoard();
         $user_name=$user->getName();
         $html = '<h2 class="uba-message-list-title">'.$this->msg('userboardadvanced').'</h2>';
@@ -134,15 +133,19 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
             $message_text = $message['message_text'];
             $userPageURL = htmlspecialchars( $user_title->getFullURL() );
-
            //Si le $user choisi est le user qui a envoyé ou reçu des messages alors on met la classe active
             if ($user_2_active->getName() == $message['user_name_from'] || $user_2_active->getName() == $message['user_name']){
                 $class = "active";
-
             }
+
             else {
                 $class="";
             }
+            // Si le message est non lu ET qu'il est pour la personne connectée on lui donne la classe unread
+            if($message['read']==0 && $message['user_id']== $user->getId()){
+                $class .= " unread";
+            }
+
             // Si l'on a un message de ou pour quelqu'un cette personne devra apparaître dans le fil de la conversation
             if($user_name == $message['user_name_from']){
                 $user_2_id=$message['user_id'];
@@ -178,17 +181,27 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                      </div></a>";
 
         }
+
         $html .= "</div>";
         return ($html);
 
     }
 
-    private function getAllDiscussions($user, $user_2,$messageUsers){
+    private function getAllMessages($user, $user_2,$messageUsers, $page){
 
+        $nb_conversation_show = 10;
         $per_page = 25;
         $ba =  new UserBoard();
         $html = "<div class=\"user-page-message-form col-md-7\">";
 
+        // Mettre une limite de messages à charger lors du chargement de la conversation
+        $totalMessages = $ba->getUserBoardToBoardCount( $user->getId(), $user_2->getId());
+        $numofpages = $totalMessages / $nb_conversation_show;
+
+        if ( $numofpages > 1 ) {
+                $html .= '<i class="more-message fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+
+        }
         // Boucle sur les messages d'une même conversation pour afficher les messages de droite du plus ancien au plus récent
         for ($i=count($messageUsers)-1; $i>=0; $i--){
             $user_title = Title::makeTitle( NS_USER, $messageUsers[$i]['user_name_from'] );
@@ -204,10 +217,13 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
            }
            else {
-               $delete_link = "<a href=\"javascript:void(0);\" class=\"fa fa-trash-o\" data-message-id=\"{$messageUsers[$i]['id']}\"> </a>";
+               $delete_link = '';
                $class = 'message-left';
                $timeAgo = $this->msg('userboard_received_ago', $ba->getTimeAgo($messageUsers[$i]['timestamp']) )->parse() ;
 
+           }
+           if ($messageUsers[$i]['read']==0 && $messageUsers[$i]['user_id'] == $user->getId()){
+               $class .= " unread";
            }
 
 
@@ -257,8 +273,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
 
         return ($html);
-
-
 
      }
 

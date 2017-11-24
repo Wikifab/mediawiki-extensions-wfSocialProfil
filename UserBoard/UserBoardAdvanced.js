@@ -36,7 +36,7 @@ var UserBoardAdvanced = {
 		}
 	},
 
-	deleteOwnMessage: function( id ) {
+	deleteMessage: function( id ) {
 		if ( confirm( mw.msg( 'userboard_confirmdelete' ) ) ) {
 			jQuery.post(
 				mw.util.wikiScript(), {
@@ -49,14 +49,50 @@ var UserBoardAdvanced = {
 					// 1st parent = span.user-board-red
 					// 2nd parent = div.uba-discussion-content
 					// 3rd parent = div.uba-discussion.message-right
-					jQuery( this ).parent().parent().parent().hide();
+					jQuery( this ).parent().parent().parent(".div.uba-discussion.message-right").hide();
 				}
 			);
 		}
 	}
 };
 
+
 jQuery( document ).ready( function() {
+
+	$page=mw.util.getParamValue( 'page' );
+	$nb_message_show = 10;
+	
+	if(!$page){
+		$page=1;
+	}
+
+	$('.user-page-message-form').scroll(function(){
+	    if ($('.user-page-message-form').scrollTop() == 0){
+	    	$page++;
+	    	$.ajax({
+	            url: mw.util.getUrl('Special:UserBoardAdvanced',{user:mw.util.getParamValue( 'user' ), page:$page}),
+	            success: function(html) {
+	            	var $data = $(html);
+					wfUba = $data.find('.user-page-message-form ').contents();
+					var resultDiv = $('.user-page-message-form ');
+					resultDiv.prepend(wfUba);
+					if( $('.more-message').length > 0 ){
+						$( ".more-message" ).first().replaceWith($( ".more-message" ).last());
+					}
+					if (wfUba.length == 1){
+						$('.more-message').last().remove();
+					}			
+					
+					wfUba[$nb_message_show].scrollIntoView(false);	            }
+	    	
+	        });
+	    	
+	    }
+	    
+	});
+	
+	$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+	
 	// "Delete" link
 	jQuery( 'span.user-board-red a' ).on( 'click', function() {
 		UserBoardAdvanced.deleteMessage( jQuery( this ).data( 'message-id' ) );
@@ -66,6 +102,7 @@ jQuery( document ).ready( function() {
 	jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
 		UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
 	} );
-	$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+	
+	
 
 } );

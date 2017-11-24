@@ -229,6 +229,7 @@ $wgHooks['CanonicalNamespaces'][] = 'SocialProfileHooks::onCanonicalNamespaces';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'SocialProfileHooks::onLoadExtensionSchemaUpdates';
 $wgHooks['ParserFirstCallInit'][] = 'AvatarParserFunction::setupAvatarParserFunction';
 $wgHooks['SkinTemplateNavigation'][] = 'SocialProfileHooks::onSkinTemplateNavigation';
+$wgHooks['PersonalUrls'][]='SocialProfileHooks::onPersonalUrls';
 
 // For the Renameuser extension
 $wgHooks['RenameUserComplete'][] = 'SocialProfileHooks::onRenameUserComplete';
@@ -325,6 +326,7 @@ $wgResourceModules['ext.socialprofile.userstats.css'] = array(
 // UserBoardAdvanced
 $wgResourceModules['ext.socialprofile.userboardadvanced.js'] = array(
     'scripts' => 'UserBoardAdvanced.js',
+    'messages' => array( 'userboard_confirmdelete' ),
     'localBasePath' => __DIR__ . '/UserBoard',
     'remoteExtPath' => 'SocialProfile/UserBoard',
 );

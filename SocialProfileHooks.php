@@ -65,7 +65,9 @@ class SocialProfileHooks {
 		$updater->addExtensionUpdate( array( 'addTable', 'user_points_monthly', "$dir/UserStats/user_points_monthly$dbExt.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addTable', 'user_points_archive', "$dir/UserStats/user_points_archive$dbExt.sql", true ) );
 		$updater->addExtensionField( 'user_profile', 'up_custom_6', "$dir/UserProfile/user_profile_up_custom_6$dbExt.sql", true );
-		
+		$updater->addExtensionField( 'user_board', 'ub_read', "$dir/UserBoard/user_board_read$dbExt.sql", true );
+
+
 		return true;
 	}
 
@@ -114,4 +116,44 @@ class SocialProfileHooks {
 		}
 		return true;
 	}
+    // Add a new item on navbar, a direct link to UserBoardAdvanced
+	public static function onPersonalUrls( array &$personal_urls, Title $title, SkinTemplate $skin ) {
+        global $wgUser;
+        // Si la personne n'est pas connectée ne pas afficher l'enveloppe
+        if ( $wgUser->getID() != 0){
+    	    $title = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
+    	    $title_url = htmlspecialchars ($title->getFullURL());
+
+
+    	    $countNewMessage = new UserBoard();
+    	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId());
+
+            $personal_urls[] = array (
+                "text"=>$newCountMessage,
+                "href"=>$title_url,
+                "active"=>'',
+                "class"=>'glyphicon glyphicon-envelope'
+            );
+    	}
+
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

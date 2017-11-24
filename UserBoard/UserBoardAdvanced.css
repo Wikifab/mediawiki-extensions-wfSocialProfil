@@ -314,3 +314,7 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 }
 
 }
+.unread {
+	font-weight:bold;
+}
+
