@@ -39,7 +39,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $user_2= User::newFromName($user_name_2);
 
 
-        $nb_conversation_show = 10;
+        $nb_conversation_show = 20;
         $page = $request->getInt( 'page', 1 );
 
 
@@ -189,7 +189,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
     private function getAllMessages($user, $user_2,$messageUsers, $page){
 
-        $nb_conversation_show = 10;
+        $nb_conversation_show = 20;
         $per_page = 25;
         $ba =  new UserBoard();
         $html = "<div class=\"user-page-message-form col-md-7\">";
