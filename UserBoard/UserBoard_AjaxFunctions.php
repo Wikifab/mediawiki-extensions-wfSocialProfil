@@ -11,6 +11,9 @@ function wfSendBoardMessage( $user_name, $message, $message_type, $count ) {
 	if ( $wgUser->isBlocked() || wfReadOnly() ) {
 		return '';
 	}
+	if (!$wgUser->isAllowed( 'userboard-sendMessage' )){
+	    return '';
+	}
 
 	$user_name = stripslashes( $user_name );
 	$user_name = urldecode( $user_name );
