@@ -38,6 +38,7 @@ class UserBoard {
 				'ub_message' => $message,
 				'ub_type' => $message_type,
 				'ub_date' => date( 'Y-m-d H:i:s' ),
+			    'ub_read'=>0
 			),
 			__METHOD__
 		);
@@ -75,7 +76,7 @@ class UserBoard {
 
 		// Send email if user's email is confirmed and s/he's opted in to recieving social notifications
 		if ( $user->isEmailConfirmed() && $user->getIntOption( 'notifymessage', 1 ) ) {
-			$board_link = SpecialPage::getTitleFor( 'UserBoard' );
+			$board_link = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
 			$update_profile_link = SpecialPage::getTitleFor( 'UpdateProfile' );
 			$subject = wfMessage( 'message_received_subject', $user_from )->parse();
 			$body = wfMessage( 'message_received_body',
@@ -154,18 +155,19 @@ class UserBoard {
 
 		$key = wfMemcKey( 'user', 'newboardmessage', $user_id );
 		$newCount = 0;
-		/*
+
+
 		$dbw = wfGetDB( DB_MASTER );
 		$s = $dbw->selectRow(
 			'user_board',
 			array( 'COUNT(*) AS count' ),
-			array( 'ug_user_id_to' => $user_id, 'ug_status' => 1 ),
+			array( 'ub_user_id' => $user_id, 'ub_read' => 0 ),
 			__METHOD__
 		);
 		if ( $s !== false ) {
 			$newCount = $s->count;
 		}
-		*/
+
 
 		$wgMemc->set( $key, $newCount );
 
@@ -242,7 +244,7 @@ class UserBoard {
 				);
 
 				$stats = new UserStatsTrack( $s->ub_user_id, $s->ub_user_name );
-				if ( $s->ub_type == 0 ) {
+				if ( $s->ub_type == 0) {
 					$stats->decStatField( 'user_board_count' );
 				} else {
 					$stats->decStatField( 'user_board_count_priv' );
@@ -293,10 +295,10 @@ class UserBoard {
 		}
 
 		$sql = "SELECT ub_id, ub_user_id_from, ub_user_name_from, ub_user_id, ub_user_name,
-			ub_message,UNIX_TIMESTAMP(ub_date) AS unix_time,ub_type
+			ub_message,UNIX_TIMESTAMP(ub_date) AS unix_time,ub_type,ub_read
 			FROM {$dbr->tableName( 'user_board' )}
 			WHERE {$user_sql}
-			ORDER BY ub_id DESC
+			ORDER BY ub_date DESC
 			{$limit_sql}";
 		$res = $dbr->query( $sql, __METHOD__ );
 
@@ -315,12 +317,134 @@ class UserBoard {
 				'user_id' => $row->ub_user_id,
 				'user_name' => $row->ub_user_name,
 				'message_text' => $message_text,
-				'type' => $row->ub_type
+				'type' => $row->ub_type,
+			    'read' =>$row->ub_read
+
 			);
 		}
 
 		return $messages;
 	}
+
+	/**
+	 * Get the user board conversation (left side)  for the user with the ID $user_id.
+	 *
+	 * @param $limit Integer: used to build the LIMIT and OFFSET for the SQL
+	 *                        query
+	 * @param $page Integer: used to build the LIMIT and OFFSET for the SQL
+	 *                       query
+	 * @return Array: array of user board conversations with last message of each
+	 */
+
+	public function getUserBoardAllMessages( $limit = 0, $page = 0 ) {
+	    global $wgUser, $wgOut, $wgTitle;
+	    $user_id=$wgUser->getId();
+	    $dbr = wfGetDB( DB_SLAVE );
+	    if ( $limit > 0 ) {
+	        $limitvalue = 0;
+	        if ( $page ) {
+	            $limitvalue = $page * $limit - ( $limit );
+	        }
+	        $limit_sql = " LIMIT {$limitvalue},{$limit} ";
+	    }
+	    $user_sql = "ub_user_id = {$user_id} OR ub_user_id_from={$user_id}";
+
+
+	    $sql = "SELECT ub_id, ub_user_id_from, ub_user_id, max(UNIX_TIMESTAMP(ub_date)) AS unix_time,ub_type
+			FROM {$dbr->tableName( 'user_board' )}
+			WHERE {$user_sql}
+			GROUP BY ub_user_id_from, ub_user_id ORDER BY unix_time DESC";
+
+	    $res = $dbr->query( $sql, __METHOD__ );
+		$messages = array();
+        $test = array();
+
+			foreach ( $res as $row ) {
+			    $parser = new Parser();
+
+                //We are looking for the sender of the message
+			    if ($user_id == $row->ub_user_id_from) {
+			        $user_id_2 = $row->ub_user_id;
+			    }
+			    else {
+			        $user_id_2 = $row->ub_user_id_from;
+			    }
+
+                if(isset($test[$user_id_2])){
+                    continue;
+                }
+
+                $test[$user_id_2]=true;
+
+			    $user_sql = "ub_user_id = {$user_id} AND ub_user_id_from = {$user_id_2}";
+			    $user_sql .= " OR ub_user_id_from={$user_id} AND ub_user_id = {$user_id_2}";
+
+			    $secondQuery = "SELECT ub_id, ub_user_id_from, ub_user_name_from, ub_user_id, ub_user_name,
+			ub_message,UNIX_TIMESTAMP(ub_date) AS unix_time,ub_type,ub_read
+			FROM {$dbr->tableName( 'user_board' )}
+			WHERE {$user_sql}
+			ORDER BY ub_date DESC
+			LIMIT 1";
+			    $result = $dbr->query( $secondQuery, __METHOD__ );
+			    //Permet de mettre un objet en tableau
+			    $row2 = $result->fetchRow();
+
+			    $message_text = $parser->parse( $row2['ub_message'], $wgTitle, $wgOut->parserOptions(), true );
+			    $message_text = $message_text->getText();
+
+			    $messages[] = array(
+			        'id'=>($row2['ub_id']),
+			        'timestamp' => $row2['unix_time'],
+			        'user_id_from' => $row2['ub_user_id_from'],
+			        'user_name_from' => $row2['ub_user_name_from'],
+			        'user_id' => $row2['ub_user_id'],
+			        'user_name' => $row2['ub_user_name'],
+			        'message_text' => $message_text,
+			        'type' => $row2['ub_type'],
+			        'read' =>$row2['ub_read']
+			    );
+			}
+
+			return $messages;
+
+	}
+
+	/**
+	 * Mark message on left and right side read or unread.
+	 *
+	 *Default value to unread if they have been read we change statut.
+	 *
+	 * @param $user : Object about the connected user
+	 *
+	 * @param $message : Object about different message receive or send (left and right side)
+	 *
+	 * Change in DB the new column (ub_read) statut : 0 (unread) in 1 (read)
+	 */
+	public function markMessageRead ($user, $messages){
+	    global $wgUser;
+
+
+	    $dbw = wfGetDB(DB_SLAVE);
+
+	    $messages_ids = array();
+        foreach ($messages as $message){
+	       if ($message['read']==0 && $message['user_id']==$wgUser->getId()){
+	           $messages_ids[] = $message['id'];
+            }
+	   }
+	   if($messages_ids){
+	       $dbw->update(
+	           'user_board',
+	           /* SET */array(
+	               'ub_read'=> 1
+	           ),
+	           /* WHERE */array(
+	               'ub_id' => $messages_ids
+	           ), __METHOD__
+	           );
+	   }
+	}
+
 
 	/**
 	 * Get the amount of board-to-board messages sent between the users whose

@@ -52,6 +52,7 @@ $wgAutoloadClasses['SpecialViewUserBoard'] = __DIR__ . '/UserBoard/SpecialUserBo
 $wgAutoloadClasses['RemoveAvatar'] = __DIR__ . '/UserProfile/SpecialRemoveAvatar.php';
 $wgAutoloadClasses['UpdateEditCounts'] = __DIR__ . '/UserStats/SpecialUpdateEditCounts.php';
 $wgAutoloadClasses['UserBoard'] = __DIR__ . '/UserBoard/UserBoardClass.php';
+$wgAutoloadClasses['SpecialUserBoardAdvanced'] = __DIR__ . '/UserBoard/SpecialUserBoardAdvanced.php';
 $wgAutoloadClasses['UserProfile'] = __DIR__ . '/UserProfile/UserProfileClass.php';
 $wgAutoloadClasses['UserProfilePage'] = __DIR__ . '/UserProfile/UserProfilePage.php';
 $wgAutoloadClasses['UserRelationship'] = __DIR__ . '/UserRelationship/UserRelationshipClass.php';
@@ -82,6 +83,7 @@ $wgSpecialPages['UpdateEditCounts'] = 'UpdateEditCounts';
 $wgSpecialPages['UpdateProfile'] = 'SpecialUpdateProfile';
 $wgSpecialPages['UploadAvatar'] = 'SpecialUploadAvatar';
 $wgSpecialPages['UserBoard'] = 'SpecialViewUserBoard';
+$wgSpecialPages['UserBoardAdvanced'] = 'SpecialUserBoardAdvanced';
 $wgSpecialPages['ViewRelationshipRequests'] = 'SpecialViewRelationshipRequests';
 $wgSpecialPages['ViewRelationships'] = 'SpecialViewRelationships';
 
@@ -227,6 +229,7 @@ $wgHooks['CanonicalNamespaces'][] = 'SocialProfileHooks::onCanonicalNamespaces';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'SocialProfileHooks::onLoadExtensionSchemaUpdates';
 $wgHooks['ParserFirstCallInit'][] = 'AvatarParserFunction::setupAvatarParserFunction';
 $wgHooks['SkinTemplateNavigation'][] = 'SocialProfileHooks::onSkinTemplateNavigation';
+$wgHooks['PersonalUrls'][]='SocialProfileHooks::onPersonalUrls';
 
 // For the Renameuser extension
 $wgHooks['RenameUserComplete'][] = 'SocialProfileHooks::onRenameUserComplete';
@@ -318,6 +321,21 @@ $wgResourceModules['ext.socialprofile.userstats.css'] = array(
 	'localBasePath' => __DIR__ . '/UserStats',
 	'remoteExtPath' => 'SocialProfile/UserStats',
 	'position' => 'top' // just in case
+);
+
+// UserBoardAdvanced
+$wgResourceModules['ext.socialprofile.userboardadvanced.js'] = array(
+    'scripts' => 'UserBoardAdvanced.js',
+    'messages' => array( 'userboard_confirmdelete' ),
+    'localBasePath' => __DIR__ . '/UserBoard',
+    'remoteExtPath' => 'SocialProfile/UserBoard',
+);
+
+$wgResourceModules['ext.socialprofile.userboardadvanced.css'] = array(
+    'styles' => 'UserBoardAdvanced.css',
+    'localBasePath' => __DIR__ . '/UserBoard',
+    'remoteExtPath' => 'SocialProfile/UserBoard',
+    'position' => 'top' // just in case
 );
 
 // End ResourceLoader stuff

@@ -37,14 +37,15 @@
 	"userboard_confirmdelete": "Êtes-vous certain{{GENDER:||e|(e)}} de vouloir supprimer ce message ?",
 	"userboard_sendmessage": "Envoyer un message à $1",
 	"userboard_myboard": "Mon tableau",
-	"userboard_posted_ago": "envoyé depuis $1",
+	"userboard_received_ago":"Reçu depuis $1",
+	"userboard_posted_ago": "Envoyé depuis $1",
 	"userboard_private": "privé",
 	"userboard_public": "public",
 	"userboard_messagetype": "Type de message",
 	"userboard_nextpage": "suivant",
 	"userboard_prevpage": "précédent",
 	"userboard_nomessages": "Aucun message.",
-	"userboard_sendbutton": "envoyé",
+	"userboard_sendbutton": "Envoyer",
 	"userboard_loggedout": "Vous devez être [[Special:UserLogin|connecté]] pour poster des messages à d’autres utilisateurs.",
 	"userboard_showingmessages": "Visionnement {{PLURAL:$4|du message $3|des messages $2-$3}} sur un total de $1 message{{PLURAL:$1||s}}",
 	"right-userboard-delete": "Supprimer les messages d’autres utilisateurs",
@@ -53,5 +54,13 @@
 	"userboard-time-minutes": "$1 {{PLURAL:$1|minute|minutes}}",
 	"userboard-time-seconds": "$1 {{PLURAL:$1|seconde|secondes}}",
 	"message_received_subject": "$1 a écrit sur votre tableau sur {{SITENAME}}",
-	"message_received_body": "Salut $1 :\n\n$2 vient juste d’écrire sur votre tableau sur {{SITENAME}} !\n\nCliquez sur le lien ci-dessous pour allez sur votre tableau !\n\n$3\n\n---\n\nHé ! Voulez-vous arrêter d’obtenir, de nous, les courriels ?\n\nCliquer $4\net modifiez vos paramètres pour désactiver les notifications des courriels."
+	"message_received_body": "Salut $1 :\n\n$2 vient juste d’écrire sur votre tableau sur {{SITENAME}} !\n\nCliquez sur le lien ci-dessous pour allez sur votre tableau !\n\n$3\n\n---\n\nHé ! Voulez-vous arrêter d’obtenir, de nous, les courriels ?\n\nCliquer $4\net modifiez vos paramètres pour désactiver les notifications des courriels.",
+	
+	"userboardadvanced":"Toutes vos conversations",
+	"userboard-advanced-all-messages":"Messages avec $1",
+	"userboard-send-message-title":"Envoyer un nouveau message à $1",
+	"userboard-advanced-nomessageswithyourself":"Oups... Vous ne pouvez pas vous converser avec vous-même.",
+	"userboard-advanced-nomessageswiththisone":"Commencez à écrire pour démarrer la conversation. ",
+	"userboard-advanced-older-messages":"Messages plus anciens"
+	
 }
