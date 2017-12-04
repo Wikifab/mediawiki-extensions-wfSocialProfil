@@ -53,6 +53,7 @@ class UserProfile {
 		'custom_10',
 		'custom_11',
 		'custom_12',
+	    'custom_13',
 		'email'
 	);
 
@@ -154,7 +155,7 @@ class UserProfile {
 			$profile['custom_10'] = isset( $row->up_custom_10 ) ? $row->up_custom_10 : '';
 			$profile['custom_11'] = isset( $row->up_custom_11 ) ? $row->up_custom_11 : '';
 			$profile['custom_12'] = isset( $row->up_custom_12 ) ? $row->up_custom_12 : '';
-			
+
 			$profile['user_page_type'] = isset( $row->up_type ) ? $row->up_type : '';
 			$wgMemc->set( $key, $profile );
 		}
@@ -263,9 +264,24 @@ class UserProfile {
 				$output .= '</div>';
 			}
 		}
-		
+
 		$output .= '<div class="visualClear"></div></div>';
 
 		return $output;
 	}
+
+	public static function getAllValuesForProperty( $property_name ) {
+	    global $wgPageFormsMaxAutocompleteValues;
+
+	    $store = PFUtils::getSMWStore();
+	    if ( $store == null ) {
+	        return array();
+	    }
+	    $requestoptions = new \SMWRequestOptions();
+	    $requestoptions->limit = $wgPageFormsMaxAutocompleteValues;
+	    $values = self::getSMWPropertyValues( $store, null, $property_name, $requestoptions );
+	    sort( $values );
+	    return $values;
+	}
+
 }

@@ -65,6 +65,7 @@ class SocialProfileHooks {
 		$updater->addExtensionUpdate( array( 'addTable', 'user_points_monthly', "$dir/UserStats/user_points_monthly$dbExt.sql", true ) );
 		$updater->addExtensionUpdate( array( 'addTable', 'user_points_archive', "$dir/UserStats/user_points_archive$dbExt.sql", true ) );
 		$updater->addExtensionField( 'user_profile', 'up_custom_6', "$dir/UserProfile/user_profile_up_custom_6$dbExt.sql", true );
+		$updater->addExtensionField( 'user_profile', 'up_custom_13', "$dir/UserProfile/user_profile_up_custom_13$dbExt.sql", true );
 		$updater->addExtensionField( 'user_board', 'ub_read', "$dir/UserBoard/user_board_read$dbExt.sql", true );
 
 

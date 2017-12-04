@@ -174,7 +174,7 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 				'up_places_lived', 'up_websites',
 				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4','up_custom_5',
 				'up_custom_6','up_custom_7','up_custom_8','up_custom_9','up_custom_10',
-				'up_custom_11','up_custom_12'
+			    'up_custom_11','up_custom_12','up_custom_13'
 			),
 			array( 'up_user_id' => $tar->getID() ),
 			__METHOD__
@@ -205,7 +205,8 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 			$custom10 = $s->up_custom_10;
 			$custom11 = $s->up_custom_11;
 			$custom12 = $s->up_custom_12;
-			
+			$custom13 = $s->up_custom_13;
+
 		}
 
 		if ( !isset( $location_country ) ) {
@@ -480,11 +481,11 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 			$custom3 = $s->up_custom_3;
 			$custom4 = $s->up_custom_4;
 			$custom5 = $s->up_custom_5;
-			
+
 		}
 
 		$this->getOutput()->setPageTitle( $this->msg( 'user-profile-section-interests' )->plain() );
-		
+
 		//$form = UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-custom' )->plain() );
 		$form = '<div class="profile-info clearfix">
 				<div class="profile-update">

@@ -27,3 +27,28 @@ It is recommended that you spend a while reading the documentation and
 searching the archived discussions before posting a question - it is
 possible that someone has experienced the same issue with this software
 that you are experiencing currently.
+
+
+==Customisation fields User Profile==
+
+To change the number of custom fields, set variable wgSocialProfileNbCustomCustomFields to a value between 5 and 11 :
+ $wgSocialProfileNbCustomCustomFields = 6;
+
+the last field is using select box, and can be customized like this :
+ $wgSocialProfileCustomFields = array (
+ 		"custom_12" => array (
+ 				'Jardinage',
+ 				'Sport',
+ 				'Cinema',
+ 				'Voiture',
+ 				'Moto',
+ 				'Voyage'
+ 		) 
+ );
+
+ ==To allow people sending messages==
+ 
+ To allow connected users to send messages you had to add this line in your LocalSettings.php file :
+ 
+ $wgGroupPermissions['user']['userboard-sendMessage']= true;
+ 

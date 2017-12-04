@@ -316,7 +316,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		return $birthday_date;
 	}
 
-	public static function formatBirthday( $birthday, $showYOB = false ) {          
+	public static function formatBirthday( $birthday, $showYOB = false ) {
 		$dob = explode( '-', $birthday );
 		if ( count( $dob ) == 3 ) {
 			$month = $dob[1];
@@ -348,6 +348,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$request = $this->getRequest();
 
+		$custom12 = $request->getArray('custom12') ? implode(",", $request->getArray('custom12')) : '';
+		$custom13 = $request->getArray('custom13') ? implode(",", $request->getArray('custom13')) : '';
+
 		$basicProfileData = array(
 			'up_location_city' => $request->getVal( 'location_city' ),
 			'up_location_state' => $request->getVal( 'location_state' ),
@@ -375,10 +378,11 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_custom_9' => $request->getVal( 'custom9' ),
 			'up_custom_10' => $request->getVal( 'custom10' ),
 			'up_custom_11' => $request->getVal( 'custom11' ),
-			'up_custom_12' =>implode(",", $request->getArray('custom12'))
-				
+			'up_custom_12' => $custom12,
+		    'up_custom_13'=> $custom13
+
 		);
-		
+
 		$dbw->update(
 			'user_profile',
 			/* SET */$basicProfileData,
@@ -485,7 +489,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				'up_places_lived', 'up_websites',
 				'up_custom_1', 'up_custom_2', 'up_custom_3', 'up_custom_4',
 					'up_custom_5','up_custom_6','up_custom_7', 'up_custom_8',
-					'up_custom_9','up_custom_10','up_custom_11','up_custom_12'
+			    'up_custom_9','up_custom_10','up_custom_11','up_custom_12','up_custom_13'
 			),
 			array( 'up_user_id' => $user->getID() ),
 			__METHOD__
@@ -545,8 +549,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		array_shift( $countries );
 
 		$this->getOutput()->setPageTitle( $this->msg( 'edit-profile-title')->plain() );
-		
-				
+
+
 		$form = '<div class="edit-profile-title"><h1>' . $this->msg( 'edit-profile-title' )->plain() . '</h1>
 			<span class="go-back-btn"><a href="' .$user->getUserPage()->getLinkURL(). '">' . $this->msg( 'user-personal-go-back-profile' )->plain() . '</a></span></div>';
 		$form .= UserProfile::getEditProfileNav( $this->msg( 'user-profile-section-personal' )->plain() );
@@ -593,7 +597,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			$form .= "<option value=\"{$country}\"" . ( ( $country == $location_country ) ? ' selected="selected"' : '' ) . ">";
 			$form .= $country . "</option>\n";
 		}
-		
+
 		// Hide country field in the user profile update form
 
 			/*
@@ -626,7 +630,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		$form .= '</select>';
 		$form .= '</p>
 			<div class="visualClear"></div>
-		</div> 
+		</div>
 		<div class="visualClear"></div>';
 
 		$form .= '<div class="profile-update">
@@ -639,7 +643,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			( isset( $birthday ) ? $birthday : '' ) . '" /></p>
 			<div class="visualClear"></div>
 		</div>
-		
+
 		<div class="profile-update" id="profile-update-personal-web">
 			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-website' )->plain() . '</p>
 			<p class="profile-update-unit">
@@ -738,7 +742,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				<textarea name="schools" id="schools" placeholder="' . $this->msg( 'user-profile-placeholder-labs' )->plain() . '" rows="2" cols="75">' . ( isset( $schools ) ? $schools : '' ) . '</textarea>
 			</p>
 
-		
+
 		<div class="visualClear"></div>
 			<div id="profile-update-custom9">
 			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field9' )->inContentLanguage()->parse() . '</p>
@@ -767,26 +771,45 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<div id="profile-update-custom12">
 			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
 			<p class="profile-update-unit">' ;
-		
-		//Les valeurs checkées sont mises dans un tableau
-		$selectivesValues = explode (",",$custom12);
-		//Pour chaque élément du tableau parcouru 
-		foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
-		// On affiche la case cochée si elle est dans le tableau, sinon on affiche la case non cochée
-			  	$checked = in_array($value, $selectivesValues) ? 'checked' : '';
-		// le formulaire affiche donc toutes les valeurs du tableau cochée et non cochées après le submit
-		$form .= '<label>' .'<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '.$checked.' /> '
-						. $this->msg('custom_info_field12_' . $value ) .'</label>' . '</br>' ;
-			
-			
-		}
-		
+
+
+        if( isset($wgSocialProfileCustomFields['custom_12'])) :
+
+			$form .= '<div class="visualClear"></div>
+				<div id="profile-update-custom12">
+				<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
+				<p class="profile-update-unit">' ;
+
+			//Les valeurs checkées sont mises dans un tableau
+			$selectivesValues = isset($custom12) ? explode (",",$custom12) : [];
+			//Pour chaque élément du tableau parcouru
+
+			foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
+			// On affiche la case cochée si elle est dans le tableau, sinon on affiche la case non cochée
+				  	$checked = in_array($value, $selectivesValues) ? 'checked' : '';
+			// le formulaire affiche donc toutes les valeurs du tableau cochée et non cochées après le submit
+			$form .= '<label>' .'<input type="checkbox" name="custom12[]" id="least_fav_athlete" value= "'. $value .'" '.$checked.' /> '
+							. $this->msg('custom_info_field12_' . $value ) .'</label>' . '</br>' ;
+
+
+			}
+			endif;
+
+			if( isset($property_name)) :
+
+			$form .= '<div class="visualClear"></div>
+				<div id="profile-update-custom13">
+				<p class="profile-update-unit-left">' . $property_name . '</p>
+				<p class="profile-update-unit">' ;
+
+			endif;
+
 		$form .= '</p>
 			</div>
 		<div class="visualClear"></div>
 
 		</div>
-		<div class="visualClear"></div>				
+		<div class="visualClear"></div>
 		</div>';
 		$form .= '
 			<input type="button" class="site-button" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
@@ -921,7 +944,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 					<input type="checkbox" size="25" name="notify_message" id="notify_message" value="1"' . ( ( $user->getIntOption( 'notifymessage', 1 ) == 1 ) ? 'checked' : '' ) . '/>
 					'. $this->msg( 'user-profile-preferences-emails-personalmessage' )->plain() .'
 				</p>
-				
+
 				<p class="profile-update-row profile-notification-boxes">
 					<input type="checkbox" size="25" name="notify_gift" id="notify_gift" value="1" ' . ( ( $user->getIntOption( 'notifygift', 1 ) == 1 ) ? 'checked' : '' ) . '/>
 					'. $this->msg( 'user-profile-preferences-emails-gift' )->plain() .'
@@ -940,7 +963,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				</p>*/
 
 		// Hide "Show year of birth checkbox?"
-	
+
 
 		/* $form .= '<p class="profile-update-title">' .
 			$this->msg( 'user-profile-preferences-miscellaneous' )->plain() .
