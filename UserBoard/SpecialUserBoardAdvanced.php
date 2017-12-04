@@ -200,6 +200,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
         if ( $numofpages > 1 ) {
                 $html .= '<div class="more-message-container">
+
                             <i class="more-message fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                          </div>';
 

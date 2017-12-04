@@ -209,5 +209,7 @@
 	"user-profile-picture-log-delete-entry": "a supprimé l’avatar de $1",
 	"right-avatarremove": "Supprimer les avatars d’un utilisateur",
 	"user-profile-create-threshold-only-confirmed-email": "et une addresse courriel confirmée",
-	"right-editothersprofiles": "Mettre à jour le profil social d'autres utilisateurs"
+	"right-editothersprofiles": "Mettre à jour le profil social d'autres utilisateurs",
+	"userprofilepage-tabs-created-page-label": "Tutoriels",
+	"userprofilepage-tabs-contributions-label": "Contributions"
 }

@@ -117,11 +117,11 @@ class UserProfilePage extends Article {
 
 		$tabs = [];
 		$tabs['tutorials'] = [
-				'label' => 'Tutoriels',
+				'label' => wfMessage('userprofilepage-tabs-created-page-label'),
 				'content' => $this->getTutorials( $this->user_name)
 		];
 		$tabs['contribs'] = [
-				'label' => 'Contributions',
+				'label' => wfMessage('userprofilepage-tabs-contributions-label'),
 				'content' => $this->getContributions( $this->user_name)
 		];
 		if( $wgUserProfileDisplay['userswatchlist']) {
@@ -216,53 +216,6 @@ class UserProfilePage extends Article {
 		//$out .= $this->getContributions( $this->user_name);
 
 		return $out;
-/*
-		// Left side
-		$out .=  '<div id="user-page-left" class="clearfix">';
-
-		if ( !Hooks::run( 'UserProfileBeginLeft', array( &$this ) ) ) {
-			wfDebug( __METHOD__ . ": UserProfileBeginLeft messed up profile!\n" );
-		}
-
-		$out .= $this->getRelationships( $this->user_name, 1 );
-		$out .= $this->getRelationships( $this->user_name, 2 );
-		$out .= $this->getGifts( $this->user_name );
-		$out .= $this->getAwards( $this->user_name );
-		$out .= $this->getCustomInfo( $this->user_name );
-		$out .= $this->getInterests( $this->user_name );
-		$out .= $this->getFanBoxes( $this->user_name );
-		$out .= $this->getUserStats( $this->user_id, $this->user_name );
-
-		if ( !Hooks::run( 'UserProfileEndLeft', array( &$this ) ) ) {
-			wfDebug( __METHOD__ . ": UserProfileEndLeft messed up profile!\n" );
-		}
-
-		$out .= '</div>';
-
-
-		wfDebug( "profile start right\n" );
-
-		// Right side
-		$out .= '<div id="user-page-right" class="clearfix">' ;
-
-		if ( !Hooks::run( 'UserProfileBeginRight', array( &$this ) ) ) {
-			wfDebug( __METHOD__ . ": UserProfileBeginRight messed up profile!\n" );
-		}
-
-		$out .= $this->getPersonalInfo( $this->user_id, $this->user_name );
-		$out .= $this->getActivity( $this->user_name );
-		// Hook for BlogPage
-		if ( !Hooks::run( 'UserProfileRightSideAfterActivity', array( $this ) ) ) {
-			wfDebug( __METHOD__ . ": UserProfileRightSideAfterActivity hook messed up profile!\n" );
-		}
-		$out .= $this->getUserBoard( $this->user_id, $this->user_name );
-
-		if ( !Hooks::run( 'UserProfileEndRight', array( &$this ) ) ) {
-			wfDebug( __METHOD__ . ": UserProfileEndRight messed up profile!\n" );
-		}
-
-		$out .= '</div><div class="visualClear"></div>';
-		return $out;*/
 	}
 
 	public function getCenterTabs() {
@@ -270,7 +223,7 @@ class UserProfilePage extends Article {
 
 		$out = '<div class="wf-profile-tabs">
 			  <div class="tabs-actions">
-				<a href="#" class="active" rel="nofollow">Tutoriels</a>
+				<a href="#" class="active" rel="nofollow">'. wfMessage('userprofilepage-tabs-created-page-label').'</a>
 				<a href="#" rel="nofollow">Contributions</a>
 			  </div>
 			  <div class="tabs-follow-btn">

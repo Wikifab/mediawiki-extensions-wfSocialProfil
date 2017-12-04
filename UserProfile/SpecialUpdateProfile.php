@@ -11,6 +11,8 @@
 
 class SpecialUpdateProfile extends UnlistedSpecialPage {
 
+	private $nbCustomFields = 0;
+
 	/**
 	 * Constructor
 	 */
@@ -51,7 +53,11 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 	 * @param $section Mixed: parameter passed to the page or null
 	 */
 	public function execute( $section ) {
-		global $wgUpdateProfileInRecentChanges, $wgUserProfileThresholds, $wgSupressPageTitle, $wgAutoConfirmCount, $wgEmailConfirmToEdit;
+		global $wgUpdateProfileInRecentChanges,$wgSocialProfileNbCustomCustomFields, $wgUserProfileThresholds, $wgSupressPageTitle, $wgAutoConfirmCount, $wgEmailConfirmToEdit;
+
+		if($wgSocialProfileNbCustomCustomFields) {
+			$this->nbCustomFields = $wgSocialProfileNbCustomCustomFields;
+		}
 
 		$out = $this->getOutput();
 		$request = $this->getRequest();
@@ -381,6 +387,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			'up_custom_12' => $custom12,
 		    'up_custom_13'=> $custom13
 
+
 		);
 
 		$dbw->update(
@@ -510,18 +517,19 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			$schools = $s->up_schools;
 			$places = $s->up_places_lived;
 			$websites = $s->up_websites;
-			$custom1 = $s->up_custom_1;
-			$custom2 = $s->up_custom_2;
-			$custom3 = $s->up_custom_3;
-			$custom4 = $s->up_custom_4;
-			$custom5 = $s->up_custom_5;
-			$custom6 = $s->up_custom_6;
-			$custom7 = $s->up_custom_7;
-			$custom8 = $s->up_custom_8;
-			$custom9 = $s->up_custom_9;
-			$custom10 = $s->up_custom_10;
-			$custom11 = $s->up_custom_11;
-			$custom12 = $s->up_custom_12;
+			$custom = [];
+			$custom[1] = $s->up_custom_1;
+			$custom[2] = $s->up_custom_2;
+			$custom[3] = $s->up_custom_3;
+			$custom[4] = $s->up_custom_4;
+			$custom[5] = $s->up_custom_5;
+			$custom[6] = $s->up_custom_6;
+			$custom[7] = $s->up_custom_7;
+			$custom[8] = $s->up_custom_8;
+			$custom[9] = $s->up_custom_9;
+			$custom[10] = $s->up_custom_10;
+			$custom[11] = $s->up_custom_11;
+			$custom[12] = $s->up_custom_12;
 		}
 
 		if ( !isset( $location_country ) ) {
@@ -593,7 +601,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				</script>";
 		$form .= "<select name=\"location_country\" id=\"location_country\" onchange=\"displaySection('location_state',this.value,'')\"><option></option>";
 
-	foreach ( $countries as $country ) {
+		foreach ( $countries as $country ) {
 			$form .= "<option value=\"{$country}\"" . ( ( $country == $location_country ) ? ' selected="selected"' : '' ) . ">";
 			$form .= $country . "</option>\n";
 		}
@@ -650,76 +658,24 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 				<textarea rows="1" cols="33" name="websites" id="websites" placeholder="http://www.wikifab.org">' . ( isset( $websites ) ? $websites : '' ) .  '</textarea>
 			<div class="visualClear"></div>
 		</div>
+		';
 
-		<div class="profile-update">
-			<div id="profile-update-custom1">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field1' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size=33 name="custom1" id="fav_moment" placeholder="' .$this->msg('custom-info-field1-placeholder')->plain() .'"  value="' . ( isset( $custom1 ) ? $custom1 : '' ). '" /> </p>
-			<div class="visualClear"></div>
-		</div>
-		<div class="profile-update">
-			<div id="profile-update-custom2">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field2' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom2" id="least_moment" placeholder="' .$this->msg('custom-info-field2-placeholder')->plain() .'" value="' . ( isset( $custom2 ) ? $custom2 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
 
-		<div class="profile-update">
-			<div id="profile-update-custom3">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field3' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom3" id="fav_athlete" placeholder="' .$this->msg('custom-info-field3-placeholder')->plain() .'" value="' . ( isset( $custom3 ) ? $custom3 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
 
-		<div class="profile-update">
-			<div id="profile-update-custom4">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field4' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom4" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field4-placeholder')->plain() .'" value="' . ( isset( $custom4 ) ? $custom4 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
+		for ($i=1; $i<= $this->nbCustomFields && $i< 9; $i++) {
 
-		<div class="profile-update">
-			<div id="profile-update-custom5">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field5' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom5" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field5-placeholder')->plain() .'" value="' . ( isset( $custom5 ) ? $custom5 : '' ) . '"/></p>
-			</div>
-			<div class="visualClear"></div>
-		</div>
+			$form .= '
+				<div class="profile-update">
+					<div id="profile-update-custom1">
+					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field'.$i  )->inContentLanguage()->parse() . '</p>
+					<p class="profile-update-unit">
+						<input type="text" size=33 name="custom' . $i . '" id="fav_moment" placeholder="' .$this->msg('custom-info-field' . $i . '-placeholder')->plain() .'"  value="' . ( isset( $custom[$i] ) ? $custom[$i] : '' ). '" /> </p>
+					<div class="visualClear"></div>
+				</div>
+				';
 
-		<div class="profile-update">
-			<div id="profile-update-custom6">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field6' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom6" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field6-placeholder')->plain() .'" value="' . ( isset( $custom6 ) ? $custom6 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
-
-		<div class="profile-update">
-			<div id="profile-update-custom7">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field7' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom7" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field7-placeholder')->plain() .'" value="' . ( isset( $custom7 ) ? $custom7 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
-
-		<div class="profile-update">
-			<div id="profile-update-custom8">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field8' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<input type="text" size="33" name="custom8" id="least_fav_athlete" placeholder="' .$this->msg('custom-info-field8-placeholder')->plain() .'" value="' . ( isset( $custom8 ) ? $custom8 : '' ) . '"/></p>
-			</div>
-		<div class="visualClear"></div>
-		</div>
+		}
+		$form .= '
 
 		<hr>
 
@@ -741,39 +697,25 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 			<p class="profile-update-unit">
 				<textarea name="schools" id="schools" placeholder="' . $this->msg( 'user-profile-placeholder-labs' )->plain() . '" rows="2" cols="75">' . ( isset( $schools ) ? $schools : '' ) . '</textarea>
 			</p>
+            ';
+
+		for ($i=9; $i<= $this->nbCustomFields && $i< 12; $i++) {
+
+			$form .= '
+				<div class="visualClear"></div>
+				<div class="profile-update">
+					<div id="profile-update-custom1">
+					<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field'.$i  )->inContentLanguage()->parse() . '</p>
+					<p class="profile-update-unit">
+						<input type="text" size=33 name="custom' . $i . '" id="fav_moment" placeholder="' .$this->msg('custom-info-field' . $i . '-placeholder')->plain() .'"  value="' . ( isset( $custom[$i] ) ? $custom[$i] : '' ). '" /> </p>
+					<div class="visualClear"></div>
+				</div>
+				';
 
 
-		<div class="visualClear"></div>
-			<div id="profile-update-custom9">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field9' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<textarea type="text" name="custom9" id="least_fav_athlete" rows="2" cols="75">' . ( isset( $custom9 ) ? $custom9 : '' ) .  '</textarea>
-			</p>
-			</div>
+		}
 
-		<div class="visualClear"></div>
-			<div id="profile-update-custom10">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field10' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<textarea name="custom10" id="least_fav_athlete" rows="2" cols="75">' . ( isset( $custom10 ) ? $custom10 : '' ) . '</textarea>
-		</p>
-			</div>
-
-		<div class="visualClear"></div>
-			<div id="profile-update-custom11">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field11' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">
-				<textarea name="custom11" id="least_fav_athlete" rows="2" cols="75"> ' . ( isset( $custom11 ) ? $custom11 : '' ) . '</textarea>
-			</p>
-			</div>
-
-		<div class="visualClear"></div>
-			<div id="profile-update-custom12">
-			<p class="profile-update-unit-left">' . $this->msg( 'custom-info-field12' )->inContentLanguage()->parse() . '</p>
-			<p class="profile-update-unit">' ;
-
-
-        if( isset($wgSocialProfileCustomFields['custom_12'])) :
+		if( isset($wgSocialProfileCustomFields['custom_12'])) :
 
 			$form .= '<div class="visualClear"></div>
 				<div id="profile-update-custom12">
@@ -782,6 +724,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 			//Les valeurs checkées sont mises dans un tableau
 			$selectivesValues = isset($custom12) ? explode (",",$custom12) : [];
+
 			//Pour chaque élément du tableau parcouru
 
 			foreach ($wgSocialProfileCustomFields['custom_12'] as $value){
@@ -793,16 +736,8 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 
 			}
-			endif;
 
-			if( isset($property_name)) :
-
-			$form .= '<div class="visualClear"></div>
-				<div id="profile-update-custom13">
-				<p class="profile-update-unit-left">' . $property_name . '</p>
-				<p class="profile-update-unit">' ;
-
-			endif;
+		endif;
 
 		$form .= '</p>
 			</div>
