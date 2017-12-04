@@ -199,7 +199,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $numofpages = $totalMessages / $nb_conversation_show;
 
         if ( $numofpages > 1 ) {
-                $html .= '<i class="more-message fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+                $html .= '<div class="more-message-container"
+                            <i class="more-message fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                         </div>';
 
         }
         // Boucle sur les messages d'une même conversation pour afficher les messages de droite du plus ancien au plus récent
