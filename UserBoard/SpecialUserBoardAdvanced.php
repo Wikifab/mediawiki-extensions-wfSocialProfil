@@ -163,19 +163,19 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
                     $html .= "<div class=\"uba-message {$class}\">
                         <a href=\"{$board_to_board}\">
-        				<div class=\"uba-message-avatar\">
-        						{$avatar->getAvatarURL()}
-        					</div>
+                        <div class=\"uba-message-avatar\">
+                                {$avatar->getAvatarURL()}
+                            </div>
                         <div class=\"uba-content\">
                             <h4 class=\"uba-message-from\">
-        						{$user_2_name}
-        				    </h4>
+                                {$user_2_name}
+                            </h4>
                             <span class=\"uba-message-time\">"
-        				        . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
-        				    "</span>
+                                . $this->msg( 'userboard_posted_ago', $b->getTimeAgo( $message['timestamp'] ) )->parse() .
+                            "</span>
                             <div class=\"uba-message-body\">
-        						{$message_text}
-        					</div>
+                                {$message_text}
+                            </div>
                         </div>
 
                      </div></a>";
@@ -199,7 +199,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $numofpages = $totalMessages / $nb_conversation_show;
 
         if ( $numofpages > 1 ) {
-                $html .= '<i class="more-message fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+                $html .= '<div class="more-message-container">
+                            <i class="more-message fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                         </div>';
 
         }
         // Boucle sur les messages d'une même conversation pour afficher les messages de droite du plus ancien au plus récent
@@ -232,18 +234,18 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
             $html .= "<div class=\"uba-discussion {$class}\">
                         <div class=\"uba-discussion-avatar\">
-        						<a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}\">{$avatar->getAvatarURL()}</a>
-        				</div>
+                                <a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}\">{$avatar->getAvatarURL()}</a>
+                        </div>
                         <div class=\"uba-discussion-content\">
                             <h4 class=\"uba-discussion-from\">
-        						<a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}}\">{$messageUsers[$i]['user_name_from']}</a>
-        				    </h4>
+                                <a href=\"{$userPageURL}\" title=\"{$messageUsers[$i]['user_name_from']}}\">{$messageUsers[$i]['user_name_from']}</a>
+                            </h4>
                             <span class=\"user-board-red\">
                             {$delete_link}
-        				    </span>
-        					<div class=\"uba-discussion-body\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"{$timeAgo}\">
+                            </span>
+                            <div class=\"uba-discussion-body\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"{$timeAgo}\">
                                 {$message_text}
-        					</div>
+                            </div>
                         </div>
                      </div>";
         }
@@ -253,22 +255,22 @@ class SpecialUserBoardAdvanced extends SpecialPage {
         $html .= '<div class="user-page-message-send">
                 <div class="uba-send-message">
                 <p class="uba-send-message-author"> '.$this->msg('userboard-send-message-title',$user_2->getName())->plain().'</p>
-				<input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_2->getName() . '"/>
-				<input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
-				<span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
-				<select class="user-board-message-hide" id="message_type">
-					<option value="1">' . $this->msg( 'userboard_public' )->plain() . '</option>
-					<option value="0">' . $this->msg( 'userboard_private' )->plain() . '</option>
-				</select>
-				<p class="uba-send-message-textarea">
-				<textarea name="message" id="message" rows="2"></textarea>
+                <input type="hidden" id="user_name_to" name="user_name_to" value="' . $user_2->getName() . '"/>
+                <input type="hidden" id="user_name_from" name="user_name_from" value="' . $user->getName() . '"/>
+                <span class="user-board-message-type user-board-message-hide">' . $this->msg( 'userboard_messagetype' )->plain() . ' </span>
+                <select class="user-board-message-hide" id="message_type">
+                    <option value="1">' . $this->msg( 'userboard_public' )->plain() . '</option>
+                    <option value="0">' . $this->msg( 'userboard_private' )->plain() . '</option>
+                </select>
+                <p class="uba-send-message-textarea">
+                <textarea name="message" id="message" rows="2"></textarea>
                 </p>
 
-				<div class="user-page-message-box-button">
-					<input type="button" value="' . $this->msg( 'userboard_sendbutton' )->plain() . '" class="site-button" data-per-page="' . $per_page . '" />
-				</div>
+                <div class="user-page-message-box-button">
+                    <input type="button" value="' . $this->msg( 'userboard_sendbutton' )->plain() . '" class="site-button" data-per-page="' . $per_page . '" />
+                </div>
 
-			</div>';
+            </div>';
 
 
 
@@ -286,5 +288,4 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
 
 }
-
 

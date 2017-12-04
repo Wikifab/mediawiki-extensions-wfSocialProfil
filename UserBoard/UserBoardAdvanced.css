@@ -135,6 +135,15 @@ p.uba-send-message-author {
     display: none;
 }
 
+.more-message-container {
+    text-align: center;
+    margin-top: 5px;
+}
+
+i.more-message {
+    color: #aaa;
+}
+
 .uba-discussion-body p {
 	margin-bottom:0px;
 }
@@ -316,5 +325,9 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 }
 .unread {
 	font-weight:bold;
+}
+
+.uba-message.unread .uba-message-body p {
+    color: #555;
 }
 
