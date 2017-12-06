@@ -126,13 +126,12 @@ class SocialProfileHooks {
     	    $title_url = htmlspecialchars ($title->getFullURL());
 
 
-    	    $countNewMessage = new UserBoard();
-    	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId());
+    	    $newCountMessage = \UserBoard::getNewMessageCountDB($wgUser->getId());
 
-            $personal_urls[] = array (
+            $personal_urls['social-message-link'] = array (
                 "text"=>$newCountMessage,
                 "href"=>$title_url,
-                "active"=>'',
+                "active"=>false,
                 "class"=>'glyphicon glyphicon-envelope'
             );
     	}
