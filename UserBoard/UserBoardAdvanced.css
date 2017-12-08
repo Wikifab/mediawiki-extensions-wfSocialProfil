@@ -57,6 +57,11 @@ h2.uba-discussion-list-title {
     width: calc(100% - 390px);
 }
 
+.uba-send-message-textarea textarea {
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
 .user-page-message-send {
     position: fixed;
     bottom: 0;
@@ -90,7 +95,7 @@ h2.uba-discussion-list-title {
 .user-page-message-form {
     margin: 0px 0 0 300px;
     width: calc(100% - 300px);
-    padding: 0 30px 0px;
+    padding: 0 30px 30px 30px;
     overflow-y: scroll;
     position: fixed;
     left: 0;
