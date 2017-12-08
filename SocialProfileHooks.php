@@ -118,7 +118,7 @@ class SocialProfileHooks {
 	}
     // Add a new item on navbar, a direct link to UserBoardAdvanced
 	public static function onPersonalUrls( array &$personal_urls, Title $title, SkinTemplate $skin ) {
-        global $wgUser;
+        global $wgUser, $wgOut;
         // Si la personne n'est pas connectée ne pas afficher l'enveloppe
         if ( $wgUser->getID() != 0){
     	    $title = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
@@ -126,12 +126,13 @@ class SocialProfileHooks {
 
 
     	    $countNewMessage = new UserBoard();
-    	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId());
+    	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId()) ;
 
-            $personal_urls[] = array (
-                "text"=>$newCountMessage,
+            $personal_urls['social-message-link'] = array (
+                "text"=> $newCountMessage,
+                "options" => [ 'text-wrapper' => [ 'tag' => 'span' ]],
                 "href"=>$title_url,
-                "active"=>'',
+                "active"=>false,
                 "class"=>'fa fa-envelope'
             );
     	}
