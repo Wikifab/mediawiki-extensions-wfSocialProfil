@@ -904,7 +904,20 @@
 
 #profileWf .nav-tabs > li > a {
     margin-right: 2px;
-    padding: 8px 13px;
+    padding: 10px 15px;
+}
+
+.cancel-btn-profil {
+    color: #aaa;
+    margin-left: 5px;
+    padding: 7px 17px;
+    border: 1px solid #bbb;
+    transition: 0.2s;
+}
+
+.cancel-btn-profil:hover {
+    color: #fff;
+    background: #bbb;
 }
 
 #profileWf .project-byline {
