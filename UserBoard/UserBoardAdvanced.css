@@ -84,6 +84,7 @@ h2.uba-discussion-list-title {
     overflow-y: scroll;
     border-right: 1px solid #ddd;
     top: 91px;
+    padding-bottom:100px;
 }
 
 .user-page-message-form {
@@ -314,7 +315,11 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 }
 
 }
+
 .unread {
 	font-weight:bold;
 }
 
+.unread .uba-message-body p {
+    color: #444;
+}
