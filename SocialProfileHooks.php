@@ -132,7 +132,7 @@ class SocialProfileHooks {
                 "text"=>$newCountMessage,
                 "href"=>$title_url,
                 "active"=>'',
-                "class"=>'glyphicon glyphicon-envelope'
+                "class"=>'fa fa-envelope'
             );
     	}
 
