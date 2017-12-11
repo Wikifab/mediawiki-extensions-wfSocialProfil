@@ -267,7 +267,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
                 </p>
 
 				<div class="user-page-message-box-button">
-					<input type="button" value="' . $this->msg( 'userboard_sendbutton' )->plain() . '" class="site-button" data-per-page="' . $per_page . '" />
+					<input type="button" value="' . $this->msg( 'userboard_sendbutton' )->text() . '" class="site-button" data-per-page="' . $per_page . '" />
 				</div>
 
 			</div>';
