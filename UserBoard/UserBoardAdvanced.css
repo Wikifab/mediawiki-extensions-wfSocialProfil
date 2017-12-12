@@ -54,7 +54,7 @@ h2.uba-discussion-list-title {
 .uba-send-message-textarea {
     float:left;
     margin-right: 8px;
-    width: calc(100% - 390px);
+    width: calc(100% - 420px);
 }
 
 .uba-send-message-textarea textarea {
@@ -77,7 +77,9 @@ h2.uba-discussion-list-title {
 
 .user-page-message-box-button input {
     float: left;
-    padding: 11px;
+    padding: 13.5px 21px;
+    font-size: 17px;
+    text-transform: capitalize;
 }
 
 .uba-message-list {
@@ -226,7 +228,7 @@ h4.uba-discussion-from a {
 
 .uba-message.active {
     background-color:#f8f8f8;
-    border-right: 3px solid #0084ff;
+    border-right: 4px solid #52bad5;
 }
 
 .uba-message-avatar {
@@ -331,7 +333,7 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 }
 
 .uba-send-message-textarea {
-    width: calc(100% - 150px);
+    width: calc(100% - 185px);
 }
 
 .user-page-message-send {
