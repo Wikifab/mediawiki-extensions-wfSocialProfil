@@ -155,6 +155,8 @@ class UserProfile {
 			$profile['custom_10'] = isset( $row->up_custom_10 ) ? $row->up_custom_10 : '';
 			$profile['custom_11'] = isset( $row->up_custom_11 ) ? $row->up_custom_11 : '';
 			$profile['custom_12'] = isset( $row->up_custom_12 ) ? $row->up_custom_12 : '';
+			$profile['custom_13'] = isset( $row->up_custom_13 ) ? $row->up_custom_13 : '';
+
 
 			$profile['user_page_type'] = isset( $row->up_type ) ? $row->up_type : '';
 			$wgMemc->set( $key, $profile );
