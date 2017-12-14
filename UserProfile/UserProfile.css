@@ -915,6 +915,7 @@
     padding: 7px 17px;
     border: 1px solid #bbb;
     transition: 0.2s;
+    border-radius: 3px;
 }
 
 .cancel-btn-profil:hover {
