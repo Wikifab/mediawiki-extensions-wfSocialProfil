@@ -1054,3 +1054,23 @@
     font-size: 14px;
     height: 34px;
 }
+#profile-update-custom13 ul > li > ul {
+	display:none;
+}
+
+#profile-update-custom13 ul li.summarycollapse > ul {
+	display:block;
+}
+
+#profile-update-custom13 ul li.summarycollapse > ul > li {
+	display:block;
+}
+.summarycollapse > i.right-arrow{
+	display:none;
+}
+i.down-arrow{
+	display:none;
+}
+.summarycollapse > i.down-arrow{
+	display:inline;
+}

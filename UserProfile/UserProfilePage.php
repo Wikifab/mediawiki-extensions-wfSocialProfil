@@ -612,10 +612,12 @@ class UserProfilePage extends Article {
 				// Decode le json pour afficher un tableau
                     if($profile_data['custom_13']){
     				    $custom13Decode = json_decode ($profile_data['custom_13'],TRUE);
-    				// Pour chaque élement du tableau on affiche la valeur puis un retour à la ligne
+    				    // Pour chaque élement du tableau on affiche la valeur puis un retour à la ligne
+    				    $custom13Display .= '<ul class="custom13List">';
     				    foreach ($custom13Decode as $val){
-    				        $custom13Display .= $val . '<br/>' ;
+    				        $custom13Display .= '<li>' . $val . '</li>' ;
     				    }
+    				    $custom13Display .= '</ul>';
                     }
 				    $output .= $this->getProfileSection(wfMessage( 'custom-info-field13' )->escaped(). '</br>' , $custom13Display, false) ;
                 }
