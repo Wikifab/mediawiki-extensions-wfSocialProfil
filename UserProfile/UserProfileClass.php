@@ -316,8 +316,7 @@ class UserProfile {
 
 	    $subject = \Title::newFromText('Property:'. $property_name);
 	    $values = self::getSMWPropertyValues( $store, $subject, 'Allows value', $requestoptions );
-	    sort( $values );
-
+	    sort($values);
 	    return $values;
 	}
 	// Initialise le tableau $properties à null et le rempli avec les nouvelles clés obtenu avec explode et arra_shift
@@ -334,13 +333,14 @@ class UserProfile {
 	public static function buildRecursivePropertyArray (&$propertyArray, $propertyKeys){
 
 	    $key = array_shift($propertyKeys);
-        if (!isset($propertyArray[$key])){
-            $propertyArray[$key]= [];
+	    $keyTrimmed = trim($key);
+	    if (!isset($propertyArray[$keyTrimmed])){
+	        $propertyArray[$keyTrimmed]= [];
         }
         if(count($propertyKeys)==0){
             return ;
         }
-        self::buildRecursivePropertyArray($propertyArray[$key], $propertyKeys);
+        self::buildRecursivePropertyArray($propertyArray[$keyTrimmed], $propertyKeys);
 
 	}
 
