@@ -83,7 +83,7 @@ jQuery( document ).ready( function() {
 						$('.more-message').last().remove();
 					}			
 					// Permet d'afficher la fin des messages chargés et non le début. 
-					wfUba[$nb_message_show].scrollIntoView(false);	            }
+					wfUba[$nb_message_show].scrollIntoView();	            }
 	    	
 	        });
 	    	
