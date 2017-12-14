@@ -582,6 +582,8 @@
 
 .profile-update {
 	padding: 0px;
+	float:left;
+	width:100%;
 }
 
 .profile-tab-bar {
@@ -1055,3 +1057,7 @@
     font-size: 14px;
     height: 34px;
 }
+
+
+
+

@@ -205,7 +205,7 @@ class SpecialEditProfile extends SpecialUpdateProfile {
 			$custom10 = $s->up_custom_10;
 			$custom11 = $s->up_custom_11;
 			$custom12 = $s->up_custom_12;
-			$custom13 = $s->up_custom_13;
+			$properties = $s->up_custom_13;
 
 		}
 

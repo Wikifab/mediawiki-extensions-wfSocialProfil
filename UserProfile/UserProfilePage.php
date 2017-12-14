@@ -285,7 +285,6 @@ class UserProfilePage extends Article {
 
 		$contribs = $contribsPager->reallyDoQuery( 0, 12, true);
 
-		//var_dump($contribs);
 
 		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
 		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
@@ -481,7 +480,7 @@ class UserProfilePage extends Article {
 	}
 
 	function getPersonalInfo( $user_id, $user_name ) {
-		global $wgUser, $wgUserProfileDisplay;
+	    global $wgUser, $wgUserProfileDisplay, $property_name, $wgSocialProfileCustomFields;
 
 
 		if ( $wgUserProfileDisplay['personal'] == false ) {
@@ -548,10 +547,10 @@ class UserProfilePage extends Article {
 						$profile_data['custom_1'] . $profile_data['custom_2'].
 						$profile_data['custom_3'] . $profile_data['custom_4'].
 						$profile_data['custom_5'] . $profile_data['custom_6'].
-						$profile_data['custom_7'] . $profile_data['custom_8'].
-						$profile_data['custom_9'] . $profile_data['custom_10'].
-						$profile_data['custom_11'] . $profile_data['custom_12'].
-		                $profile_data['custom_13'];
+						$profile_data['custom_7'] . $profile_data['custom_8'];
+// 						$profile_data['custom_9'] . $profile_data['custom_10'].
+// 						$profile_data['custom_11'] . $profile_data['custom_12'].
+// 		                $profile_data['custom_13'];
 
 		$edit_info_link = SpecialPage::getTitleFor( 'UpdateProfile' );
 
@@ -592,21 +591,39 @@ class UserProfilePage extends Article {
 				'<hr><div class="profile-user-info">' .
 				$this->getProfileSection( wfMessage( 'user-personal-info-about-me' )->escaped() .'<br/>', $profile_data['about'], false ) .
 				$this->getProfileSection( wfMessage( 'user-personal-info-skills' )->escaped() .'<br/>', $profile_data['occupation'], false ) .
-				$this->getProfileSection( wfMessage( 'user-personal-front-labs' )->escaped() .'<br/>', $profile_data['schools'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field9' )->escaped() .'<br/>', $profile_data['custom_9'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field10' )->escaped() .'<br/>', $profile_data['custom_10'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field11' )->escaped() .'<br/>', $profile_data['custom_11'], false ) ;
+				$this->getProfileSection( wfMessage( 'user-personal-front-labs' )->escaped() .'<br/>', $profile_data['schools'], false ) ;
+// 				$this->getProfileSection( wfMessage( 'custom-info-field9' )->escaped() .'<br/>', $profile_data['custom_9'], false ) .
+// 				$this->getProfileSection( wfMessage( 'custom-info-field10' )->escaped() .'<br/>', $profile_data['custom_10'], false ) .
+// 				$this->getProfileSection( wfMessage( 'custom-info-field11' )->escaped() .'<br/>', $profile_data['custom_11'], false ) ;
+				if($wgSocialProfileCustomFields){
+				    $text = '';
+				    $custom12Array = explode(",", $profile_data['custom_12']) ;
+				    foreach ($custom12Array as $value) {
+				        $text .= $value . '<br/>' ;
+				    }
 
-				$test = explode(",", $profile_data['custom_12']) ;
-				$text = '';
+				    $output .= $this->getProfileSection(wfMessage( 'custom-info-field12' )->escaped(). '</br>' , $text, false) ;
 
-				foreach ($test as $value) {
-					$text .= $value . '<br/>' ;
 				}
-				$output .= $this->getProfileSection(wfMessage( 'custom-info-field12' )->escaped(). '</br>' , $text, false) ;
+
+
+                if($property_name){
+                    $custom13Display ='';
+				// Decode le json pour afficher un tableau
+                    if($profile_data['custom_13']){
+    				    $custom13Decode = json_decode ($profile_data['custom_13'],TRUE);
+    				// Pour chaque élement du tableau on affiche la valeur puis un retour à la ligne
+    				    foreach ($custom13Decode as $val){
+    				        $custom13Display .= $val . '<br/>' ;
+    				    }
+                    }
+				    $output .= $this->getProfileSection(wfMessage( 'custom-info-field13' )->escaped(). '</br>' , $custom13Display, false) ;
+                }
 				$output .= '</div>' .
 
 			'</div>';
+
+
 		} elseif ( $wgUser->getName() == $user_name ) {
 			$output .= '<div class="user-section-heading">
 				<div class="user-section-title">' .
@@ -637,7 +654,7 @@ class UserProfilePage extends Article {
 	 * @return String: HTML
 	 */
 	function getCustomInfo( $user_name ) {
-		global $wgUser, $wgUserProfileDisplay;
+	    global $wgUser, $wgUserProfileDisplay, $wgSocialProfileCustomFields, $property_name;
 
 		if ( $wgUserProfileDisplay['custom'] == false ) {
 			return '';
@@ -672,22 +689,30 @@ class UserProfilePage extends Article {
 			</div>
 			<div class="visualClear"></div>
 			<div class="profile-info-container">' .
-				$this->getProfileSection( wfMessage( 'custom-info-field1' )->escaped(), $profile_data['custom_1'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field2' )->escaped(), $profile_data['custom_2'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field3' )->escaped(), $profile_data['custom_3'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field4' )->escaped(), $profile_data['custom_4'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field5' )->escaped(), $profile_data['custom_5'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field6' )->escaped(), $profile_data['custom_6'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field7' )->escaped(), $profile_data['custom_7'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field8' )->escaped(), $profile_data['custom_8'], false ) .
 				$this->getProfileSection( wfMessage( 'custom-info-field9' )->escaped(), $profile_data['custom_9'], false ) .
 				$this->getProfileSection( wfMessage( 'custom-info-field10' )->escaped(), $profile_data['custom_10'], false ) .
 				$this->getProfileSection( wfMessage( 'custom-info-field11' )->escaped(), $profile_data['custom_11'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field12' )->escaped(), $profile_data['custom_12'], false ) .
-				$this->getProfileSection( wfMessage( 'custom-info-field13' )->escaped(), $profile_data['custom_13'], false ) .
 
-			'</div>';
-		} elseif ( $wgUser->getName() == $user_name ) {
+    			$custom12Array = explode(",", $profile_data['custom_12']) ;
+    			$text = '';
+
+    			foreach ($custom12Array as $value) {
+    				 $text .= $value . '<br/>' ;
+    			}
+    			$output .= $this->getProfileSection(wfMessage( 'custom-info-field12' )->escaped(). '</br>' , $text, false) ;
+
+// 				if($property_name){
+				// Decode le json pour afficher un tableau
+				$custom13Decode = json_decode ($profile_data['custom_13'],TRUE);
+				$custom13Display ='';
+				// Pour chaque élement du tableau on affiche la valeur puis un retour à la ligne
+				foreach ($custom13Decode as $val){
+				    $custom13Display .= $val . '<br/>' ;
+				}
+
+				$output .= $this->getProfileSection(wfMessage( 'custom-info-field13' )->escaped(). '</br>' , $custom13Display, false) ;
+
+			} elseif ( $wgUser->getName() == $user_name ) {
 			$output .= '<div class="user-section-heading">
 				<div class="user-section-title">' .
 					wfMessage( 'custom-info-title' )->escaped() .
@@ -706,7 +731,9 @@ class UserProfilePage extends Article {
 				wfMessage( 'custom-no-info' )->escaped() .
 			'</div>';
 		}
+		$output .= '</div>' .
 
+		  		'</div>';
 		return $output;
 	}
 

@@ -2,6 +2,9 @@
 /**
  * Class to access profile data for a user
  */
+use SMW\RequestOptions;
+use SMW\DIProperty;
+
 class UserProfile {
 	/**
 	 * @var Integer: the current user's user ID. Set in the constructor.
@@ -157,7 +160,6 @@ class UserProfile {
 			$profile['custom_12'] = isset( $row->up_custom_12 ) ? $row->up_custom_12 : '';
 			$profile['custom_13'] = isset( $row->up_custom_13 ) ? $row->up_custom_13 : '';
 
-
 			$profile['user_page_type'] = isset( $row->up_type ) ? $row->up_type : '';
 			$wgMemc->set( $key, $profile );
 		}
@@ -271,19 +273,78 @@ class UserProfile {
 
 		return $output;
 	}
+	public static function getSMWPropertyValues( $store, $subject, $propID, $requestOptions = null ) {
+	    // If SMW is not installed, exit out.
+	    if ( !class_exists( 'SMWDIWikiPage' ) ) {
+	        return array();
+	    }
+	    if ( is_null( $subject ) ) {
+	        $page = null;
+	    } else {
+            $page = SMWDIWikiPage::newFromTitle( $subject );
+	    }
+ 	    $property = SMWDIProperty::newFromUserLabel( $propID );
+	    $res = $store->getPropertyValues( $page, $property, $requestOptions );
+
+	    $values = array();
+	    foreach ( $res as $value ) {
+	        if ( $value instanceof SMWDIUri ) {
+	            $values[] = $value->getURI();
+	        } elseif ( $value instanceof SMWDIWikiPage ) {
+	            $realValue = str_replace( '_', ' ', $value->getDBKey() );
+	            if ( $value->getNamespace() != 0 ) {
+	                $realValue = MWNamespace::getCanonicalName($value->getNamespace()) . ":$realValue";
+	            }
+	            $values[] = $realValue;
+	        } else {
+	            // getSortKey() seems to return the correct
+	            // value for all the other data types.
+	            $values[] = str_replace( '_', ' ', $value->getSortKey() );
+	        }
+	    }
+	    return $values;
+	}
 
 	public static function getAllValuesForProperty( $property_name ) {
-	    global $wgPageFormsMaxAutocompleteValues;
 
-	    $store = PFUtils::getSMWStore();
+
+	    $store = \SMW\StoreFactory::getStore();
 	    if ( $store == null ) {
 	        return array();
 	    }
-	    $requestoptions = new \SMWRequestOptions();
-	    $requestoptions->limit = $wgPageFormsMaxAutocompleteValues;
-	    $values = self::getSMWPropertyValues( $store, null, $property_name, $requestoptions );
+	    $requestoptions = new RequestOptions();
+
+	    $subject = \Title::newFromText('Property:'. $property_name);
+	    $values = self::getSMWPropertyValues( $store, $subject, 'Allows value', $requestoptions );
 	    sort( $values );
+
 	    return $values;
 	}
+	// Initialise le tableau $properties à null et le rempli avec les nouvelles clés obtenu avec explode et arra_shift
+	public static function buildPropertyArray($properties){
+	    $arrayResult = [];
+	    foreach ($properties as $propertyString){
+
+	        $property = explode("/",$propertyString );
+	        self::buildRecursivePropertyArray($arrayResult, $property);
+
+	    }
+        return $arrayResult;
+	}
+	public static function buildRecursivePropertyArray (&$propertyArray, $propertyKeys){
+
+	    $key = array_shift($propertyKeys);
+        if (!isset($propertyArray[$key])){
+            $propertyArray[$key]= [];
+        }
+        if(count($propertyKeys)==0){
+            return ;
+        }
+        self::buildRecursivePropertyArray($propertyArray[$key], $propertyKeys);
+
+	}
+
+
+
 
 }

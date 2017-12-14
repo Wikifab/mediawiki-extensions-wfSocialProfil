@@ -51,3 +51,23 @@ mw.loader.using( 'jquery.ui.datepicker', function() {
 		} );
 	} );
 } );
+
+
+$(function () {
+    $('.CheckboxTree li:has(ul)').prepend('<i class="fa fa-arrow-right" aria-hidden="true"></i>');
+    $('.CheckboxTree li:has(ul)').addClass('parent_li');
+	$('.parent_li > ul').children().hide();
+    $('.fa-arrow-right').click(function(){
+    	alert('Hello');
+    });
+//    $('.fa-arrow-down').click(function () {
+//        var children = $(this).parent('li.parent_li').find(' > ul > li');
+//        if (children.is(":visible")) {
+//            children.hide('fast');
+//            $(this).find(' > i').addClass('fa-arrow-right').removeClass('fa-arrow-down');
+//        } else {
+//            children.show('fast');
+//            $(this).find(' > i').addClass('fa-arrow-down').removeClass('fa-arrow-right');
+//        }
+//    });
+});
