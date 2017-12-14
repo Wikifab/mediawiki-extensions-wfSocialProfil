@@ -34,7 +34,7 @@ that you are experiencing currently.
 To change the number of custom fields, set variable wgSocialProfileNbCustomCustomFields to a value between 5 and 11 :
  $wgSocialProfileNbCustomCustomFields = 6;
 
-the last field is using select box, and can be customized like this :
+The last field is using select box, and can be customized like this :
  $wgSocialProfileCustomFields = array (
  		"custom_12" => array (
  				'Jardinage',
@@ -45,6 +45,31 @@ the last field is using select box, and can be customized like this :
  				'Voyage'
  		) 
  );
+ 
+ You had to create several Mediawiki pages for each value you need in your 12 custom field. 
+ For instance, with the above array you need : 
+ MediaWiki:Custom_info_field12_Jardinage, which contains the value you need (jardinage)
+ MediaWiki:Custom_info_field12_Sport (Sport) ...
+ 
+ 
+ Moreover, you can use an another custom field with checkboxes and a system of parent/child but this time it's using a Property instead
+ of Mediawiki pages. In your wiki you create a Property:Name_of_Property_Page and add your checkboxes' titles like this : 
+ 
+* [[Allows value:: Name_level 1A / Name_level 2A / Name_level 3A ]]
+* [[Allows value:: Name_level 1A / Name_level 2A / Name_level 3B]]
+* [[Allows value:: Name_level 1A / Name_level 2B / Name_level 3A ]]
+* [[Allows value:: Name_level 1A / Name_level 2B / Name_level 3B ]]
+* [[Allows value:: Name_level 1B / Name_level 2A / Name_level 3A ]]
+* [[Allows value:: Name_level 1B / Name_level 2A / Name_level 3B ]]
+* [[Allows value:: Name_level 1B / Name_level 2B / Name_level 3A ]]
+* [[Allows value:: Name_level 1B / Name_level 2B / Name_level 3B ]]
+
+In your LocalSettings file add this line :
+$property_name='Name_of_Property_Page';
+
+Also if you don't want to use custom 13 or cutom 12 , do not put anything in your LocalSettings file. And you won't have any error's 
+ display. 
+
 
  ==To allow people sending messages==
  
@@ -52,3 +77,5 @@ the last field is using select box, and can be customized like this :
  
  $wgGroupPermissions['user']['userboard-sendMessage']= true;
  
+ 
+
