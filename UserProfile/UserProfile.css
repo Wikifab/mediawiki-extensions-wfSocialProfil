@@ -924,11 +924,7 @@
 }
 
 #profileWf .project-byline {
-	display:none;
-}
-
-#profileWf .project-blurb {
-	margin-bottom:5px;
+    margin-top: 8px;
 }
 
 #profileWf h5.project-title {
