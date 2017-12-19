@@ -13,6 +13,9 @@ var UserBoardAdvanced = {
 			var encodedName = encodeURIComponent( recipient ),
 				encodedMsg = encodeURIComponent( message ),
 				messageType = document.getElementById( 'message_type' ).value;
+			//Remplace le bouton "envoyer" par un loader pour faire comprendre que ça charge. 
+			$('.site-button').replaceWith('<i class="fa fa-spinner fa-2x fa-fw" aria-hidden="true"></i>');
+
 			jQuery.post(
 				mw.util.wikiScript(), {
 					action: 'ajax',

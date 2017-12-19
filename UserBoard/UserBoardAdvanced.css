@@ -75,7 +75,7 @@ h2.uba-discussion-list-title {
     border-top: 1Px solid #ddd;
 }
 
-.user-page-message-box-button input {
+.user-page-message-box-button input, .loaderWait {
     float: left;
     padding: 13.5px 21px;
     font-size: 17px;
@@ -347,9 +347,7 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 .user-page-message-send {
     margin: 0 0 0 66px;
 }
-
 }
-
 .unread {
 	font-weight:bold;
 }
