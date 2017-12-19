@@ -326,6 +326,7 @@ $wgResourceModules['ext.socialprofile.userstats.css'] = array(
 // UserBoardAdvanced
 $wgResourceModules['ext.socialprofile.userboardadvanced.js'] = array(
     'scripts' => 'UserBoardAdvanced.js',
+    'dependencies'=> ['oojs'],
     'messages' => array( 'userboard_confirmdelete' ),
     'localBasePath' => __DIR__ . '/UserBoard',
     'remoteExtPath' => 'SocialProfile/UserBoard',
