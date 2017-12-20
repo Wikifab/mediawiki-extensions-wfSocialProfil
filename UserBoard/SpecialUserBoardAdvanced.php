@@ -269,7 +269,8 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
 			<div class="user-page-message-box-button">
 					<input type="button" value="' . $this->msg( 'userboard_sendbutton' )->text() . '" class="site-button" data-per-page="' . $per_page . '" />
-				</div>
+			         <i class="loaderWait fa fa-spinner fa-pulse fa-2x fa-fw"" aria-hidden="true"></i>
+            </div>
 
             </div>';
 

@@ -373,3 +373,6 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 .unread .uba-message-body p {
     color: #444;
 }
+.loaderWait{
+	diplay:none;
+}
