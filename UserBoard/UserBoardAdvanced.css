@@ -81,6 +81,7 @@ h2.uba-discussion-list-title {
     background-color: #52bad5;
     width: 102px;
     border-radius: 4px;
+    text-align: center;
 }
 
 .user-page-message-box-button .fa {
