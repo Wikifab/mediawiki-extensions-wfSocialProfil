@@ -56,60 +56,64 @@ var UserBoardAdvanced = {
 				}
 			);
 		}
+	},
+	
+	init:function(){
+		$page = mw.util.getParamValue( 'page' );
+		
+		$nb_message_show = 10;
+	
+		if(!$page){
+			$page = 1;
+		}
+		// Si on est pas dans une discussion c'est-à-dire pas dans un formulaire pour de nouveaux messages
+		if($(".user-page-message-form ")){
+
+			$('.user-page-message-form').scroll(function(){
+			    if ($('.user-page-message-form').scrollTop() == 0){
+			    	$page++;
+			    	$.ajax({
+			    		
+			            url: mw.util.getUrl('Special:UserBoardAdvanced',{user:mw.util.getParamValue( 'user' ), page:$page}),
+			            success: function(html) {
+			            	var $data = $(html);
+							wfUba = $data.find('.user-page-message-form ').contents();
+							var resultDiv = $('.user-page-message-form ');
+							resultDiv.prepend(wfUba);
+							if( $('.more-message').length > 0 ){
+								$( ".more-message" ).first().replaceWith($( ".more-message" ).last());
+							}
+							if (wfUba.length == 1){
+								$('.more-message').last().remove();
+							}			
+							// Permet d'afficher la fin des messages chargés et non le début. 
+							wfUba[$nb_message_show].scrollIntoView();	            }
+			    	
+			        });
+			    	
+			    }
+			    
+			});
+			$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+		}
+		// "Delete" link
+		jQuery( 'span.user-board-red a' ).on( 'click', function() {
+			UserBoardAdvanced.deleteMessage( jQuery( this ).data( 'message-id' ) );
+		} );
+
+		// Submit button
+		jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
+			UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
+		} );	
+		
 	}
 };
 
 
 jQuery( document ).ready( function() {
-
-	$page = mw.util.getParamValue( 'page' );
-	
-	$nb_message_show = 10;
-
-	
-	if(!$page){
-		$page = 1;
-	}
-	// Si on est pas dans une discussion c'est-à-dire pas dans un formulaire pour de nouveaux messages
-	if($(".user-page-message-form ")){
-
-		$('.user-page-message-form').scroll(function(){
-		    if ($('.user-page-message-form').scrollTop() == 0){
-		    	$page++;
-		    	$.ajax({
-		    		
-		            url: mw.util.getUrl('Special:UserBoardAdvanced',{user:mw.util.getParamValue( 'user' ), page:$page}),
-		            success: function(html) {
-		            	var $data = $(html);
-						wfUba = $data.find('.user-page-message-form ').contents();
-						var resultDiv = $('.user-page-message-form ');
-						resultDiv.prepend(wfUba);
-						if( $('.more-message').length > 0 ){
-							$( ".more-message" ).first().replaceWith($( ".more-message" ).last());
-						}
-						if (wfUba.length == 1){
-							$('.more-message').last().remove();
-						}			
-						// Permet d'afficher la fin des messages chargés et non le début. 
-						wfUba[$nb_message_show].scrollIntoView();	            }
-		    	
-		        });
-		    	
-		    }
-		    
-		});
-		$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
-	}
-	// "Delete" link
-	jQuery( 'span.user-board-red a' ).on( 'click', function() {
-		UserBoardAdvanced.deleteMessage( jQuery( this ).data( 'message-id' ) );
-	} );
-
-	// Submit button
-	jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
-		UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
+	/* This callback is invoked as soon as the modules are available. */ 
+	mw.loader.using( ['mediawiki.util'] ).then( function () { 
+		UserBoardAdvanced.init();
 	} );
 	
-	
-
 } );
