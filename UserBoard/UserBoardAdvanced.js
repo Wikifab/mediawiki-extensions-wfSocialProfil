@@ -71,7 +71,7 @@ jQuery( document ).ready( function() {
 		$page = 1;
 	}
 	// Si on est pas dans une discussion c'est-à-dire pas dans un formulaire pour de nouveaux messages
-	if($(".user-page-message-form ")[0]){
+	if($(".user-page-message-form ")){
 
 		$('.user-page-message-form').scroll(function(){
 		    if ($('.user-page-message-form').scrollTop() == 0){
