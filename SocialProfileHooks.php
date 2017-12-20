@@ -125,8 +125,7 @@ class SocialProfileHooks {
     	    $title = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
     	    $title_url = htmlspecialchars ($title->getFullURL());
 
-
- $countNewMessage = new UserBoard();
+            $countNewMessage = new UserBoard();
     	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId()) ;
     	    if($newCountMessage==0){
     	        $newCountMessage ='';
