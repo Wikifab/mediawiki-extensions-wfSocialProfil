@@ -78,6 +78,7 @@ h2.uba-discussion-list-title {
 .user-page-message-box-button {
     height: 51px;
     float: left;
+    background-color: #52bad5;
     width: 102px;
     border-radius: 4px;
 }
