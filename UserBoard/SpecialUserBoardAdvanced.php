@@ -16,7 +16,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
     }
 
     function execute( $par ) {
-
+        global $wgGroupPermissions;
         $out = $this->getOutput();
         $request = $this->getRequest();
         //$currentUser est l'objet USER de la personne connectée
@@ -52,6 +52,12 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             $login = SpecialPage::getTitleFor( 'Userlogin' );
             $out->redirect( $login->getFullURL( 'returnto=Special:UserBoardAdvanced' ) );
             return false;
+        }
+
+        // If users don't have rights to write any message, display a push message to inform them
+        if (!($wgGroupPermissions['user']['userboard-sendMessage'])){
+            $html = '<div class="uba-discussion-error-message">'. $this->msg('userboard-advanced-norightsmessages')->plain(). '</div>';
+            return $out->addHTML($html);
         }
 
         $b = new UserBoard();

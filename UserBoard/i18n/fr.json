@@ -61,6 +61,7 @@
 	"userboard-send-message-title":"Envoyer un nouveau message à $1",
 	"userboard-advanced-nomessageswithyourself":"Oups... Vous ne pouvez pas vous converser avec vous-même.",
 	"userboard-advanced-nomessageswiththisone":"Commencez à écrire pour démarrer la conversation. ",
-	"userboard-advanced-older-messages":"Messages plus anciens"
+	"userboard-advanced-older-messages":"Messages plus anciens",
+	"userboard-advanced-norightsmessages":"Vous n'avez pas les droits pour envoyer des messages"
 	
 }
