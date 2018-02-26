@@ -14,21 +14,35 @@ class UserInfo {
 
         global $wgUser, $wgUserProfileDisplay;
         $avatar = new wAvatar( $wgUser -> getId(), 'm' );
-        $userName = $wgUser -> getName();
+
+        $userRealName = $wgUser -> getRealName();
+        $userName = '@' . $wgUser->getName();
+
+        $pageEditProfile = SpecialPage::getTitleFor( 'UpdateProfile' );
+        $linkToUpdateProfile = '<div class="UpdateProfileLink"><a href="'.$pageEditProfile->getFullURL().'"><i class="fa fa-edit"></i></a></div>';
+
+        $linkToUserProfile = $wgUser->getUserPage()->getFullURL();
 
         //Get the "about" section of user
         $profile = new UserProfile($userName);
         $profile_data = $profile->getProfile();
 
+        // Check if User is connected if it's not --> return nothing
+        if ( $wgUser->getID() == 0) {
+            return false;
+        }
         $out = '<div class="UserInfo col-lg-3">
-                    <div class="UserInfoAvatar">' . $avatar .' </div>
+                    <div class="UserInfoAvatar"><a href='.$linkToUserProfile.'>' . $avatar .'</a></div> '
+                        .$linkToUpdateProfile .'
                     <div class="UserInfoProfile">
-                        <div class="UserInfoUserName"> ' . $userName . ' </div>
+                        <div class="UserInfoUserName"> <a href="'. $linkToUserProfile .'">' . $userRealName  .'</a><p>' . $userName . ' </p></div>
                         <span><strong> ' . wfMessage('user-personal-info-about-me')->escaped() .' : </strong></span>';
+
+
         // if this section is empty we put a link to send to edit profile user
         if ($profile_data['about']==''){
 
-            $out .='<span class="no-info-container">' . wfMessage('user_about_empty')->escaped() .'</span>';
+            $out .='<a href="'.$pageEditProfile->getFullURL().'">' . wfMessage('user_about_empty')->escaped() .'</a>';
 
         }
         $out .='<p>' . $profile_data['about'] . '</p>';
