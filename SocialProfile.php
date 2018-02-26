@@ -31,8 +31,11 @@ $wgMessagesDirs['SocialProfileUserBoard'] = __DIR__ . '/UserBoard/i18n';
 $wgMessagesDirs['SocialProfileUserProfile'] = __DIR__ . '/UserProfile/i18n';
 $wgMessagesDirs['SocialProfileUserRelationship'] = __DIR__ . '/UserRelationship/i18n';
 $wgMessagesDirs['SocialProfileUserStats'] = __DIR__ . '/UserStats/i18n';
+$wgMessagesDirs['SocialProfileUserInfo'] = __DIR__ . '/UserInfo/i18n';
+
 $wgExtensionMessagesFiles['SocialProfileNamespaces'] = __DIR__ . '/SocialProfile.namespaces.php';
 $wgExtensionMessagesFiles['AvatarMagic'] = __DIR__ . '/UserProfile/Avatar.magic.i18n.php';
+$wgExtensionMessagesFiles['UserInfo'] = __DIR__ . '/UserInfo/UserInfo.i18n.php';
 
 // Classes to be autoloaded
 $wgAutoloadClasses['GenerateTopUsersReport'] = __DIR__ . '/UserStats/GenerateTopUsersReport.php';
@@ -53,6 +56,7 @@ $wgAutoloadClasses['RemoveAvatar'] = __DIR__ . '/UserProfile/SpecialRemoveAvatar
 $wgAutoloadClasses['UpdateEditCounts'] = __DIR__ . '/UserStats/SpecialUpdateEditCounts.php';
 $wgAutoloadClasses['UserBoard'] = __DIR__ . '/UserBoard/UserBoardClass.php';
 $wgAutoloadClasses['SpecialUserBoardAdvanced'] = __DIR__ . '/UserBoard/SpecialUserBoardAdvanced.php';
+$wgAutoloadClasses['UserInfo'] = __DIR__ . '/UserInfo/UserInfo.class.php';
 $wgAutoloadClasses['UserProfile'] = __DIR__ . '/UserProfile/UserProfileClass.php';
 $wgAutoloadClasses['UserProfilePage'] = __DIR__ . '/UserProfile/UserProfilePage.php';
 $wgAutoloadClasses['UserRelationship'] = __DIR__ . '/UserRelationship/UserRelationshipClass.php';
@@ -231,6 +235,9 @@ $wgHooks['ParserFirstCallInit'][] = 'AvatarParserFunction::setupAvatarParserFunc
 $wgHooks['SkinTemplateNavigation'][] = 'SocialProfileHooks::onSkinTemplateNavigation';
 $wgHooks['PersonalUrls'][]='SocialProfileHooks::onPersonalUrls';
 
+$wgHooks['BeforePageDisplay'][] = 'UserInfo::onBeforePageDisplay';
+$wgHooks['ParserFirstCallInit'][] = 'UserInfo::onParserSetup';
+
 // For the Renameuser extension
 $wgHooks['RenameUserComplete'][] = 'SocialProfileHooks::onRenameUserComplete';
 
@@ -336,6 +343,21 @@ $wgResourceModules['ext.socialprofile.userboardadvanced.css'] = array(
     'styles' => 'UserBoardAdvanced.css',
     'localBasePath' => __DIR__ . '/UserBoard',
     'remoteExtPath' => 'SocialProfile/UserBoard',
+    'position' => 'top' // just in case
+);
+
+// UserInfo
+$wgResourceModules['ext.socialprofile.userinfo.js'] = array(
+    'scripts' => 'UserInfo.js',
+    'dependencies'=> ['oojs'],
+    'localBasePath' => __DIR__ . '/UserInfo/resources',
+    'remoteExtPath' => 'SocialProfile/UserInfo',
+);
+
+$wgResourceModules['ext.socialprofile.userinfo.css'] = array(
+    'styles' => 'UserInfo.css',
+    'localBasePath' => __DIR__ . '/UserInfo/resources',
+    'remoteExtPath' => 'SocialProfile/UserInfo',
     'position' => 'top' // just in case
 );
 

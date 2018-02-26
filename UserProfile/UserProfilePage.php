@@ -54,7 +54,6 @@ class UserProfilePage extends Article {
 		$this->user = User::newFromId( $this->user_id );
 		$this->user->loadFromDatabase();
 
-		//var_dump($this->user);
 		$this->is_owner = ( $this->user_name == $wgUser->getName() );
 
 		$profile = new UserProfile( $this->user_name );
@@ -846,8 +845,6 @@ class UserProfilePage extends Article {
 
 		wfDebug( 'profile type: ' . $profile_data['user_page_type'] . "\n" );
 		$output = '';
-
-
 
 
 		if ( $this->isOwner() ) {

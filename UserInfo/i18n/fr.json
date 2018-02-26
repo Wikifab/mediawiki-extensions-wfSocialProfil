@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Solène"
+		]
+	},
+	"user_about_empty":"Vous n'avez pas encore mis d'informations à votre sujet !",
+	"user-info-create-account":"Créer votre compte",
+	"user-info-following":"Suivre des makers",
+	"user-info-check-tuto":"Créer son premier tutoriel",
+	"user-info-check-avatar":"Uploader une photo de profil"
+}
