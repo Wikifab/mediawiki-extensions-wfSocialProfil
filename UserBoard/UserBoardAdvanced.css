@@ -7,11 +7,11 @@ body.mw-special-UserBoardAdvanced .contentHeader {
 }
 
 body.mw-special-UserBoardAdvanced .navbar-default.p-navbar {
-    position: fixed;
+    /*position: fixed;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 100;
+    z-index: 100;*/
     height: 51px;
 }
 

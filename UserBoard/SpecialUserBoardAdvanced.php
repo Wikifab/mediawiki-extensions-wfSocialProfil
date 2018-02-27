@@ -106,9 +106,6 @@ class SpecialUserBoardAdvanced extends SpecialPage {
             }
 
         }
-        else if (!($user_2) && !($ub_messages)){
-            $html .= $this->msg('userboard_nomessages')->plain();
-        }
         // On ne peut pas parler à nous-même
         if($user_2 && $user_2_id == $currentUser->getId()){
             $html .= "<div class=\"uba-discussion-error-message\"> " .$this->msg('userboard-advanced-nomessageswithyourself')->plain() ."</div>";

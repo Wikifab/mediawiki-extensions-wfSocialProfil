@@ -94,7 +94,7 @@ var UserBoardAdvanced = {
 			    }
 			    
 			});
-			$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+			$(".user-page-message-form ").scrollTop($(".user-page-message-form ").scrollHeight);
 		}
 		// "Delete" link
 		jQuery( 'span.user-board-red a' ).on( 'click', function() {
