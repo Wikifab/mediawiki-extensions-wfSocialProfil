@@ -54,7 +54,7 @@ class UserInfo {
     // Second row with user informations checkboxes
     public static function renderUserInfoChecked( $parser) {
 
-        global $wgUser, $wgUserProfileDisplay;
+        global $wgUser, $wgUserProfileDisplay, $wgUploadPath;
         $counterFollowing = '<i class="fa fa-circle"></i>';
         $checkTutoUser = '<i class="fa fa-circle"></i>';
         $checkAvatarUser = '<i class="fa fa-circle"></i>';
