@@ -69,14 +69,14 @@ class UserInfo {
 
         //Check if connected user get a real image and not the default one
         $avatar = new wAvatar( $wgUser -> getId(), 'm' );
-        $defaultAvatar = '/avatars/default_m.gif';
+        $defaultAvatar = "{$wgUploadPath}/avatars/default_m.gif";
+        var_dump($defaultAvatar);
 
         $avatarParams = array(
             'src' => "{$wgUploadPath}/avatars/{$avatar->getAvatarImage()}",
             'alt' => 'avatar',
             'border' => '0',
         );
-
         if ($avatarParams['src'] != $defaultAvatar){
             $checkAvatarUser = '<i class="fa fa-check-circle"> </i> ';
         }
