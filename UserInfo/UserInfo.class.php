@@ -70,7 +70,6 @@ class UserInfo {
         //Check if connected user get a real image and not the default one
         $avatar = new wAvatar( $wgUser -> getId(), 'm' );
         $defaultAvatar = "{$wgUploadPath}/avatars/default_m.gif";
-        var_dump($defaultAvatar);
 
         $avatarParams = array(
             'src' => "{$wgUploadPath}/avatars/{$avatar->getAvatarImage()}",

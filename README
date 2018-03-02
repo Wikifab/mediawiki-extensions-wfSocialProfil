@@ -71,11 +71,18 @@ Also if you don't want to use custom 13 or cutom 12 , do not put anything in you
  display. 
 
 
- ==To allow people sending messages==
+==To allow people sending messages==
  
  To allow connected users to send messages you had to add this line in your LocalSettings.php file :
  
  $wgGroupPermissions['user']['userboard-sendMessage']= true;
  
- 
+==To display little boxes==
 
+When user is connected, if you want to diplay a little box with his own informations (name, avatar, about section) just add this line on your wikicode :
+	{{#userInfo:}}
+
+If you want to display a checkboxes to check if user says enough informations about him :
+	{{#userInfoChecked:}}
+
+Moreover, this extension checks also if user uploads an avatar. But the default image names : default_m.gif so if you want to check the avatar use this title to compare. 
