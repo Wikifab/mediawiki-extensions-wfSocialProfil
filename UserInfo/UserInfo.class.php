@@ -33,7 +33,8 @@ class UserInfo {
         if ( $wgUser->getID() == 0) {
             return false;
         }
-        $out = '<div class="UserInfo col-lg-3">
+        $out = '<div class="col-lg-3">
+                    <div class="UserInfo">
                     <div class="UserInfoAvatar"><a href='.$linkToUserProfile.'>' . $avatar .'</a></div> '
                         .$linkToUpdateProfile .'
                     <div class="UserInfoProfile">
@@ -49,7 +50,7 @@ class UserInfo {
         }
         $out .='<p>' . $profile_data['about'] . '</p>';
 
-        $out .= '</div></div>';
+        $out .= '</div></div></div>';
         return array( $out, 'noparse' => true, 'isHTML' => true );
 
     }
@@ -99,14 +100,14 @@ class UserInfo {
 
         }
 
-        $out = '<div class="UserInfoChecked col-lg-3">';
+        $out = '<div class="col-lg-3"><div class="UserInfoChecked">';
         $out .= '<div class="UserInfoAccount">';
         $out .= '<i class="fa fa-check-circle"> </i>' .' '. wfMessage('user-info-create-account')->escaped() ;
         $out .= '</div>';
         $out .= '<div class="UserInfoFollowing">' . $counterFollowing .' '. wfMessage('user-info-following')->escaped() . '</div>' ;
         $out .= '<div class="UserInfoCheckAvatar">' . $checkAvatarUser .' '. wfMessage('user-info-check-avatar') . '</div>';
         $out .= '<div class="UserInfoCheckTuto">' . $checkTutoUser .' '. wfMessage('user-info-check-tuto') . '</div>';
-        $out .= '</div>';
+        $out .= '</div></div>';
 
         return array( $out, 'noparse' => true, 'isHTML' => true );
 
