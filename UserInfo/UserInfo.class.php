@@ -12,6 +12,8 @@ class UserInfo {
     // First row with user informations
     public static function renderUserInfo( $parser) {
 
+    	$parser->disableCache();
+
         global $wgUser, $wgUserProfileDisplay;
         $avatar = new wAvatar( $wgUser -> getId(), 'm' );
 
@@ -53,6 +55,9 @@ class UserInfo {
     }
     // Second row with user informations checkboxes
     public static function renderUserInfoChecked( $parser) {
+
+
+    	$parser->disableCache();
 
         global $wgUser, $wgUserProfileDisplay, $wgUploadPath;
         $counterFollowing = '<i class="fa fa-circle"></i>';

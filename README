@@ -85,4 +85,6 @@ When user is connected, if you want to diplay a little box with his own informat
 If you want to display a checkboxes to check if user says enough informations about him :
 	{{#userInfoChecked:}}
 
-Moreover, this extension checks also if user uploads an avatar. But the default image names : default_m.gif so if you want to check the avatar use this title to compare. 
+Moreover, this extension checks also if user uploads an avatar. But the default image names : default_m.gif so if you want to check the avatar use this title to compare.
+
+Note that the usage of userInfo or userInfoChecked force to disable cache on the page. So it is adviced to not use it on many pages.
