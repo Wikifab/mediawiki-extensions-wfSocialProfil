@@ -149,6 +149,10 @@
     color: #444;
 }
 
+#profileWf .nav-tabs > li.active > a:hover {
+	border-color: #52bad5 #ddd #fff #ddd;
+}
+
 #profileWf .nav-tabs > li.active > a {
 	border-top: 3px solid #52bad5;
 }
