@@ -143,6 +143,20 @@
     font-size: 22px;
 }
 
+#profileWf .nav-tabs > li > a:hover {
+	background-color: transparent;
+	border-color: #fff #fff #dddddd;
+    color: #444;
+}
+
+#profileWf .nav-tabs > li.active > a {
+	border-top: 3px solid #52bad5;
+}
+
+.mw-body #profileWf ul.nav-tabs {
+	padding-left:0px;
+}
+
 #honorific-level {
 	float: left;
 	margin: 6px 0px 0px 0px;
@@ -908,6 +922,7 @@
 #profileWf .nav-tabs > li > a {
     margin-right: 2px;
     padding: 10px 15px;
+    border-top: 3px solid transparent;
 }
 
 .cancel-btn-profil {
