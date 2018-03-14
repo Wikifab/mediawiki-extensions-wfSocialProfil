@@ -18,7 +18,7 @@ class UserInfo {
         $avatar = new wAvatar( $wgUser -> getId(), 'm' );
 
         $userRealName = $wgUser -> getRealName();
-        $userName = '@' . $wgUser->getName();
+        $userName = $wgUser->getName();
 
         $pageEditProfile = SpecialPage::getTitleFor( 'UpdateProfile' );
         $linkToUpdateProfile = '<div class="UpdateProfileLink"><a href="'.$pageEditProfile->getFullURL().'"><i class="fa fa-edit"></i></a></div>';
