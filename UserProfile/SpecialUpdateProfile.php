@@ -932,13 +932,15 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		// Allow extensions (like UserMailingList) to add new checkboxes
 		Hooks::run( 'SpecialUpdateProfile::displayPreferencesForm', array( $this, &$form ) );
 
+		$preferenceUrlLink = SpecialPage::getTitleFor('Preferences')->getFullURL();
+
 		$form .= '</div>';
 		$form .= '<input type="button" class="site-button" id="notification-btn" value="' . $this->msg( 'user-profile-update-button' )->plain() . '" size="20" onclick="document.profile.submit()" />
 			</form>';
 		$form .= '</div>
 					<div>
 						' . $this->msg( 'user-profile-preferences-link1' )->plain() . '
-						<a href="index.php/Special:Preferences">' . $this->msg( 'user-profile-preferences-link2' )->plain() . '</a>.
+						<a href="'.$preferenceUrlLink.'">' . $this->msg( 'user-profile-preferences-link2' )->plain() . '</a>.
 					</div>';
 
 		return $form;
