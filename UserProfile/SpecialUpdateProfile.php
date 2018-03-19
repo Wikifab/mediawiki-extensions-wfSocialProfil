@@ -649,7 +649,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 		<div class="profile-update" id="profile-update-personal-web">
 			<p class="profile-update-unit-left">' . $this->msg( 'user-personal-info-website' )->plain() . '</p>
 			<p class="profile-update-unit">
-				<textarea rows="1" cols="33" name="websites" id="websites" placeholder="http://www.wikifab.org">' . ( isset( $websites ) ? $websites : '' ) .  '</textarea>
+				<textarea rows="1" cols="33" name="websites" id="websites" placeholder="https://www.mysite.com">' . ( isset( $websites ) ? $websites : '' ) .  '</textarea>
 		</div>';
 
 
