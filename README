@@ -65,7 +65,7 @@ The last field is using select box, and can be customized like this :
 * [[Allows value:: Name_level 1B / Name_level 2B / Name_level 3B ]]
 
 In your LocalSettings file add this line :
-$property_name='Name_of_Property_Page';
+$wgSocialProfileCustomFieldsPropertyName='Name_of_Property_Page';
 
 Also if you don't want to use custom 13 or cutom 12 , do not put anything in your LocalSettings file. And you won't have any error's 
  display. 

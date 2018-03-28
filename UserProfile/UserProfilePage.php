@@ -479,7 +479,7 @@ class UserProfilePage extends Article {
 	}
 
 	function getPersonalInfo( $user_id, $user_name ) {
-	    global $wgUser, $wgUserProfileDisplay, $property_name, $wgSocialProfileCustomFields;
+	    global $wgUser, $wgUserProfileDisplay, $wgSocialProfileCustomFieldsPropertyName, $wgSocialProfileCustomFields;
 
 
 		if ( $wgUserProfileDisplay['personal'] == false ) {
@@ -606,7 +606,7 @@ class UserProfilePage extends Article {
 				}
 
 
-                if($property_name){
+                if($wgSocialProfileCustomFieldsPropertyName){
                     $custom13Display ='';
 				// Decode le json pour afficher un tableau
                     if($profile_data['custom_13']){
@@ -655,7 +655,7 @@ class UserProfilePage extends Article {
 	 * @return String: HTML
 	 */
 	function getCustomInfo( $user_name ) {
-	    global $wgUser, $wgUserProfileDisplay, $wgSocialProfileCustomFields, $property_name;
+	    global $wgUser, $wgUserProfileDisplay, $wgSocialProfileCustomFields, $wgSocialProfileCustomFieldsPropertyName;
 
 		if ( $wgUserProfileDisplay['custom'] == false ) {
 			return '';
@@ -702,7 +702,7 @@ class UserProfilePage extends Article {
     			}
     			$output .= $this->getProfileSection(wfMessage( 'custom-info-field12' )->escaped(). '</br>' , $text, false) ;
 
-// 				if($property_name){
+// 				if($wgSocialProfileCustomFieldsPropertyName){
 				// Decode le json pour afficher un tableau
 				$custom13Decode = json_decode ($profile_data['custom_13'],TRUE);
 				$custom13Display ='';

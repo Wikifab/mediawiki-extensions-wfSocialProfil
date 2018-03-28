@@ -345,7 +345,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 	 * @param $user Object: User object, null by default (=the current user)
 	 */
 	function saveProfileBasic( $user = null ) {
-		global $wgMemc, $wgSitename, $property_name;
+		global $wgMemc, $wgSitename, $wgSocialProfileCustomFieldsPropertyName;
 
 		if ( is_null( $user ) ) {
 			$user = $this->getUser();
@@ -486,7 +486,7 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 	 * @param $user Object: User
 	 */
 	function displayBasicForm( $user ) {
-		global $wgSocialProfileCustomFields, $property_name;
+		global $wgSocialProfileCustomFields, $wgSocialProfileCustomFieldsPropertyName;
 		$dbr = wfGetDB( DB_SLAVE );
 		$s = $dbr->selectRow( 'user_profile',
 			array(
@@ -728,9 +728,9 @@ class SpecialUpdateProfile extends UnlistedSpecialPage {
 
 		endif;
 
-		if(isset($property_name)):
+		if(isset($wgSocialProfileCustomFieldsPropertyName)):
             $properties = array();
-            $properties = \UserProfile::getAllValuesForProperty($property_name );
+            $properties = \UserProfile::getAllValuesForProperty($wgSocialProfileCustomFieldsPropertyName );
             $selectivesValuesArray = array() ;
 
             if ($custom[13]){
