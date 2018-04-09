@@ -348,15 +348,15 @@ $wgResourceModules['ext.socialprofile.userboardadvanced.css'] = array(
 
 // UserInfo
 $wgResourceModules['ext.socialprofile.userinfo.js'] = array(
-    'scripts' => 'UserInfo.js',
+    'scripts' => 'resources/UserInfo.js',
     'dependencies'=> ['oojs'],
-    'localBasePath' => __DIR__ . '/UserInfo/resources',
+    'localBasePath' => __DIR__ . '/UserInfo',
     'remoteExtPath' => 'SocialProfile/UserInfo',
 );
 
 $wgResourceModules['ext.socialprofile.userinfo.css'] = array(
-    'styles' => 'UserInfo.css',
-    'localBasePath' => __DIR__ . '/UserInfo/resources',
+    'styles' => 'resources/UserInfo.css',
+    'localBasePath' => __DIR__ . '/UserInfo',
     'remoteExtPath' => 'SocialProfile/UserInfo',
     'position' => 'top' // just in case
 );
