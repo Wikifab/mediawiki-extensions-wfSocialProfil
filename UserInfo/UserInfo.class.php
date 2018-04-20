@@ -33,7 +33,7 @@ class UserInfo {
         if ( $wgUser->getID() == 0) {
             return false;
         }
-        $out = '<div class="col-lg-4">
+        $out = '<div class="col-md-4">
                     <div class="UserInfo">
                     <div class="UserInfoAvatar"><a href='.$linkToUserProfile.'>' . $avatar .'</a></div> '
                         .$linkToUpdateProfile .'
@@ -100,7 +100,7 @@ class UserInfo {
 
         }
 
-        $out = '<div class="col-lg-4"><div class="UserInfoChecked">';
+        $out = '<div class="col-md-4"><div class="UserInfoChecked">';
         $out .= '<div class="UserInfoAccount">';
         $out .= '<i class="fa fa-check-circle"> </i>' .' '. wfMessage('user-info-create-account')->escaped() ;
         $out .= '</div>';
