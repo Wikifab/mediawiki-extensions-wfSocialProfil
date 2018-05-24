@@ -129,7 +129,7 @@
 #points-level {
 	float: left;
 	font-size: 11px;
-    background-color: #2c9ab7;
+    background-color: var(--main-hover-color);
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
@@ -879,7 +879,7 @@
 }
 
 #profileWf #points-level {
-	background-color: #2c9ab7;
+	background-color: var(--main-hover-color);
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
