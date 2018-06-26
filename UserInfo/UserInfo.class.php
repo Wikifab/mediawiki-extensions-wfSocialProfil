@@ -48,7 +48,7 @@ class UserInfo {
             $out .='<a href="'.$pageEditProfile->getFullURL().'">' . wfMessage('user_about_empty')->escaped() .'</a>';
 
         }
-        $out .='<p>' . $profile_data['about'] . '</p>';
+        $out .='<p class="UserInfoProfileDescription">' . $profile_data['about'] . '</p>';
 
         $out .= '</div></div></div>';
         return array( $out, 'noparse' => true, 'isHTML' => true );
@@ -101,6 +101,7 @@ class UserInfo {
         }
 
         $out = '<div class="col-md-4"><div class="UserInfoChecked">';
+        $out = '<p class="UserInfoCheckedTitle">'. wfMessage('user-info-check-title') .'</p>';
         $out .= '<div class="UserInfoAccount">';
         $out .= '<i class="fa fa-check-circle"> </i>' .' '. wfMessage('user-info-create-account')->escaped() ;
         $out .= '</div>';
