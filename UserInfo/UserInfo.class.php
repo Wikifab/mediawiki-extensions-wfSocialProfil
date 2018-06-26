@@ -101,7 +101,7 @@ class UserInfo {
         }
 
         $out = '<div class="col-md-4"><div class="UserInfoChecked">';
-        $out = '<p class="UserInfoCheckedTitle">'. wfMessage('user-info-check-title') .'</p>';
+        $out .= '<p class="UserInfoCheckedTitle">'. wfMessage('user-info-check-title') .'</p>';
         $out .= '<div class="UserInfoAccount">';
         $out .= '<i class="fa fa-check-circle"> </i>' .' '. wfMessage('user-info-create-account')->escaped() ;
         $out .= '</div>';

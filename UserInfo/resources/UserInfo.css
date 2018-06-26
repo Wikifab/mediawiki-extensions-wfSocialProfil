@@ -1,7 +1,6 @@
 .UserInfoProfile {
 	float:right;
 	width: calc(100% - 78px);
-	min-height: 150px;
 }
 
 .UserInfo {
@@ -11,6 +10,7 @@
     box-shadow: 0px 0px 15px rgba(0,0,0,0.15);
     float: left;
     width: 100%;
+    min-height: 150px;
 }
 
 .UserInfoAvatar {
