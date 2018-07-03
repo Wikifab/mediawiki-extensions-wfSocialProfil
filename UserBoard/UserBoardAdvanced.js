@@ -85,16 +85,29 @@ var UserBoardAdvanced = {
 							}
 							if (wfUba.length == 1){
 								$('.more-message').last().remove();
-							}			
+							}
 							// Permet d'afficher la fin des messages chargés et non le début. 
-							wfUba[$nb_message_show].scrollIntoView();	            }
+							if($(wfUba).last()[0]) {
+								console.log("scrooll to last child");
+								$(wfUba).last()[0].scrollIntoView();
+							} else if($(".user-page-message-form ")[0]) {
+								console.log("scrooll to bottom");
+								$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+							} else {
+								console.log('Error, new scroll div not found');
+							}
+						}
 			    	
 			        });
 			    	
 			    }
 			    
 			});
-			$(".user-page-message-form ").scrollTop($(".user-page-message-form ").scrollHeight);
+			if($(".user-page-message-form ")[0]) {
+				$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
+			} else {
+				console.log('Error, scroll div not found');
+			}
 		}
 		// "Delete" link
 		jQuery( 'span.user-board-red a' ).on( 'click', function() {
