@@ -278,7 +278,9 @@ class UserProfilePage extends Article {
 		$options =  [
 			'namespace' => "0", //namespace principal, to get only tutorials
 			'target' => $this->user_name,
-			'newOnly' => 1
+			'newOnly' => 1,
+			'start' => false,
+			'end' => false
 		];
 		$contribsPager = new ContribsPager($context, $options);
 
@@ -304,7 +306,9 @@ class UserProfilePage extends Article {
 		$options =  [
 			'namespace' => "0", //namespace principal, to get only tutorials
 			'target' => $this->user_name,
-			//'newOnly' => 1
+			//'newOnly' => 1,
+			'start' => false,
+			'end' => false
 		];
 		$pager = new ContribsPager($context, $options);
 
