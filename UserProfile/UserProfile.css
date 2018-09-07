@@ -370,9 +370,15 @@
 }
 
 .profile-info-container div {
-	margin: 0px 0px 8px 0px;
-	color: #666;
-	width: 100%;
+    margin: 0px 0px 8px 0px;
+    color: #666;
+    float: left;
+    width: 100%;
+}
+
+.profile-info-container div div {
+	margin: 0px;
+    width: calc(100% - 23px);
     float: left;
     white-space: nowrap;
     vertical-align: baseline;
@@ -887,12 +893,6 @@
 
 #profileWf h5.project-title {
 	font-size: 15px;
-}
-
-#profileWf .profile-info-container a {
-    width: 91%;
-    float: right;
-    overflow: hidden;
 }
 
 .profile-info-container .fa {
