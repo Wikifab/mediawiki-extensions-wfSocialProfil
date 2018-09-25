@@ -107,7 +107,7 @@ h2.uba-discussion-list-title {
     height: 100vh;
     left: 0;
     right: 0;
-    overflow-y: scroll;
+    overflow-y: auto;
     border-right: 1px solid #ddd;
     top: 91px;
     padding-bottom:100px;
