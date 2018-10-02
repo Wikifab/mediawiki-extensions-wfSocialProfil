@@ -651,7 +651,7 @@
     transition: all ease .25s;
 }
 
-.profile-tab {
+.profile-tab a {
 	float: left;
 	min-width: 72px;
 	padding: 14px 15px;
@@ -659,7 +659,7 @@
 	text-align: center;
 }
 
-.profile-tab-on {
+.profile-tab-on a {
 	  border: 1px solid #ddd;
   border-bottom: 1px solid #fff;
   -webkit-border-top-left-radius: 5px;
