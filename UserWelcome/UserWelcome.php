@@ -16,7 +16,7 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( "This is not a valid entry point.\n" );
 }
 
-// Extension credits that show up on Special:Version
+// Extension credits that show up on Special:MultiVersionsPages
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'UserWelcome',

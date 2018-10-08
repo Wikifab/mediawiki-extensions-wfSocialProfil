@@ -118,7 +118,7 @@ $wgFriendingEnabled = true;
 // set this to something static.
 $wgAvatarKey = $wgDBname;
 
-// Extension credits that show up on Special:Version
+// Extension credits that show up on Special:MultiVersionsPages
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'SocialProfile',

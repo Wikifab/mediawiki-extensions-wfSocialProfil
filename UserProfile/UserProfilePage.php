@@ -290,13 +290,28 @@ class UserProfilePage extends Article {
 		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
 		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
 
-		$out = "";
+		$out = "<div class=\"row\">";
 		while($contrib = $contribs->next()) {
 			$title = Title::newFromText( $contrib->page_title );
 			$result = SearchResult::newFromTitle( $title );
 			$out .= $wikifabSearchResultFormatter->getPageDetails( $result );
 		}
 
+		$out .= "</div>";
+
+		$out .= $this->getLastDiscussions($this->user);
+
+		return $out;
+	}
+
+	public function getLastDiscussions(User $user){
+		$out = "<h3>Vos dernières discussions</h3>";
+
+		$ld = new LatestDiscussions();
+
+		$out .= '<div class="row">';
+		$out .= $ld->renderDiscussionsFromUser($user, 10, 0);
+		$out .= '</div>';
 		return $out;
 	}
 

@@ -19,7 +19,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( "Not a valid entry point.\n" );
 }
 
-// Extension credits that will show up on Special:Version
+// Extension credits that will show up on Special:MultiVersionsPages
 $wgExtensionCredits['specialpage'][] = array(
 	'name' => 'UserActivity',
 	'version' => '1.2',
