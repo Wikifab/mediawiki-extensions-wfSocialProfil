@@ -299,7 +299,13 @@ class UserProfilePage extends Article {
 
 		$out .= "</div>";
 
-		$out .= $this->getLastDiscussions($this->user);
+		// If LatestDiscussions extension is installed
+		global $IP;
+
+		// Stop if LatestDiscussions extension doesn't exists, do not generate list
+		if(file_exists("$IP/extensions/LatestDiscussions/extension.json")){
+			$out .= $this->getLastDiscussions($this->user);
+		}
 
 		return $out;
 	}
