@@ -291,6 +291,7 @@ class UserProfilePage extends Article {
 		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
 
 		$out = "<div class=\"row\">";
+
 		while($contrib = $contribs->next()) {
 			$title = Title::newFromText( $contrib->page_title );
 			$result = SearchResult::newFromTitle( $title );
@@ -314,10 +315,8 @@ class UserProfilePage extends Article {
 		$out = "<h3>Vos dernières discussions</h3>";
 
 		$ld = new LatestDiscussions();
-
-		$out .= '<div class="row">';
 		$out .= $ld->renderDiscussionsFromUser($user, 10, 0);
-		$out .= '</div>';
+
 		return $out;
 	}
 
