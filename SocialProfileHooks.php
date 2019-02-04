@@ -113,7 +113,7 @@ class SocialProfileHooks {
 
 		if($namespace == NS_USER && ! in_array('sysop', $wgUser->getGroups())) {
 			// hide tool bar for user pages
-			$content_navigation = ['views' => []];
+			$content_navigation = ['views' => [], 'actions'=> []];
 		}
 		return true;
 	}
