@@ -288,7 +288,7 @@ class UserProfilePage extends Article {
 
 
 		$wikifabSearchResultFormatter = new WikifabExploreResultFormatter();
-		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResultUserPage']);
+		$wikifabSearchResultFormatter->setTemplate($GLOBALS['egChameleonLayoutFileSearchResult']);
 
 		$out = "<div class=\"row\">";
 
