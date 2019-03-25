@@ -149,14 +149,6 @@
     color: #444;
 }
 
-#profileWf .nav-tabs > li.active > a:hover {
-	border-color: #52bad5 #ddd #fff #ddd;
-}
-
-#profileWf .nav-tabs > li.active > a {
-	border-top: 3px solid #52bad5;
-}
-
 .mw-body #profileWf ul.nav-tabs {
 	padding-left:0px;
 }
@@ -891,10 +883,6 @@
 	border-radius: 2px;
 }
 
-#profileWf h5.project-title {
-	font-size: 15px;
-}
-
 .profile-info-container .fa {
 	width: 13px;
 	text-align: center;
@@ -945,11 +933,6 @@
 
 #profileWf .project-byline {
     margin-top: 8px;
-}
-
-#profileWf h5.project-title {
-    font-size: 15px;
-    margin-bottom: 2px;
 }
 
 @media only screen and (max-width: 550px) {
