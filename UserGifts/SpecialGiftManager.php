@@ -52,6 +52,15 @@ class GiftManager extends SpecialPage {
 		// Add CSS
 		$out->addModuleStyles( 'ext.socialprofile.usergifts.css' );
 
+		//Add WAC menu
+		$out->addModuleScripts('ext.wikiadminconfig.wikiadminconfig.js');
+		$out->addModuleStyles('ext.wikiadminconfig.wikiadminconfig.css');
+
+		$content = '<div class="row"><div class="col-xs-3">';
+		$content .= \WAC\WikiAdminConfig::transcludeSidebar();
+		$content .= '</div><div class="col-xs-9">';
+		$out->addHTML($content);
+
 		if ( $request->wasPosted() ) {
 			if ( !$request->getInt( 'id' ) ) {
 				$giftId = Gifts::addGift(
@@ -190,6 +199,7 @@ class GiftManager extends SpecialPage {
 	 * @return String: HTML
 	 */
 	function displayGiftList() {
+		global $wgUploadPath;
 		$output = ''; // Prevent E_NOTICE
 		$page = 0;
 		/**
@@ -202,18 +212,27 @@ class GiftManager extends SpecialPage {
 		$gifts = Gifts::getManagedGiftList( $per_page, $page );
 		if ( $gifts ) {
 			foreach ( $gifts as $gift ) {
+				$editLink = '';
 				$deleteLink = '';
 				if ( $this->canUserDelete() ) {
 					$deleteLink = '<a href="' .
 						htmlspecialchars( SpecialPage::getTitleFor( 'RemoveMasterGift' )->getFullURL( "gift_id={$gift['id']}" ) ) .
 						'" style="font-size:10px; color:red;">' .
 						$this->msg( 'delete' )->plain() . '</a>';
+					$editLink = '<a href="' .
+						htmlspecialchars( SpecialPage::getTitleFor( 'GiftManager' )->getFullURL( "id={$gift['id']}" ) ) .
+						'" style="font-size:10px; color:green;">' .
+						$this->msg( 'edit' )->plain() . '</a>';
 				}
 
-				$output .= '<div class="Item">
+				$gift_image = '<img src="' . $wgUploadPath . '/awards/' .
+					Gifts::getGiftImage( $gift['id'], 'l' ) . '" border="0" alt="' .
+					$this->msg( 'g-gift' )->plain() . '" />';
+
+				$output .= '<div class="Item">' . $gift_image . '
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( "id={$gift['id']}" ) ) . '">' .
 					$gift['gift_name'] . '</a> ' .
-					$deleteLink . "</div>\n";
+					$editLink . ' ' . $deleteLink . "</div>\n";
 			}
 		}
 		return '<div id="views">' . $output . '</div>';
