@@ -12,7 +12,7 @@ class GiveGift extends SpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'GiveGift' );
+		parent::__construct( 'GiveGift', 'givegift' );
 	}
 
 	/**
