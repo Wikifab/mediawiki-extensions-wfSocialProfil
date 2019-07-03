@@ -38,7 +38,7 @@ class GiftManager extends SpecialPage {
 		$out->setPageTitle( $this->msg( 'giftmanager' )->plain() );
 
 		// Make sure that the user is logged in and that they can use this
-		// special page
+		// special page<
 		if ( $user->isAnon() || !$this->canUserManage() ) {
 			throw new ErrorPageError( 'error', 'badaccess' );
 		}
@@ -98,10 +98,10 @@ class GiftManager extends SpecialPage {
 				// "add a gift" link to them
 				if ( $this->canUserCreateGift() ) {
 					$out->addHTML(
-						'<div><b><a href="' .
+						'<div><div class="btn btn-primary btn-badge-create"><a href="' .
 						htmlspecialchars( $this->getPageTitle()->getFullURL( 'method=edit' ) ) .
 						'">' . $this->msg( 'giftmanager-addgift' )->plain() .
-						'</a></b></div>'
+						'</a></div></div>'
 					);
 				}
 				$out->addHTML( $this->displayGiftList() );
@@ -215,13 +215,13 @@ class GiftManager extends SpecialPage {
 				$editLink = '';
 				$deleteLink = '';
 				if ( $this->canUserDelete() ) {
-					$deleteLink = '<a href="' .
+					$deleteLink = '<a class="btn btn-primary btn-badge-actions" href="' .
 						htmlspecialchars( SpecialPage::getTitleFor( 'RemoveMasterGift' )->getFullURL( "gift_id={$gift['id']}" ) ) .
-						'" style="font-size:10px; color:red;">' .
+						'">' .
 						$this->msg( 'delete' )->plain() . '</a>';
-					$editLink = '<a href="' .
+					$editLink = '<a class="btn btn-primary btn-badge-actions" href="' .
 						htmlspecialchars( SpecialPage::getTitleFor( 'GiftManager' )->getFullURL( "id={$gift['id']}" ) ) .
-						'" style="font-size:10px; color:green;">' .
+						'">' .
 						$this->msg( 'edit' )->plain() . '</a>';
 				}
 
@@ -229,13 +229,13 @@ class GiftManager extends SpecialPage {
 					Gifts::getGiftImage( $gift['id'], 'l' ) . '" border="0" alt="' .
 					$this->msg( 'g-gift' )->plain() . '" />';
 
-				$output .= '<div class="Item">' . $gift_image . '
+				$output .= '<div class="badge-item"><div class="badge-img">' . $gift_image . '</div>
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( "id={$gift['id']}" ) ) . '">' .
-					$gift['gift_name'] . '</a> ' .
-					$editLink . ' ' . $deleteLink . "</div>\n";
+					$gift['gift_name'] . '</a>
+					<div class="badge-actions">'. $editLink . '</div><div class="badge-actions">' . $deleteLink . "</div></div>\n";
 			}
 		}
-		return '<div id="views">' . $output . '</div>';
+		return '<div id="badge-list">' . $output . '</div>';
 	}
 
 	function displayForm( $gift_id ) {
@@ -262,31 +262,33 @@ class GiftManager extends SpecialPage {
 			}
 		}
 
-		$form .= '<form action="" method="post" enctype="multipart/form-data" name="gift">';
-		$form .= '<table border="0" cellpadding="5" cellspacing="0" width="500">';
-		$form .= '<tr>
-		<td width="200" class="view-form">' . $this->msg( 'g-gift-name' )->plain() . '</td>
-		<td width="695"><input type="text" size="45" class="createbox" name="gift_name" value="' .
-			( isset( $gift['gift_name'] ) ? $gift['gift_name'] : '' ) . '"/></td>
-		</tr>
-		<tr>
-		<td width="200" class="view-form" valign="top">' . $this->msg( 'giftmanager-description' )->plain() . '</td>
-		<td width="695"><textarea class="createbox" name="gift_description" rows="2" cols="30">' .
-			( isset( $gift['gift_description'] ) ? $gift['gift_description'] : '' ) . '</textarea></td>
-		</tr>';
+		$form .= '<form action="" method="post" enctype="multipart/form-data" name="gift" class="form-horizontal">';
+		$form .= '<div class="form-group">
+					<label for="badgeName" class="col-sm-2 control-label">' . $this->msg( 'g-gift-name' )->plain() . '</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="badgeName" name="gift_name" value="' .
+			( isset( $gift['gift_name'] ) ? $gift['gift_name'] : '' ) . '"/>
+						</div>
+				  </div>';
+		$form .= '<div class="form-group">
+					<label for="badgeDescription" class="col-sm-2 control-label">' . $this->msg( 'giftmanager-description' )->plain() . '</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" id="badgeDescription" name="gift_description">' .
+			( isset( $gift['gift_description'] ) ? $gift['gift_description'] : '' ) . '</textarea>
+					</div>
+				  </div>';
+
 		if ( $gift_id ) {
 			$creator = Title::makeTitle( NS_USER, $gift['creator_user_name'] );
-			$form .= '<tr>
-			<td class="view-form">' .
-				$this->msg( 'g-created-by', $gift['creator_user_name'] )->parse() .
-			'</td>
-			<td><a href="' . htmlspecialchars( $creator->getFullURL() ) . '">' .
-				$gift['creator_user_name'] . '</a></td>
-			</tr>';
+			$form .= '<div class="form-group">
+						<label for="badgeCreator" class="col-sm-2 control-label">' . $this->msg( 'g-created-by', $gift['creator_user_name'] )->parse() . '</label>
+						<div class="col-sm-10">
+							<a id="badgeCreator" href="' . htmlspecialchars( $creator->getFullURL() ) . '">' .
+				$gift['creator_user_name'] . '</a>
+					    </div>
+					  </div>';
 		}
 
-		// If the user isn't in the gift admin group, they can only create
-		// private gifts
 		if ( !$user->isAllowed( 'giftadmin' ) ) {
 			$form .= '<input type="hidden" name="access" value="1" />';
 		} else {
@@ -297,19 +299,19 @@ class GiftManager extends SpecialPage {
 			if ( isset( $gift['access'] ) && $gift['access'] == 1 ) {
 				$privateSelected = ' selected="selected"';
 			}
-			$form .= '<tr>
-				<td class="view-form">' . $this->msg( 'giftmanager-access' )->plain() . '</td>
-				<td>
-				<select name="access">
-					<option value="0"' . $publicSelected . '>' .
-						$this->msg( 'giftmanager-public' )->plain() .
-					'</option>
-					<option value="1"' . $privateSelected . '>' .
-						$this->msg( 'giftmanager-private' )->plain() .
-					'</option>
-				</select>
-				</td>
-			</tr>';
+			$form .= '<div class="form-group">
+						<label for="badgeAccess" class="col-sm-2 control-label">' . $this->msg( 'giftmanager-access' )->parse() . '</label>
+						<div class="col-sm-10">
+							<select class="form-control" id="badgeAccess" name="access">
+								<option value="0"' . $publicSelected . '>' .
+								$this->msg( 'giftmanager-public' )->plain() .
+								'</option>
+									<option value="1"' . $privateSelected . '>' .
+								$this->msg( 'giftmanager-private' )->plain() .
+								'</option>
+							</select>
+						</div>
+					  </div>';
 		}
 
 		if ( $gift_id ) {
@@ -318,14 +320,14 @@ class GiftManager extends SpecialPage {
 			$gift_image = '<img src="' . $wgUploadPath . '/awards/' .
 				Gifts::getGiftImage( $gift_id, 'l' ) . '" border="0" alt="' .
 				$this->msg( 'g-gift' )->plain() . '" />';
-			$form .= '<tr>
-			<td width="200" class="view-form" valign="top">' . $this->msg( 'giftmanager-giftimage' )->plain() . '</td>
-			<td width="695">' . $gift_image .
-			'<p>
-			<a href="' . htmlspecialchars( $gml->getFullURL( 'gift_id=' . $gift_id ) ) . '">' .
-				$this->msg( 'giftmanager-image' )->plain() . '</a>
-			</td>
-			</tr>';
+			$form .= '<div class="form-group">
+						<label for="badgeImage" class="col-sm-2 control-label">' . $this->msg( 'giftmanager-giftimage' )->plain() . '</label>
+						<div class="col-sm-10">' . $gift_image .
+							'<div>
+								<a id="badgeImage" href="' . htmlspecialchars( $gml->getFullURL( 'gift_id=' . $gift_id ) ) . '">' .
+								$this->msg( 'giftmanager-image' )->plain() . '</a>
+						</div>
+					  </div>';
 		}
 
 		if ( isset( $gift['gift_id'] ) ) {
@@ -334,16 +336,15 @@ class GiftManager extends SpecialPage {
 			$button = $this->msg( 'g-create-gift' )->plain();
 		}
 
-		$form .= '<tr>
-			<td colspan="2">
-				<input type="hidden" name="id" value="' . ( isset( $gift['gift_id'] ) ? $gift['gift_id'] : '' ) . '" />
-				<input type="button" class="createbox" value="' . $button . '" size="20" onclick="document.gift.submit()" />
-				<input type="button" class="createbox" value="' . $this->msg( 'cancel' )->plain() . '" size="20" onclick="history.go(-1)" />
-			</td>
-		</tr>
-		</table>
+		$form .= '<div class="form-group">
+					<div class="col-sm-10">
+						<input type="hidden" name="id" value="' . ( isset( $gift['gift_id'] ) ? $gift['gift_id'] : '' ) . '" />
+						<input type="button" class="btn btn-default" value="' . $button . '" size="20" onclick="document.gift.submit()" />
+						<input type="button" class="btn btn-default" value="' . $this->msg( 'cancel' )->plain() . '" size="20" onclick="history.go(-1)" />
+					</div>
+				  </div>';
 
-		</form>';
+		$form .= '</form>';
 		return $form;
 	}
 }
