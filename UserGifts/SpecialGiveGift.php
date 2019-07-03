@@ -32,6 +32,11 @@ class GiveGift extends SpecialPage {
 	public function execute( $par ) {
 		global $wgMemc, $wgUploadPath;
 
+		$user = $this->getUser();
+		if(!$user->isAllowed( 'givegift' )){
+			throw new \PermissionsError( 'givegift' );
+		}
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
