@@ -8,7 +8,7 @@ class SpecialUserBoardAdvanced extends SpecialPage {
      * Constructor
      */
     public function __construct() {
-        parent::__construct( 'UserBoardAdvanced' );
+        parent::__construct( 'UserBoardAdvanced', 'useuserboardadvanced' );
     }
 
     function getGroupName() {
@@ -17,6 +17,12 @@ class SpecialUserBoardAdvanced extends SpecialPage {
 
     function execute( $par ) {
         global $wgGroupPermissions;
+
+        $user = $this->getUser();
+        if(!$user->isAllowed( 'useuserboardadvanced' )){
+            throw new \PermissionsError( 'useuserboardadvanced' );
+        }
+
         $out = $this->getOutput();
         $request = $this->getRequest();
         //$currentUser est l'objet USER de la personne connectée

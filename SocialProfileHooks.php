@@ -120,8 +120,9 @@ class SocialProfileHooks {
     // Add a new item on navbar, a direct link to UserBoardAdvanced
 	public static function onPersonalUrls( array &$personal_urls, Title $title, SkinTemplate $skin ) {
         global $wgUser, $wgOut;
-        // Si la personne n'est pas connectée ne pas afficher l'enveloppe
-        if ( $wgUser->getID() != 0){
+        // Si la personne n'est pas connectée ou n'a pas les droits ne pas afficher l'enveloppe
+        $userId = $wgUser->getId();
+        if ( $userId != 0 && \WAC\UserRights::hasInternalEmailRight($userId) ){
     	    $title = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
     	    $title_url = htmlspecialchars ($title->getFullURL());
 

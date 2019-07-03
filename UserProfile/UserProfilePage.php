@@ -183,11 +183,14 @@ class UserProfilePage extends Article {
 				$out .= UsersWatchButton::getHtml($user);
 			}
 			// send message button
-			$send_message = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
-			$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $user_safe ) );
-			$out .= '<a href="' . $send_message_url . '"
-				  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i><span class="btn-follow-text"> '.wfMessage( 'user-send-message' )->escaped() . '</span></button>
-				  </a>';
+			$userId = $wgUser->getId();
+			if($userId !== 0 && \WAC\UserRights::hasInternalEmailRight($userId)) {
+				$send_message = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
+				$send_message_url = htmlspecialchars( $send_message->getFullURL( 'user=' . $user_safe ) );
+				$out .= '<a href="' . $send_message_url . '"
+					  <button class="btn btn-sm btn-message"><i class="fa fa-envelope-o"></i><span class="btn-follow-text"> '.wfMessage( 'user-send-message' )->escaped() . '</span></button>
+					  </a>';
+			}
 		}
 		$out .= '
 			  </div>';
