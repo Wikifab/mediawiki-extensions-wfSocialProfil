@@ -84,5 +84,7 @@
 	"g-your-profile": "Votre profil",
 	"gift_received_subject": "$1 vous a envoyé le badge $2 sur {{SITENAME}} !",
 	"gift_received_body": "Bonjour $1,\n\n$2 vient de vous envoyer le badge $3 sur {{SITENAME}}.\n\nPour lire la note $2 qui vous est adressée et voir votre badge, cliquez sur le lien ci-dessous :\n\n$4\n\nNous espérons que vous l’apprécierez !\n\nMerci,\n\n\nL’équipe de {{SITENAME}}\n\n---\n\nVous ne voulez plus recevoir de courriels de notre part ?\n\nCliquez $5\net modifiez vos préférences pour désactiver les notifications par courriel.",
-	"right-giftadmin": "Créer ou modifier des badges"
+	"right-giftadmin": "Créer ou modifier des badges",
+	"action-giftadmin": "créer ou modifier des badges",
+	"action-givegift": "donner des badges"
 }
