@@ -96,7 +96,7 @@ class Gifts {
 		if ( !empty( $files[0] ) ) {
 			$img = basename( $files[0] );
 		} else {
-			$img = 'default_' . $size . '.gif';
+			$img = 'default_' . $size . '.png';
 		}
 		return $img . '?r=' . rand();
 	}
