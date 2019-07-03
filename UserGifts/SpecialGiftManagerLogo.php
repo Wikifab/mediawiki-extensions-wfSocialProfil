@@ -21,7 +21,7 @@ class GiftManagerLogo extends UnlistedSpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'GiftManagerLogo' );
+		parent::__construct( 'GiftManagerLogo', 'giftadmin' );
 	}
 
 	/**
