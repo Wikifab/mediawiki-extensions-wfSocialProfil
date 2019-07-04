@@ -50,6 +50,11 @@ class GiveGift extends SpecialPage {
 		$out->addModuleStyles( 'ext.socialprofile.usergifts.css' );
 		$out->addModules( 'ext.socialprofile.usergifts.js' );
 
+		$html = '<div class="row"><div class="col-xs-3">';
+		$html .= \WAC\WikiAdminConfig::transcludeSidebar();
+		$html .= '</div><div class="col-xs-9">';
+		$out->addHTML($html);
+
 		$userTitle = Title::newFromDBkey( $request->getVal( 'user' ) );
 		if ( !$userTitle ) {
 			$out->addHTML( $this->displayFormNoUser() );
@@ -132,7 +137,7 @@ class GiveGift extends SpecialPage {
 						$this->msg( 'g-back-link', $this->user_name_to )->parse() .
 					'</a>
 				</div>
-				<div class="g-message">' .
+				<div class="alert alert-success g-message">' .
 					$this->msg( 'g-sent-message', $this->user_name_to )->parse() .
 				'</div>
 				<div class="g-container">' .
@@ -143,12 +148,7 @@ class GiveGift extends SpecialPage {
 						$sent_gift['message'] .
 					'</div>';
 				}
-				$output .= '</div>
-				<div class="visualClear"></div>
-				<div class="g-buttons">
-					<input type="button" class="site-button" value="' . $this->msg( 'g-main-page' )->plain() . '" size="20" onclick="window.location=\'index.php?title=' . $this->msg( 'mainpage' )->inContentLanguage()->escaped() . '\'" />
-					<input type="button" class="site-button" value="' . $this->msg( 'g-your-profile' )->plain() . '" size="20" onclick="window.location=\'' . htmlspecialchars( $user->getUserPage()->getFullURL() ) . '\'" />
-				</div>';
+				$output .= '</div>';
 
 				$out->addHTML( $output );
 			} else {
