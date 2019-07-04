@@ -98,7 +98,7 @@ class GiftManager extends SpecialPage {
 				// "add a gift" link to them
 				if ( $this->canUserCreateGift() ) {
 					$out->addHTML(
-						'<div><div class="btn btn-primary btn-badge-create"><a href="' .
+						'<div><div class="btn btn-default btn-badge-create"><a href="' .
 						htmlspecialchars( $this->getPageTitle()->getFullURL( 'method=edit' ) ) .
 						'">' . $this->msg( 'giftmanager-addgift' )->plain() .
 						'</a></div></div>'
@@ -215,11 +215,11 @@ class GiftManager extends SpecialPage {
 				$editLink = '';
 				$deleteLink = '';
 				if ( $this->canUserDelete() ) {
-					$deleteLink = '<a class="btn btn-primary btn-badge-actions" href="' .
+					$deleteLink = '<a class="btn btn-default btn-badge-actions" href="' .
 						htmlspecialchars( SpecialPage::getTitleFor( 'RemoveMasterGift' )->getFullURL( "gift_id={$gift['id']}" ) ) .
 						'">' .
 						$this->msg( 'delete' )->plain() . '</a>';
-					$editLink = '<a class="btn btn-primary btn-badge-actions" href="' .
+					$editLink = '<a class="btn btn-default btn-badge-actions" href="' .
 						htmlspecialchars( SpecialPage::getTitleFor( 'GiftManager' )->getFullURL( "id={$gift['id']}" ) ) .
 						'">' .
 						$this->msg( 'edit' )->plain() . '</a>';
