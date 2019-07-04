@@ -69,7 +69,7 @@ class GiftManager extends SpecialPage {
 					$request->getInt( 'access' )
 				);
 				$out->addHTML(
-					'<span class="view-status">' .
+					'<span class="alert alert-success">' .
 					$this->msg( 'giftmanager-giftcreated' )->plain() .
 					'</span><br /><br />'
 				);
@@ -299,7 +299,7 @@ class GiftManager extends SpecialPage {
 			if ( isset( $gift['access'] ) && $gift['access'] == 1 ) {
 				$privateSelected = ' selected="selected"';
 			}
-			$form .= '<div class="form-group">
+			$form .= '<div class="form-group" style="display: none">
 						<label for="badgeAccess" class="col-sm-2 control-label">' . $this->msg( 'giftmanager-access' )->parse() . '</label>
 						<div class="col-sm-10">
 							<select class="form-control" id="badgeAccess" name="access">
@@ -331,7 +331,7 @@ class GiftManager extends SpecialPage {
 		}
 
 		if ( isset( $gift['gift_id'] ) ) {
-			$button = $this->msg( 'edit' )->plain();
+			$button = $this->msg( 'g-save-gift' )->plain();
 		} else {
 			$button = $this->msg( 'g-create-gift' )->plain();
 		}
