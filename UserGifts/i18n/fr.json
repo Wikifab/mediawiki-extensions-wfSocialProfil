@@ -23,7 +23,7 @@
 	"g-add-message": "Ajouter un message",
 	"g-back-edit-gift": "Revenir à la modification de ce badge",
 	"g-back-gift-list": "Revenir à la liste des badges",
-	"g-back-link": "Retourner sur le profil de $1",
+	"g-back-link": "Voir le profil de $1",
 	"g-choose-file": "Choisir le fichier :",
 	"g-cancel": "Annuler",
 	"g-count": "$1 a $2 badge{{PLURAL:$2||s}}.",
