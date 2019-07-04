@@ -24,6 +24,7 @@
 	"g-cancel": "Cancel",
 	"g-count": "$1 has $2 {{PLURAL:$2|badge|badges}}.",
 	"g-create-gift": "Create badge",
+	"g-save-gift": "Save",
 	"g-created-by": "created by",
 	"g-current-image": "Current image",
 	"g-delete-message": "Are you sure you want to delete the badge \"$1\"?\nThis will also delete it from users who may have received it.",
