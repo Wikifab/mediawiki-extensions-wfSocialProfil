@@ -19,7 +19,7 @@
 	"g-add-message": "Add a message",
 	"g-back-edit-gift": "Back to edit this badge",
 	"g-back-gift-list": "Back to badge list",
-	"g-back-link": "< Back to $1's page",
+	"g-back-link": "See $1's profile",
 	"g-choose-file": "Choose file:",
 	"g-cancel": "Cancel",
 	"g-count": "$1 has $2 {{PLURAL:$2|badge|badges}}.",
