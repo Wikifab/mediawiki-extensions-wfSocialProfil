@@ -28,6 +28,7 @@
 	"g-cancel": "Annuler",
 	"g-count": "$1 a $2 badge{{PLURAL:$2||s}}.",
 	"g-create-gift": "Créer un badge",
+	"g-save-gift": "Enregistrer",
 	"g-created-by": "créé par",
 	"g-current-image": "Image actuelle",
 	"g-delete-message": "Êtes-vous certain{{GENDER:||e|(e)}} de vouloir supprimer le badge « $1 » ? Ceci va également le supprimer des utilisateurs qui l’ont reçu.",
