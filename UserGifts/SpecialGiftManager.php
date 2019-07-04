@@ -232,7 +232,7 @@ class GiftManager extends SpecialPage {
 				$output .= '<div class="badge-item"><div class="badge-img">' . $gift_image . '</div>
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( "id={$gift['id']}" ) ) . '">' .
 					$gift['gift_name'] . '</a>
-					<div class="badge-actions">'. $editLink . '</div><div class="badge-actions">' . $deleteLink . "</div></div>\n";
+					<div class="badge-actions">'. $editLink . $deleteLink . "</div></div>\n";
 			}
 		}
 		return '<div id="badge-list">' . $output . '</div>';
