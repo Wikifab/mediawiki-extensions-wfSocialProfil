@@ -62,6 +62,8 @@
 	"userboard-advanced-nomessageswithyourself":"Oups... Vous ne pouvez pas vous converser avec vous-même.",
 	"userboard-advanced-nomessageswiththisone":"Commencez à écrire pour démarrer la conversation. ",
 	"userboard-advanced-older-messages":"Messages plus anciens",
-	"userboard-advanced-norightsmessages":"Vous n'avez pas les droits pour envoyer des messages"
+	"userboard-advanced-norightsmessages":"Vous n'avez pas les droits pour envoyer des messages",
+	"userboard-advanced-modal-title": "À qui souhaitez-vous envoyer un message ?",
+	"userboard-advanced-user-name": "Nom de l'utilisateur"
 	
 }
