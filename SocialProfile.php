@@ -238,7 +238,6 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'SocialProfileHooks::onLoadExtensionS
 $wgHooks['ParserFirstCallInit'][] = 'AvatarParserFunction::setupAvatarParserFunction';
 $wgHooks['SkinTemplateNavigation'][] = 'SocialProfileHooks::onSkinTemplateNavigation';
 $wgHooks['PersonalUrls'][]='SocialProfileHooks::onPersonalUrls';
-$wgHooks['ResourceLoaderGetConfigVars'] = 'SocialProfileHooks::onResourceLoaderGetConfigVars';
 
 $wgHooks['BeforePageDisplay'][] = 'UserInfo::onBeforePageDisplay';
 $wgHooks['ParserFirstCallInit'][] = 'UserInfo::onParserSetup';

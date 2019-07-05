@@ -65,19 +65,17 @@ var UserBoardAdvanced = {
 
 		//Add new users
 		jQuery.each(users, function (id, user) {
-			if(!mediaWiki.config.get('wgWikiAdminConfigExcludeUserNames').includes(user.name)){
-				if(!UserBoardAdvanced.existingUsers.includes(user.name)){
-					var userName = '<span class="userName">' + user.name + '</span>';
-					var userElement = new OO.ui.Element({
-						classes : ['user'],
-						$content: [user.avatar, userName]
-					});
-					modalBody.append(userElement.$element);
-					UserBoardAdvanced.existingUsers.push(user.name);
-				//If user is in existingUsers, we splice it
-				} else {
-					existingUsers.splice(existingUsers.indexOf(user.name), 1);
-				}
+			if(!UserBoardAdvanced.existingUsers.includes(user.name)){
+				var userName = '<span class="userName">' + user.name + '</span>';
+				var userElement = new OO.ui.Element({
+					classes : ['user'],
+					$content: [user.avatar, userName]
+				});
+				modalBody.append(userElement.$element);
+				UserBoardAdvanced.existingUsers.push(user.name);
+			//If user is in existingUsers, we splice it
+			} else {
+				existingUsers.splice(existingUsers.indexOf(user.name), 1);
 			}
 		});
 

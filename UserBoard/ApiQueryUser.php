@@ -21,10 +21,12 @@ class ApiQueryUser extends ApiBase
 	 */
 	public function execute()
 	{
+		global $wgWikiAdminConfigExcludeUserNames;
+
 		$query = $this->getParameter('query');
 
         $dbr = wfGetDB( DB_MASTER );
-        $query = $dbr->strencode($query);
+        $query = $dbr->strencode(strtolower($query));
 
 		if($query == 'emptycontent'){
             $result = $dbr->select(
@@ -42,7 +44,7 @@ class ApiQueryUser extends ApiBase
                 ['user'],
                 ['user_name', 'user_id'],
                 [
-                    'user_name LIKE "%'.$query.'%" OR user_real_name LIKE "%'.$query.'%"'
+                    'CONVERT(user_name USING utf8) LIKE "%'.$query.'%" OR CONVERT(user_real_name USING utf8) LIKE "%'.$query.'%"'
                 ],
                 __METHOD__,
                 ['LIMIT' => 10]
@@ -51,10 +53,12 @@ class ApiQueryUser extends ApiBase
 
 		$data = [];
 		foreach($result as $row){
-			$avatar = new wAvatar( $row->user_id, 's' );
-			$user['name'] = $row->user_name;
-			$user['avatar'] = $avatar->getAvatarURL();
-			$data[$row->user_id] = $user;
+			if (!in_array($row->user_name, $wgWikiAdminConfigExcludeUserNames)) {
+				$avatar = new wAvatar($row->user_id, 's');
+				$user['name'] = $row->user_name;
+				$user['avatar'] = $avatar->getAvatarURL();
+				$data[] = $user;
+			}
 		}
 
 		$this->getResult()->addValue(null, 'results', $data);
