@@ -56,7 +56,7 @@
 	"message_received_subject": "$1 a écrit sur votre tableau sur {{SITENAME}}",
 	"message_received_body": "Salut $1 :\n\n$2 vient juste d’écrire sur votre tableau sur {{SITENAME}} !\n\nCliquez sur le lien ci-dessous pour allez sur votre tableau !\n\n$3\n\n---\n\nHé ! Voulez-vous arrêter d’obtenir, de nous, les courriels ?\n\nCliquer $4\net modifiez vos paramètres pour désactiver les notifications des courriels.",
 	
-	"userboardadvanced":"Toutes vos conversations",
+	"userboardadvanced":"Discussions",
 	"userboard-advanced-all-messages":"Messages avec $1",
 	"userboard-send-message-title":"Envoyer un nouveau message à $1",
 	"userboard-advanced-nomessageswithyourself":"Oups... Vous ne pouvez pas vous converser avec vous-même.",
