@@ -59,4 +59,6 @@
 	
 	"userboardadvanced":"All your conversations",
 	"userboard-advanced-all-messages":"Messages with $1"
+	"userboard-advanced-modal-title": "Who would you like to send a message to ?",
+	"userboard-advanced-user-name": "Username"
 }
