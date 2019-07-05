@@ -142,6 +142,12 @@ class SocialProfileHooks {
     	}
 
 	}
+
+	public static function onResourceLoaderGetConfigVars(&$vars){
+		global $wgWikiAdminConfigExcludeUserNames;
+		$vars['wgWikiAdminConfigExcludeUserNames'] = $wgWikiAdminConfigExcludeUserNames;
+		return true;
+	}
 }
 
 

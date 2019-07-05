@@ -1,5 +1,6 @@
 var UserBoardAdvanced = {
 	posted: 0,
+	existingUsers : [],
 
 	sendMessage: function( perPage ) {
 		if ( !perPage ) {
@@ -57,6 +58,62 @@ var UserBoardAdvanced = {
 			);
 		}
 	},
+
+	 displayUsers: function(users){
+		var modalBody = jQuery('.modal-body');
+		var existingUsers = Array.from(UserBoardAdvanced.existingUsers);
+
+		//Add new users
+		jQuery.each(users, function (id, user) {
+			if(!mediaWiki.config.get('wgWikiAdminConfigExcludeUserNames').includes(user.name)){
+				if(!UserBoardAdvanced.existingUsers.includes(user.name)){
+					var userName = '<span class="userName">' + user.name + '</span>';
+					var userElement = new OO.ui.Element({
+						classes : ['user'],
+						$content: [user.avatar, userName]
+					});
+					modalBody.append(userElement.$element);
+					UserBoardAdvanced.existingUsers.push(user.name);
+				//If user is in existingUsers, we splice it
+				} else {
+					existingUsers.splice(existingUsers.indexOf(user.name), 1);
+				}
+			}
+		});
+
+		//ExistingUsers contains displayed users who do not match the current search, so we remove them
+		jQuery.each(existingUsers, function (key, value) {
+			jQuery('.user').filter(function () {
+				return jQuery(this).children().last().text() === value;
+			}).remove();
+			UserBoardAdvanced.existingUsers.splice(UserBoardAdvanced.existingUsers.indexOf(value), 1);
+		});
+
+		jQuery('.user').on('mouseover', function () {
+			jQuery(this).css({'background-color' : 'lightgrey', 'cursor' : 'pointer'});
+		});
+		jQuery('.user').on('mouseout', function () {
+			jQuery(this).css({'background-color' : 'white', 'cursor' : 'default'});
+		});
+		jQuery('.user').on('click', function () {
+			var userNameClicked = jQuery(this).children().last().text();
+			window.location = mediaWiki.config.get('wgScriptPath') + '?title=Spécial:UserBoardAdvanced&user=' + userNameClicked;
+		});
+    },
+
+    load: function(query){
+        if (!query.length) return;
+        $.ajax({
+            url: mediaWiki.config.get('wgScriptPath') + '/api.php?action=queryuser&query=' + encodeURIComponent(query) + '&format=json',
+            type: 'GET',
+            error: function() {
+                console.log('error');
+            },
+            success: function(res) {
+                UserBoardAdvanced.displayUsers(res.results);
+            }
+        });
+    },
 	
 	init:function(){
 		$page = mw.util.getParamValue( 'page' );
@@ -117,7 +174,64 @@ var UserBoardAdvanced = {
 		// Submit button
 		jQuery( 'div.user-page-message-box-button input[type="button"]' ).on( 'click', function() {
 			UserBoardAdvanced.sendMessage( jQuery( this ).data( 'per-page' ) );
-		} );	
+		} );
+
+		var crossButton = new OO.ui.Element({
+            classes: ['close'],
+            text: '×'
+        });
+
+        var modalTitle = new OO.ui.Element({
+            classes: ['modal-title'],
+            text: mediaWiki.msg("userboard-advanced-modal-title"),
+        });
+
+        var modalHeader = new OO.ui.Element({
+            classes: ['modal-header'],
+            $content: [modalTitle.$element, crossButton.$element]
+        });
+
+        var textInput = new OO.ui.TextInputWidget({
+            placeholder: mediaWiki.msg("userboard-advanced-user-name")
+        });
+
+        var modalBody = new OO.ui.Element({
+            classes: ['modal-body'],
+            $content: textInput.$element
+        });
+
+        var modalContent = new OO.ui.Element({
+            classes: ['modal-content'],
+            $content: [modalHeader.$element, modalBody.$element]
+        });
+
+        var modalDialog = new OO.ui.Element({
+            classes: ['modal-dialog'],
+            $content: modalContent.$element
+        });
+
+        var modal = new OO.ui.Element({
+            classes: ['modal fade'],
+            id: 'userboardadvancedModal',
+            $content: modalDialog.$element
+        });
+
+        $( document.body ).append( modal.$element );
+
+        crossButton.$element.attr('data-dismiss', 'modal');
+
+        textInput.on('change', function () {
+        	if(textInput.getValue() === ""){
+				UserBoardAdvanced.load('emptycontent');
+			} else {
+				UserBoardAdvanced.load(textInput.getValue());
+
+			}
+        });
+
+        jQuery('.write-button').on('click', function () {
+			UserBoardAdvanced.load('emptycontent');
+		});	
 		
 	}
 };
@@ -125,7 +239,7 @@ var UserBoardAdvanced = {
 
 jQuery( document ).ready( function() {
 	/* This callback is invoked as soon as the modules are available. */ 
-	mw.loader.using( ['mediawiki.util'] ).then( function () { 
+	mw.loader.using( ['mediawiki.util', 'ext.socialprofile.userboard.js'] ).then( function () { 
 		UserBoardAdvanced.init();
 	} );
 	

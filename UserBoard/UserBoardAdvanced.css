@@ -377,3 +377,18 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 .loaderWait{
 	diplay:none;
 }
+
+.write-button{
+    border-radius: 50%;
+}
+
+.user{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.userName{
+    margin-left: 10px;
+}

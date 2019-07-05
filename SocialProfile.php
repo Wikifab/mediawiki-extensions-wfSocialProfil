@@ -70,6 +70,10 @@ $wgAutoloadClasses['TopFansRecent'] = __DIR__ . '/UserStats/TopFansRecent.php';
 $wgAutoloadClasses['TopUsersPoints'] = __DIR__ . '/UserStats/TopUsers.php';
 $wgAutoloadClasses['wAvatar'] = __DIR__ . '/UserProfile/AvatarClass.php';
 $wgAutoloadClasses['AvatarParserFunction'] = __DIR__ . '/UserProfile/AvatarParserFunction.php';
+$wgAutoloadClasses['ApiQueryUser'] = __DIR__ . '/UserBoard/ApiQueryUser.php';
+
+//Api modules
+$wgAPIModules['queryuser'] = 'ApiQueryUser';
 
 // New special pages
 $wgSpecialPages['AddRelationship'] = 'SpecialAddRelationship';
@@ -234,6 +238,7 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'SocialProfileHooks::onLoadExtensionS
 $wgHooks['ParserFirstCallInit'][] = 'AvatarParserFunction::setupAvatarParserFunction';
 $wgHooks['SkinTemplateNavigation'][] = 'SocialProfileHooks::onSkinTemplateNavigation';
 $wgHooks['PersonalUrls'][]='SocialProfileHooks::onPersonalUrls';
+$wgHooks['ResourceLoaderGetConfigVars'] = 'SocialProfileHooks::onResourceLoaderGetConfigVars';
 
 $wgHooks['BeforePageDisplay'][] = 'UserInfo::onBeforePageDisplay';
 $wgHooks['ParserFirstCallInit'][] = 'UserInfo::onParserSetup';
@@ -334,7 +339,7 @@ $wgResourceModules['ext.socialprofile.userstats.css'] = array(
 $wgResourceModules['ext.socialprofile.userboardadvanced.js'] = array(
     'scripts' => 'UserBoardAdvanced.js',
     'dependencies'=> ['oojs'],
-    'messages' => array( 'userboard_confirmdelete' ),
+    'messages' => array( 'userboard_confirmdelete', 'userboard-advanced-modal-title', 'userboard-advanced-user-name' ),
     'localBasePath' => __DIR__ . '/UserBoard',
     'remoteExtPath' => 'SocialProfile/UserBoard',
 );
