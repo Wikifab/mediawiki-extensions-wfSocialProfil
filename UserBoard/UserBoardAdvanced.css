@@ -380,6 +380,7 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 
 .write-button{
     border-radius: 50%;
+    margin-left: 10px
 }
 
 .user{
