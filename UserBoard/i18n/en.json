@@ -58,7 +58,7 @@
 	"message_received_body": "Hi $1.\n\n$2 just wrote on your board on {{SITENAME}}!\n\nClick below to check out your board!\n\n$3\n\n---\n\nHey, want to stop getting e-mails from us?\n\nClick $4\nand change your settings to disable email notifications.",
 	
 	"userboardadvanced":"Discussions",
-	"userboard-advanced-all-messages":"Messages with $1"
+	"userboard-advanced-all-messages":"Messages with $1",
 	"userboard-advanced-modal-title": "Who would you like to send a message to ?",
 	"userboard-advanced-user-name": "Username"
 }
