@@ -230,6 +230,13 @@ var UserBoardAdvanced = {
         jQuery('.write-button').on('click', function () {
 			UserBoardAdvanced.load('emptycontent');
 		});	
+
+		jQuery('.write-button').on('mouseover', function () {
+			jQuery(this).css('cursor', 'pointer');
+		});
+		jQuery('.write-button').on('mouseout', function () {
+			jQuery(this).css('cursor', 'default');
+		});
 		
 	}
 };
