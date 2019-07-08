@@ -1,6 +1,6 @@
 <?php
 
-class ApiQueryUser extends ApiBase
+class ApiSPQueryUser extends ApiBase
 {
 
 	/**

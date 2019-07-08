@@ -70,10 +70,10 @@ $wgAutoloadClasses['TopFansRecent'] = __DIR__ . '/UserStats/TopFansRecent.php';
 $wgAutoloadClasses['TopUsersPoints'] = __DIR__ . '/UserStats/TopUsers.php';
 $wgAutoloadClasses['wAvatar'] = __DIR__ . '/UserProfile/AvatarClass.php';
 $wgAutoloadClasses['AvatarParserFunction'] = __DIR__ . '/UserProfile/AvatarParserFunction.php';
-$wgAutoloadClasses['ApiQueryUser'] = __DIR__ . '/UserBoard/ApiQueryUser.php';
+$wgAutoloadClasses['ApiSPQueryUser'] = __DIR__ . '/UserBoard/ApiSPQueryUser.php';
 
 //Api modules
-$wgAPIModules['queryuser'] = 'ApiQueryUser';
+$wgAPIModules['spQueryUser'] = 'ApiSPQueryUser';
 
 // New special pages
 $wgSpecialPages['AddRelationship'] = 'SpecialAddRelationship';

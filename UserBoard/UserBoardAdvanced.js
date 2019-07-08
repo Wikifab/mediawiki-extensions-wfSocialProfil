@@ -102,7 +102,7 @@ var UserBoardAdvanced = {
     load: function(query){
         if (!query.length) return;
         $.ajax({
-            url: mediaWiki.config.get('wgScriptPath') + '/api.php?action=queryuser&query=' + encodeURIComponent(query) + '&format=json',
+            url: mediaWiki.config.get('wgScriptPath') + '/api.php?action=spQueryUser&query=' + encodeURIComponent(query) + '&format=json',
             type: 'GET',
             error: function() {
                 console.log('error');
