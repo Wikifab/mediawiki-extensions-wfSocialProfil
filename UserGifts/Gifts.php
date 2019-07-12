@@ -22,6 +22,9 @@ $wgSpecialPages['ViewGifts'] = 'ViewGifts';
 $wgAutoloadClasses['ViewGift'] = "{$wgUserGiftsDirectory}/SpecialViewGift.php";
 $wgSpecialPages['ViewGift'] = 'ViewGift';
 
+$wgAutoloadClasses['ViewGiftUsers'] = "{$wgUserGiftsDirectory}/SpecialViewGiftUsers.php";
+$wgSpecialPages['ViewGiftUsers'] = 'ViewGiftUsers';
+
 $wgAutoloadClasses['GiftManager'] = "{$wgUserGiftsDirectory}/SpecialGiftManager.php";
 $wgSpecialPages['GiftManager'] = 'GiftManager';
 

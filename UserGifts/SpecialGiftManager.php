@@ -231,7 +231,7 @@ class GiftManager extends SpecialPage {
 
 				$output .= '<div class="badge-item"><div class="badge-img">' . $gift_image . '</div>
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( "id={$gift['id']}" ) ) . '">' .
-					$gift['gift_name'] . '</a>
+					$gift['gift_name'] . '</a><a href="'.htmlspecialchars(SpecialPage::getTitleFor('ViewGiftUsers')->getFullURL("gift_id={$gift['id']}")).'">'.wfMessage('g-view-userlist').'</a>
 					<div class="badge-actions">'. $editLink . $deleteLink . "</div></div>\n";
 			}
 		}
