@@ -378,6 +378,11 @@ h2.uba-message-list-title, h2.uba-discussion-list-title {
 	diplay:none;
 }
 
+.write-modal{
+    max-height: 500px;
+    overflow: auto;
+}
+
 .write-button{
     margin-left: 10px
 }

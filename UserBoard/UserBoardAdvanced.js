@@ -99,6 +99,12 @@ var UserBoardAdvanced = {
 		});
     },
 
+    removeAllUsers: function(){
+		jQuery('.user').remove();
+		UserBoardAdvanced.existingUsers = [];
+	},
+
+
     load: function(query){
         if (!query.length) return;
         $.ajax({
@@ -221,19 +227,13 @@ var UserBoardAdvanced = {
         textInput.on('input', function () {
         	setTimeout(function () {
         		var inputValue = textInput.getValue();
-				if(inputValue.length === 0){
-					UserBoardAdvanced.load('emptycontent');
-				} else {
+				if(inputValue.length > 0){
 					UserBoardAdvanced.load(inputValue);
+				} else if(inputValue.length === 0){
+					UserBoardAdvanced.removeAllUsers();
 				}
-			}, 100);
+			}, 500);
         });
-
-        jQuery('.write-button').on('click', function () {
-			if($('.user').length === 0){
-				UserBoardAdvanced.load('emptycontent');
-			}
-		});	
 
 		jQuery('.write-button').on('mouseover', function () {
 			jQuery(this).css('cursor', 'pointer');
