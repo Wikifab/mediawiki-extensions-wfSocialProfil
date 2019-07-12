@@ -225,7 +225,6 @@ var UserBoardAdvanced = {
 					UserBoardAdvanced.load('emptycontent');
 				} else {
 					UserBoardAdvanced.load(inputValue);
-
 				}
 			}, 100);
         });
