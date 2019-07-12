@@ -218,17 +218,22 @@ var UserBoardAdvanced = {
 
         crossButton.$element.attr('data-dismiss', 'modal');
 
-        textInput.on('change', function () {
-        	if(textInput.getValue() === ""){
-				UserBoardAdvanced.load('emptycontent');
-			} else {
-				UserBoardAdvanced.load(textInput.getValue());
+        textInput.on('input', function () {
+        	setTimeout(function () {
+        		var inputValue = textInput.getValue();
+				if(inputValue.length === 0){
+					UserBoardAdvanced.load('emptycontent');
+				} else {
+					UserBoardAdvanced.load(inputValue);
 
-			}
+				}
+			}, 100);
         });
 
         jQuery('.write-button').on('click', function () {
-			UserBoardAdvanced.load('emptycontent');
+			if($('.user').length === 0){
+				UserBoardAdvanced.load('emptycontent');
+			}
 		});	
 
 		jQuery('.write-button').on('mouseover', function () {

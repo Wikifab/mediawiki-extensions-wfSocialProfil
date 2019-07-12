@@ -22,6 +22,11 @@ class ApiSPQueryUser extends ApiBase
 	public function execute()
 	{
 		global $wgWikiAdminConfigExcludeUserNames;
+		$ExcludeUserNames = '(';
+		for ($i = 0; $i < sizeof($wgWikiAdminConfigExcludeUserNames) - 1; $i++){
+			$ExcludeUserNames .= "'".$wgWikiAdminConfigExcludeUserNames[$i]."', ";
+		}
+		$ExcludeUserNames .= "'".$wgWikiAdminConfigExcludeUserNames[sizeof($wgWikiAdminConfigExcludeUserNames) - 1]."')";
 
 		$query = $this->getParameter('query');
 
@@ -32,7 +37,9 @@ class ApiSPQueryUser extends ApiBase
             $result = $dbr->select(
                 ['user'],
                 ['user_name', 'user_id'],
-                [],
+                [
+                	'user_name NOT IN '.$ExcludeUserNames
+                ],
                 __METHOD__,
                 [
 					'ORDER BY' => 'user_name ASC',
@@ -40,10 +47,12 @@ class ApiSPQueryUser extends ApiBase
 				]
             );
         } else {
+        	//convert to utf8 for case insensitive search
             $result = $dbr->select(
                 ['user'],
                 ['user_name', 'user_id'],
                 [
+                	'user_name NOT IN '.$ExcludeUserNames,
                     'CONVERT(user_name USING utf8) LIKE "%'.$query.'%" OR CONVERT(user_real_name USING utf8) LIKE "%'.$query.'%"'
                 ],
                 __METHOD__,
@@ -53,12 +62,10 @@ class ApiSPQueryUser extends ApiBase
 
 		$data = [];
 		foreach($result as $row){
-			if (!in_array($row->user_name, $wgWikiAdminConfigExcludeUserNames)) {
-				$avatar = new wAvatar($row->user_id, 's');
-				$user['name'] = $row->user_name;
-				$user['avatar'] = $avatar->getAvatarURL();
-				$data[] = $user;
-			}
+			$avatar = new wAvatar($row->user_id, 's');
+			$user['name'] = $row->user_name;
+			$user['avatar'] = $avatar->getAvatarURL();
+			$data[] = $user;
 		}
 
 		$this->getResult()->addValue(null, 'results', $data);
