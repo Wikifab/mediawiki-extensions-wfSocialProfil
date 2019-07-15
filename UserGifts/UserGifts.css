@@ -288,6 +288,10 @@
     max-height: 100%;
 }
 
+.badge-item .g-gift-count{
+	margin-left: 10px;
+}
+
 .badge-item .badge-actions {
     visibility:hidden;
 }

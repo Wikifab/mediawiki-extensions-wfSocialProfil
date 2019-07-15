@@ -213,4 +213,19 @@ class Gifts {
 		}
 		return $gift_count;
 	}
+
+	/**
+	 * @param $gift_id
+	 * @return the number of users having this badge
+	 */
+	static function getGiftUserCount($gift_id){
+		$dbr = wfGetDB(DB_SLAVE);
+		$s = $dbr->selectRow(
+			'user_gift',
+			array('COUNT(*) AS count'),
+			array('ug_gift_id' => $gift_id),
+			__METHOD__
+		);
+		return $s->count;
+	}
 }

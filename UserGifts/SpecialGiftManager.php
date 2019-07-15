@@ -231,8 +231,20 @@ class GiftManager extends SpecialPage {
 
 				$output .= '<div class="badge-item"><div class="badge-img">' . $gift_image . '</div>
 				<a href="' . htmlspecialchars( $this->getPageTitle()->getFullURL( "id={$gift['id']}" ) ) . '">' .
-					$gift['gift_name'] . '</a><a href="'.htmlspecialchars(SpecialPage::getTitleFor('ViewGiftUsers')->getFullURL("gift_id={$gift['id']}")).'">'.wfMessage('g-view-userlist').'</a>
-					<div class="badge-actions">'. $editLink . $deleteLink . "</div></div>\n";
+					$gift['gift_name'] . '</a><a href="'.htmlspecialchars(SpecialPage::getTitleFor('ViewGiftUsers')->getFullURL("gift_id={$gift['id']}")).'">'.wfMessage('g-view-userlist').'</a>';
+
+				$gift_user_count = Gifts::getGiftUserCount($gift['id']);
+				if(!$gift_user_count){
+					$output .= '<span class="g-gift-count">' .
+						$this->msg( 'g-no-given')->parse() .
+						'</span>';
+				} else {
+					$output .= '<span class="g-gift-count">' .
+						$this->msg( 'g-given', $gift_user_count )->parse() .
+						'</span>';
+				}
+
+				$output .=	'<div class="badge-actions">'. $editLink . $deleteLink . "</div></div>\n";
 			}
 		}
 		return '<div id="badge-list">' . $output . '</div>';

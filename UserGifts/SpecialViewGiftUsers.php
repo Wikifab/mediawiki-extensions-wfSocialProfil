@@ -40,7 +40,7 @@ class ViewGiftUsers extends SpecialPage {
 			$dbr = wfGetDB( DB_SLAVE );
 			$res = $dbr->select(
 				'user_gift',
-				array( 'ug_user_name_to', 'ug_user_id_to' ),
+				array( 'DISTINCT ug_user_name_to', 'ug_user_id_to' ),
 				array(
 					'ug_gift_id' => $gift['gift_id']
 				),
@@ -50,10 +50,8 @@ class ViewGiftUsers extends SpecialPage {
 				)
 			);
 
-			$count = 0;
 			$users = '';
 			foreach ( $res as $row ) {
-				$count++;
 				$userId = $row->ug_user_id_to;
 				$avatar = new wAvatar( $userId, 's' );
 				$userNameLink = Title::makeTitle( NS_USER, $row->ug_user_name_to );
@@ -85,7 +83,9 @@ class ViewGiftUsers extends SpecialPage {
 			
 			$output .= '<div class="g-user-message">' . $gift['gift_description'] . '</div>';
 			$output .= '<div class="visualClear"></div>';
-			if($count === 0){
+
+			$count = Gifts::getGiftUserCount($gift['gift_id']);
+			if(!$count){
 				$output .= '<div class="g-gift-count">' .
 				$this->msg( 'g-no-given', $count )->parse() .
 				'</div>';
