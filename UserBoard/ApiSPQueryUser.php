@@ -39,7 +39,7 @@ class ApiSPQueryUser extends ApiBase
 			['user_name', 'user_id'],
 			[
 				'user_name NOT IN '.$ExcludeUserNames,
-				'CONVERT(user_name USING utf8) LIKE "%'.$query.'%" OR CONVERT(user_real_name USING utf8) LIKE "%'.$query.'%"'
+				'CONVERT(user_name USING latin1) LIKE "%'.$query.'%" OR CONVERT(user_real_name USING utf8) LIKE "%'.$query.'%"'
 			],
 			__METHOD__,
 			[]
