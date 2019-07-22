@@ -122,26 +122,26 @@ class SocialProfileHooks {
         global $wgUser, $wgOut;
         // Si la personne n'est pas connectée ou n'a pas les droits ne pas afficher l'enveloppe
         $userId = $wgUser->getId();
-        if ( $userId != 0 && \WAC\UserRights::hasInternalEmailRight($userId) ){
-    	    $title = SpecialPage::getTitleFor( 'UserBoardAdvanced' );
-    	    $title_url = htmlspecialchars ($title->getFullURL());
+        if ( $userId != 0 ){
+    	    if((class_exists('\WAC\UserRights') && \WAC\UserRights::hasInternalEmailRight($userId)) || !class_exists('\WAC\UserRights')) {
+				$title = SpecialPage::getTitleFor('UserBoardAdvanced');
+				$title_url = htmlspecialchars($title->getFullURL());
 
-            $countNewMessage = new UserBoard();
-    	    $newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId()) ;
-    	    if($newCountMessage==0){
-    	        $newCountMessage ='';
-    	    }
-            $personal_urls['social-message-link'] = array (
-                "text"=> $newCountMessage,
-                "options" => [ 'text-wrapper' => [ 'tag' => 'span' ]],
-                "href"=>$title_url,
-                "active"=>false,
-                "class"=>'fa fa-envelope'
+				$countNewMessage = new UserBoard();
+				$newCountMessage = $countNewMessage->getNewMessageCountDB($wgUser->getId());
+				if ($newCountMessage == 0) {
+					$newCountMessage = '';
+				}
+				$personal_urls['social-message-link'] = array(
+					"text" => $newCountMessage,
+					"options" => ['text-wrapper' => ['tag' => 'span']],
+					"href" => $title_url,
+					"active" => false,
+					"class" => 'fa fa-envelope'
 
-            );
-
+				);
+			}
     	}
-
 	}
 }
 
