@@ -56,10 +56,12 @@ class GiftManager extends SpecialPage {
 		$out->addModuleScripts('ext.wikiadminconfig.wikiadminconfig.js');
 		$out->addModuleStyles('ext.wikiadminconfig.wikiadminconfig.css');
 
-		$content = '<div class="row"><div class="col-xs-3">';
-		$content .= \WAC\WikiAdminConfig::transcludeSidebar();
-		$content .= '</div><div class="col-xs-9">';
-		$out->addHTML($content);
+		if(class_exists('\WAC\WikiAdminConfig')){
+			$content = '<div class="row"><div class="col-xs-3">';
+			$content .= \WAC\WikiAdminConfig::transcludeSidebar();
+			$content .= '</div><div class="col-xs-9">';
+			$out->addHTML($content);
+		}
 
 		if ( $request->wasPosted() ) {
 			if ( !$request->getInt( 'id' ) ) {

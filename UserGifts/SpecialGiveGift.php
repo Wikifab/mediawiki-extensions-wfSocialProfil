@@ -50,10 +50,12 @@ class GiveGift extends SpecialPage {
 		$out->addModuleStyles( 'ext.socialprofile.usergifts.css' );
 		$out->addModules( 'ext.socialprofile.usergifts.js' );
 
-		$html = '<div class="row"><div class="col-xs-3">';
-		$html .= \WAC\WikiAdminConfig::transcludeSidebar();
-		$html .= '</div><div class="col-xs-9">';
-		$out->addHTML($html);
+		if(class_exists('\WAC\WikiAdminConfig')) {
+			$html = '<div class="row"><div class="col-xs-3">';
+			$html .= \WAC\WikiAdminConfig::transcludeSidebar();
+			$html .= '</div><div class="col-xs-9">';
+			$out->addHTML($html);
+		}
 
 		$userTitle = Title::newFromDBkey( $request->getVal( 'user' ) );
 		if ( !$userTitle ) {
