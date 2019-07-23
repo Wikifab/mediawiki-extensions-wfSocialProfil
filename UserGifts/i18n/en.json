@@ -19,11 +19,12 @@
 	"g-add-message": "Add a message",
 	"g-back-edit-gift": "Back to edit this badge",
 	"g-back-gift-list": "Back to badge list",
-	"g-back-link": "< Back to $1's page",
+	"g-back-link": "See $1's profile",
 	"g-choose-file": "Choose file:",
 	"g-cancel": "Cancel",
 	"g-count": "$1 has $2 {{PLURAL:$2|badge|badges}}.",
 	"g-create-gift": "Create badge",
+	"g-save-gift": "Save",
 	"g-created-by": "created by",
 	"g-current-image": "Current image",
 	"g-delete-message": "Are you sure you want to delete the badge \"$1\"?\nThis will also delete it from users who may have received it.",
@@ -82,5 +83,8 @@
 	"gift_received_body": "Hi $1.\n\n$2 just sent you the $3 badge on {{SITENAME}}.\n\nWant to read the note $2 left you and see your badge? Click the link below:\n\n$4\n\nWe hope you like it!\n\nThanks,\n\n\nThe {{SITENAME}} team\n\n---\n\nHey, want to stop getting emails from us?\n\nClick $5\nand change your settings to disable email notifications.",
 	"right-giftadmin": "Create new and edit existing badges",
 	"action-giftadmin": "create new and edit existing badges",
-	"action-givegift": "give badges"
+	"action-givegift": "give badges",
+	"g-userlist": "List of users having the $1 badge",
+	"g-view-userlist": "View the list of users having this badge",
+	"g-no-given": "This badge has not been given yet"
 }

@@ -23,11 +23,12 @@
 	"g-add-message": "Ajouter un message",
 	"g-back-edit-gift": "Revenir à la modification de ce badge",
 	"g-back-gift-list": "Revenir à la liste des badges",
-	"g-back-link": "Retourner sur le profil de $1",
+	"g-back-link": "Voir le profil de $1",
 	"g-choose-file": "Choisir le fichier :",
 	"g-cancel": "Annuler",
 	"g-count": "$1 a $2 badge{{PLURAL:$2||s}}.",
 	"g-create-gift": "Créer un badge",
+	"g-save-gift": "Enregistrer",
 	"g-created-by": "créé par",
 	"g-current-image": "Image actuelle",
 	"g-delete-message": "Êtes-vous certain{{GENDER:||e|(e)}} de vouloir supprimer le badge « $1 » ? Ceci va également le supprimer des utilisateurs qui l’ont reçu.",
@@ -86,5 +87,8 @@
 	"gift_received_body": "Bonjour $1,\n\n$2 vient de vous envoyer le badge $3 sur {{SITENAME}}.\n\nPour lire la note $2 qui vous est adressée et voir votre badge, cliquez sur le lien ci-dessous :\n\n$4\n\nNous espérons que vous l’apprécierez !\n\nMerci,\n\n\nL’équipe de {{SITENAME}}\n\n---\n\nVous ne voulez plus recevoir de courriels de notre part ?\n\nCliquez $5\net modifiez vos préférences pour désactiver les notifications par courriel.",
 	"right-giftadmin": "Créer ou modifier des badges",
 	"action-giftadmin": "créer ou modifier des badges",
-	"action-givegift": "donner des badges"
+	"action-givegift": "donner des badges",
+	"g-userlist": "Liste des utilisateurs possédant le badge $1",
+	"g-view-userlist": "Voir la liste des utilisateurs possédant ce badge",
+	"g-no-given": "Ce badge n'a pas encore été donné"
 }
