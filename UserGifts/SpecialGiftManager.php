@@ -53,10 +53,10 @@ class GiftManager extends SpecialPage {
 		$out->addModuleStyles( 'ext.socialprofile.usergifts.css' );
 
 		//Add WAC menu
-		$out->addModuleScripts('ext.wikiadminconfig.wikiadminconfig.js');
-		$out->addModuleStyles('ext.wikiadminconfig.wikiadminconfig.css');
-
 		if(class_exists('\WAC\WikiAdminConfig')){
+			$out->addModuleScripts('ext.wikiadminconfig.wikiadminconfig.js');
+			$out->addModuleStyles('ext.wikiadminconfig.wikiadminconfig.css');
+
 			$content = '<div class="row"><div class="col-xs-3">';
 			$content .= \WAC\WikiAdminConfig::transcludeSidebar();
 			$content .= '</div><div class="col-xs-9">';
