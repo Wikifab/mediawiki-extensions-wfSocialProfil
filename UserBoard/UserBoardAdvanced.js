@@ -59,8 +59,8 @@ var UserBoardAdvanced = {
 		}
 	},
 
-	 displayUsers: function(users){
-		var modalBody = jQuery('.modal-body');
+	displayUsers: function(users){
+		var modalBody = jQuery('.write-modal');
 		var existingUsers = Array.from(UserBoardAdvanced.existingUsers);
 
 		//Add new users
@@ -200,7 +200,7 @@ var UserBoardAdvanced = {
         });
 
         var modalBody = new OO.ui.Element({
-            classes: ['modal-body'],
+            classes: ['modal-body write-modal'],
             $content: textInput.$element
         });
 
@@ -224,7 +224,7 @@ var UserBoardAdvanced = {
 
         crossButton.$element.attr('data-dismiss', 'modal');
 
-        textInput.on('input', function () {
+        textInput.$element.on('input', function () {
         	setTimeout(function () {
         		var inputValue = textInput.getValue();
 				if(inputValue.length > 0){
