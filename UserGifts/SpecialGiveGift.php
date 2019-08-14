@@ -318,13 +318,11 @@ class GiveGift extends SpecialPage {
 		if ( $gifts ) {
 			$out->setPageTitle( $this->msg( 'g-give-all-title', $this->user_name_to )->parse() );
 
-			$output .= '<div class="back-links">
-				<a href="' . htmlspecialchars( $user->getFullURL() ) . '">' .
-					$this->msg( 'g-back-link', $this->user_name_to )->parse() .
-				'</a>
-			</div>
-			<div class="g-message">' .
-				$this->msg( 'g-give-all', $this->user_name_to )->parse() .
+			$user_name_to = '<a href="'.$user->getFullURL().'">'.$this->user_name_to.'</a>';
+			$send_message = $this->msg('g-send-gift')->text();
+
+			$output .= '<div class="g-message">' .
+				$this->msg( 'g-give-all' )->rawParams( $user_name_to, $send_message )->text() .
 			'</div>
 			<form action="" method="post" enctype="multipart/form-data" name="gift">';
 
@@ -413,7 +411,7 @@ class GiveGift extends SpecialPage {
 			 */
 			$output .= '<div class="g-give-all-message-title">' .
 				$this->msg( 'g-give-all-message-title' )->plain() .
-			'</div>
+			'</div><div><i class="fa fa-info-circle"></i> '.$this->msg('g-give-all-message-info')->plain().'</div>
 				<textarea name="message" id="message" rows="4" cols="50"></textarea>
 				<div class="g-buttons">
 					<input type="hidden" name="gift_id" value="0" />
