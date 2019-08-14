@@ -311,8 +311,11 @@ class GiveGift extends SpecialPage {
 		if ( $gifts ) {
 			$out->setPageTitle( $this->msg( 'g-give-all-title', $this->user_name_to )->parse() );
 
+			$user_name_to = '<a href="'.$user->getFullURL().'">'.$this->user_name_to.'</a>';
+			$send_message = $this->msg('g-send-gift')->text();
+
 			$output .= '<div class="g-message">' .
-				$this->msg( 'g-give-all', htmlspecialchars( $user->getFullURL() ), $this->user_name_to )->text() .
+				$this->msg( 'g-give-all' )->rawParams( $user_name_to, $send_message )->text() .
 			'</div>
 			<form action="" method="post" enctype="multipart/form-data" name="gift">';
 

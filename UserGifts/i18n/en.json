@@ -40,7 +40,7 @@
 	"g-gift": "badge",
 	"g-gift-name": "badge name",
 	"g-give-gift": "Give badge",
-	"g-give-all": "Want to give <a href=\"$1\">$2</a> a badge ? Click one of the badges below then click « {{int:g-send-gift}} ».",
+	"g-give-all": "Want to give $1 a badge ? Click one of the badges below then click « $2 ».",
 	"g-give-all-message-title": "Add a message",
 	"g-give-all-message-info": "If you give a badge to a user, he will be notified by email. If you want, you can join a personal message for the user (this message cannot be seen by other users).",
 	"g-give-all-title": "Give a badge to $1",
