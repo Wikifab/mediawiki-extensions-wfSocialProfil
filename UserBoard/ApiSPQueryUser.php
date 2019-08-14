@@ -30,8 +30,8 @@ class ApiSPQueryUser extends ApiBase
 
 		$query = $this->getParameter('query');
 
-        $dbr = wfGetDB( DB_MASTER );
-        $query = $dbr->strencode(strtolower($query));
+		$dbr = wfGetDB( DB_MASTER );
+		$query = $dbr->strencode(strtolower($query));
 
 		//convert to utf8 for case insensitive search
 		$result = $dbr->select(
@@ -52,53 +52,6 @@ class ApiSPQueryUser extends ApiBase
 			$user['avatar'] = $avatar->getAvatarURL();
 			$data[] = $user;
 		}
-
-
-		/*if($query == 'emptycontent'){
-            $result = $dbr->select(
-                ['user'],
-                ['user_name', 'user_id'],
-                [],
-                __METHOD__,
-                [
-					'ORDER BY' => 'user_name ASC'
-				]
-            );
-
-			foreach ($result as $row){
-				if(sizeof($data) < 10) {
-					if (!in_array($row->user_name, $wgWikiAdminConfigExcludeUserNames)) {
-						$avatar = new wAvatar($row->user_id, 's');
-						$user['name'] = $row->user_name;
-						$user['avatar'] = $avatar->getAvatarURL();
-						$data[] = $user;
-					}
-				} else {
-					break;
-				}
-			}
-        } else {
-            $result = $dbr->select(
-                ['user'],
-                ['user_name', 'user_real_name' , 'user_id'],
-                [],
-                __METHOD__,
-                []
-            );
-
-			foreach ($result as $row) {
-				if(sizeof($data) < 10){
-					if(!in_array($row->user_name, $wgWikiAdminConfigExcludeUserNames) && (strpos(strtolower($row->user_name), strtolower($query)) !== false || strpos(strtolower($row->user_real_name), strtolower($query)) !== false)){
-						$avatar = new wAvatar( $row->user_id, 's' );
-						$user['name'] = $row->user_name;
-						$user['avatar'] = $avatar->getAvatarURL();
-						$data[] = $user;
-					}
-				} else {
-					break;
-				}
-            }
-        }*/
 
 		$this->getResult()->addValue(null, 'results', $data);
 	}
