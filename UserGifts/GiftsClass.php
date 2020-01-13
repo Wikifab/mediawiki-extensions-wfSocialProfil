@@ -43,7 +43,7 @@ class Gifts {
 	 * @param $gift_description Mixed: a short description about the gift, as supplied by the user
 	 * @param $gift_access Integer: 0 by default
 	 */
-	public function updateGift( $id, $gift_name, $gift_description, $access = 0 ) {
+	public static function updateGift( $id, $gift_name, $gift_description, $access = 0 ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->update( 'gift',
 			/* SET */array(
@@ -96,7 +96,7 @@ class Gifts {
 		if ( !empty( $files[0] ) ) {
 			$img = basename( $files[0] );
 		} else {
-			$img = 'default_' . $size . '.gif';
+			$img = 'default_' . $size . '.jpg';
 		}
 		return $img . '?r=' . rand();
 	}
@@ -212,5 +212,20 @@ class Gifts {
 			$gift_count = $s->count;
 		}
 		return $gift_count;
+	}
+
+	/**
+	 * @param $gift_id
+	 * @return the number of users having this badge
+	 */
+	static function getGiftUserCount($gift_id){
+		$dbr = wfGetDB(DB_SLAVE);
+		$s = $dbr->selectRow(
+			'user_gift',
+			array('COUNT(*) AS count'),
+			array('ug_gift_id' => $gift_id),
+			__METHOD__
+		);
+		return $s->count;
 	}
 }

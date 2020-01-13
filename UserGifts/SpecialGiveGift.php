@@ -12,7 +12,7 @@ class GiveGift extends SpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'GiveGift' );
+		parent::__construct( 'GiveGift', 'givegift' );
 	}
 
 	/**
@@ -32,6 +32,11 @@ class GiveGift extends SpecialPage {
 	public function execute( $par ) {
 		global $wgMemc, $wgUploadPath;
 
+		$user = $this->getUser();
+		if(!$user->isAllowed( 'givegift' )){
+			throw new \PermissionsError( 'givegift' );
+		}
+
 		$out = $this->getOutput();
 		$request = $this->getRequest();
 		$user = $this->getUser();
@@ -44,6 +49,13 @@ class GiveGift extends SpecialPage {
 		// Add CSS & JS
 		$out->addModuleStyles( 'ext.socialprofile.usergifts.css' );
 		$out->addModules( 'ext.socialprofile.usergifts.js' );
+
+		if(class_exists('\WAC\WikiAdminConfig')) {
+			$html = '<div class="row"><div class="col-xs-3">';
+			$html .= \WAC\WikiAdminConfig::transcludeSidebar();
+			$html .= '</div><div class="col-xs-9">';
+			$out->addHTML($html);
+		}
 
 		$userTitle = Title::newFromDBkey( $request->getVal( 'user' ) );
 		if ( !$userTitle ) {
@@ -127,7 +139,7 @@ class GiveGift extends SpecialPage {
 						$this->msg( 'g-back-link', $this->user_name_to )->parse() .
 					'</a>
 				</div>
-				<div class="g-message">' .
+				<div class="alert alert-success g-message">' .
 					$this->msg( 'g-sent-message', $this->user_name_to )->parse() .
 				'</div>
 				<div class="g-container">' .
@@ -138,12 +150,7 @@ class GiveGift extends SpecialPage {
 						$sent_gift['message'] .
 					'</div>';
 				}
-				$output .= '</div>
-				<div class="visualClear"></div>
-				<div class="g-buttons">
-					<input type="button" class="site-button" value="' . $this->msg( 'g-main-page' )->plain() . '" size="20" onclick="window.location=\'index.php?title=' . $this->msg( 'mainpage' )->inContentLanguage()->escaped() . '\'" />
-					<input type="button" class="site-button" value="' . $this->msg( 'g-your-profile' )->plain() . '" size="20" onclick="window.location=\'' . htmlspecialchars( $user->getUserPage()->getFullURL() ) . '\'" />
-				</div>';
+				$output .= '</div>';
 
 				$out->addHTML( $output );
 			} else {
@@ -311,13 +318,11 @@ class GiveGift extends SpecialPage {
 		if ( $gifts ) {
 			$out->setPageTitle( $this->msg( 'g-give-all-title', $this->user_name_to )->parse() );
 
-			$output .= '<div class="back-links">
-				<a href="' . htmlspecialchars( $user->getFullURL() ) . '">' .
-					$this->msg( 'g-back-link', $this->user_name_to )->parse() .
-				'</a>
-			</div>
-			<div class="g-message">' .
-				$this->msg( 'g-give-all', $this->user_name_to )->parse() .
+			$user_name_to = '<a href="'.$user->getFullURL().'">'.$this->user_name_to.'</a>';
+			$send_message = $this->msg('g-send-gift')->text();
+
+			$output .= '<div class="g-message">' .
+				$this->msg( 'g-give-all' )->rawParams( $user_name_to, $send_message )->text() .
 			'</div>
 			<form action="" method="post" enctype="multipart/form-data" name="gift">';
 
@@ -406,7 +411,7 @@ class GiveGift extends SpecialPage {
 			 */
 			$output .= '<div class="g-give-all-message-title">' .
 				$this->msg( 'g-give-all-message-title' )->plain() .
-			'</div>
+			'</div><div><i class="fa fa-info-circle"></i> '.$this->msg('g-give-all-message-info')->plain().'</div>
 				<textarea name="message" id="message" rows="4" cols="50"></textarea>
 				<div class="g-buttons">
 					<input type="hidden" name="gift_id" value="0" />

@@ -1,5 +1,5 @@
 {
-    "name": "wikifab/SocialProfile",
+    "name": "wikifab/social-profile",
     "type": "mediawiki-extension",
     "require": {
     },
