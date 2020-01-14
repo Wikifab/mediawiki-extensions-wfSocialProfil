@@ -14,7 +14,7 @@ var UserBoardAdvanced = {
 			var encodedName = encodeURIComponent( recipient ),
 				encodedMsg = encodeURIComponent( message ),
 				messageType = document.getElementById( 'message_type' ).value;
-			//Remplace le bouton "envoyer" par un loader pour faire comprendre que ça charge. 
+			//Remplace le bouton "envoyer" par un loader pour faire comprendre que ça charge.
 			$('.site-button').hide();
 			$('.loaderWait').show();
 			jQuery.post(
@@ -106,7 +106,9 @@ var UserBoardAdvanced = {
 
 
     load: function(query){
-        if (!query.length) return;
+        if (!query.length) {
+			return;
+		}
         $.ajax({
             url: mediaWiki.config.get('wgScriptPath') + '/api.php?action=spQueryUser&query=' + encodeURIComponent(query) + '&format=json',
             type: 'GET',
@@ -118,12 +120,12 @@ var UserBoardAdvanced = {
             }
         });
     },
-	
+
 	init:function(){
 		$page = mw.util.getParamValue( 'page' );
-		
+
 		$nb_message_show = 10;
-	
+
 		if(!$page){
 			$page = 1;
 		}
@@ -134,7 +136,7 @@ var UserBoardAdvanced = {
 			    if ($('.user-page-message-form').scrollTop() == 0){
 			    	$page++;
 			    	$.ajax({
-			    		
+
 			            url: mw.util.getUrl('Special:UserBoardAdvanced',{user:mw.util.getParamValue( 'user' ), page:$page}),
 			            success: function(html) {
 			            	var $data = $(html);
@@ -147,7 +149,7 @@ var UserBoardAdvanced = {
 							if (wfUba.length == 1){
 								$('.more-message').last().remove();
 							}
-							// Permet d'afficher la fin des messages chargés et non le début. 
+							// Permet d'afficher la fin des messages chargés et non le début.
 							if($(wfUba).last()[0]) {
 								console.log("scrooll to last child");
 								$(wfUba).last()[0].scrollIntoView();
@@ -158,11 +160,11 @@ var UserBoardAdvanced = {
 								console.log('Error, new scroll div not found');
 							}
 						}
-			    	
+
 			        });
-			    	
+
 			    }
-			    
+
 			});
 			if($(".user-page-message-form ")[0]) {
 				$(".user-page-message-form ").scrollTop($(".user-page-message-form ")[0].scrollHeight);
@@ -186,6 +188,7 @@ var UserBoardAdvanced = {
         });
 
         var modalTitle = new OO.ui.Element({
+            $element: $( document.createElement( 'h4' ) ),
             classes: ['modal-title'],
             text: mediaWiki.msg("userboard-advanced-modal-title"),
         });
@@ -241,15 +244,15 @@ var UserBoardAdvanced = {
 		jQuery('.write-button').on('mouseout', function () {
 			jQuery(this).css('cursor', 'default');
 		});
-		
+
 	}
 };
 
 
 jQuery( document ).ready( function() {
-	/* This callback is invoked as soon as the modules are available. */ 
-	mw.loader.using( ['mediawiki.util', 'ext.socialprofile.userboard.js'] ).then( function () { 
+	/* This callback is invoked as soon as the modules are available. */
+	mw.loader.using( ['mediawiki.util', 'ext.socialprofile.userboard.js'] ).then( function () {
 		UserBoardAdvanced.init();
 	} );
-	
+
 } );

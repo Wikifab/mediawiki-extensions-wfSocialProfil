@@ -127,7 +127,9 @@ class SpecialUserBoardAdvanced extends SpecialPage {
     private function displayAllConversation  ($user, $user_2_active, $messages){
         $b = new UserBoard();
         $user_name=$user->getName();
-        $html = '<h2 class="uba-message-list-title">'.$this->msg('userboardadvanced').'<i class="fa fa-pencil-square-o write-button" data-toggle="modal" data-target="#userboardadvancedModal" aria-hidden="true"></i></h2>';
+        $newDiscussionIconHtml = '<i class="fa fa-pencil-square-o write-button" data-toggle="modal" data-target="#userboardadvancedModal" aria-hidden="true"></i>';
+        $newDiscussionIconHtml = '<span data-toggle="tooltip" title="' . $this->msg('userboard-new-message-title') .'">' . $newDiscussionIconHtml . '</span>';
+        $html = '<h2 class="uba-message-list-title">' . $this->msg('userboardadvanced') . $newDiscussionIconHtml . '</h2>';
         $html .="<div class=\"uba-message-list\">";
 
         foreach ( $messages as $message) {
