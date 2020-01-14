@@ -95,7 +95,7 @@ var UserBoardAdvanced = {
 		});
 		jQuery('.user').on('click', function () {
 			var userNameClicked = jQuery(this).children().last().text();
-			window.location = mediaWiki.config.get('wgScriptPath') + '?title=Spécial:UserBoardAdvanced&user=' + userNameClicked;
+			window.location = mediaWiki.util.getUrl('Special:UserBoardAdvanced', {user: userNameClicked});
 		});
     },
 
