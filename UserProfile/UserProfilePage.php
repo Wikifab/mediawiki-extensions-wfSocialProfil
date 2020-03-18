@@ -114,6 +114,14 @@ class UserProfilePage extends Article {
 		global $wgUser;
 		global $wgUserProfileDisplay;
 
+
+		// Variables and other crap
+		$page_title = $this->getTitle()->getText();
+		$title_parts = explode( '/', $page_title );
+		$user = $title_parts[0];
+		$user_safe = urlencode( $user );
+		$userObj = \User::newFromName($user_safe);
+
 		$tabs = [];
 		$tabs['tutorials'] = [
 				'label' => wfMessage('userprofilepage-tabs-created-page-label'),
@@ -140,6 +148,8 @@ class UserProfilePage extends Article {
 			];
 		}
 
+		Hooks::run('SocialProfile-profileTabs', [$userObj, &$tabs]);
+
 		$out ='';
 
 		$out .= '<div>
@@ -161,11 +171,6 @@ class UserProfilePage extends Article {
 		//';
 
 
-		// Variables and other crap
-		$page_title = $this->getTitle()->getText();
-		$title_parts = explode( '/', $page_title );
-		$user = $title_parts[0];
-		$user_safe = urlencode( $user );
 
 
 		$out .= '
