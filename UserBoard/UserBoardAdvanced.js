@@ -251,8 +251,9 @@ var UserBoardAdvanced = {
 
 jQuery( document ).ready( function() {
 	/* This callback is invoked as soon as the modules are available. */
-	mw.loader.using( ['mediawiki.util', 'ext.socialprofile.userboard.js'] ).then( function () {
-		UserBoardAdvanced.init();
+	//mw.loader.using( ['mediawiki.util', 'ext.socialprofile.userboard.js'] ).then( function () {
+	mw.loader.using( ['mediawiki.util'] ).then( function () {
+				UserBoardAdvanced.init();
 		$('[data-toggle="tooltip"]').tooltip();
 	} );
 
