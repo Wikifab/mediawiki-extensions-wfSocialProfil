@@ -59,13 +59,13 @@ class wAvatar {
 	 * @return String: <img> HTML tag with full path to the avatar image
 	 * */
 	function getAvatarURL( $extraParams = array() ) {
-		global $wgUploadPath, $wgUserProfileDisplay,$wgDefaultAvatar, $wgDefaultPath;
+		global $wgUploadPath, $wgUserProfileDisplay,$spDefaultAvatar, $spDefaultPathAvatar;
 
 		$avatarImage = $this->getAvatarImage();
 
-		if ( in_array( $avatarImage, $wgDefaultAvatar) ) {
+		if ( in_array( $avatarImage, $spDefaultAvatar) ) {
 			$defaultParams = array(
-				'src' => "{$wgDefaultPath}{$avatarImage}",
+				'src' => "{$spDefaultPathAvatar}{$avatarImage}",
 				'alt' => 'avatar',
 				'border' => '0',
 			);
