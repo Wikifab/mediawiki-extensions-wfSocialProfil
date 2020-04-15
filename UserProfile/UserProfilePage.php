@@ -120,7 +120,7 @@ class UserProfilePage extends Article {
 		$title_parts = explode( '/', $page_title );
 		$user = $title_parts[0];
 		$user_safe = urlencode( $user );
-		$userObj = \User::newFromName($user_safe);
+		$userObj = \User::newFromName( urldecode( $user_safe ) );
 
 		$tabs = [];
 		$tabs['tutorials'] = [
