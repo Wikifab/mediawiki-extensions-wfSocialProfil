@@ -119,9 +119,9 @@ class UserProfilePage extends Article {
 		$page_title = $this->getTitle()->getText();
 		$title_parts = explode( '/', $page_title );
 		$user = $title_parts[0];
-		$user_safe = urlencode( $user );
-		$userObj = \User::newFromName( urldecode( $user_safe ) );
-
+		$user_safe = $this->user->getName();
+		$userObj = \User::newFromName( $user_safe );
+		
 		$tabs = [];
 		$tabs['tutorials'] = [
 				'label' => wfMessage('userprofilepage-tabs-created-page-label'),
