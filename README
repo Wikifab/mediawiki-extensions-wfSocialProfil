@@ -88,3 +88,13 @@ If you want to display a checkboxes to check if user says enough informations ab
 Moreover, this extension checks also if user uploads an avatar. But the default image names : default_m.gif so if you want to check the avatar use this title to compare.
 
 Note that the usage of userInfo or userInfoChecked force to disable cache on the page. So it is adviced to not use it on many pages.
+
+==To change default paths social avatar==
+
+If you want to change the default path for social only default profile images
+*  Add this variable in LocalSettings.dokit-package-base.php ( if is not present )
+	//$spDefaultAvatar = ['default_l.gif','default_m.gif','default_ml.gif','default_s.gif'];
+	//$spDefaultPathAvatar = $IP." Your Paths Here ";
+
+* Change the configuration variable in LocalSettings.dokit-package.php $spDefaultPathAvatar = $IP."your path" (be careful not to change the default image naming)
+* Remove comments $spDefaultAvatar & $spDefaultPathAvatar
