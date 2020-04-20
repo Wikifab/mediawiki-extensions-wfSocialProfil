@@ -62,8 +62,8 @@ class wAvatar {
 		global $wgUploadPath, $wgUserProfileDisplay,$spDefaultAvatar, $spDefaultPathAvatar;
 
 		$avatarImage = $this->getAvatarImage();
-
-		if ( in_array( $avatarImage, $spDefaultAvatar) ) {
+		//if the path is no longer the default one
+		if ( isset( $spDefaultPathAvatar ) && in_array( $avatarImage, $spDefaultAvatar) ) {
 			$defaultParams = array(
 				'src' => "{$spDefaultPathAvatar}{$avatarImage}",
 				'alt' => 'avatar',
