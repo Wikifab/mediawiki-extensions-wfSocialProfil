@@ -913,7 +913,7 @@ class UserProfilePage extends Article {
 
 		$output .= '<div id="profile-title-container">
 				<div class="profile-name">' .
-					$profile_data['real_name'].
+					htmlspecialchars($profile_data['real_name']).
 				'</div>
 				<div id="profile-title">' .
 					$user_name .
