@@ -59,13 +59,23 @@ class wAvatar {
 	 * @return String: <img> HTML tag with full path to the avatar image
 	 * */
 	function getAvatarURL( $extraParams = array() ) {
-		global $wgUploadPath, $wgUserProfileDisplay;
+		global $wgUploadPath, $wgUserProfileDisplay,$spDefaultAvatar, $spDefaultPathAvatar;
 
-		$defaultParams = array(
-			'src' => "{$wgUploadPath}/avatars/{$this->getAvatarImage()}",
-			'alt' => 'avatar',
-			'border' => '0',
-		);
+		$avatarImage = $this->getAvatarImage();
+		//if the path is no longer the default one
+		if ( isset( $spDefaultPathAvatar ) && in_array( $avatarImage, $spDefaultAvatar) ) {
+			$defaultParams = array(
+				'src' => "{$spDefaultPathAvatar}{$avatarImage}",
+				'alt' => 'avatar',
+				'border' => '0',
+			);
+		} else{
+				$defaultParams = array(
+					'src' => "{$wgUploadPath}/avatars/{$avatarImage}",
+					'alt' => 'avatar',
+					'border' => '0',
+				);
+			}
 
 		if ( $wgUserProfileDisplay['avatar'] === false ) {
 			$defaultParams['src'] = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Replace by a white pixel
